@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+.venv-*/
+.idea/
+.vscode/
+
+# Generated TASK 01/02 test directories (keep reviewed evidence reports)
+reports/task*/tmp-*/
+reports/task*/http-smoke-*/
+
+# Local runtime, generated artifacts, credentials
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+*.log
+.coverage
+htmlcov/
+output/
+data/local/
+
+# Local graph checkpoints + business database
+.ppa-data/
+
+# Private model credentials and account exports (never publish)
+/docs/ali/
+
+# Publish only reviewed summaries; raw local audit logs stay local.
+/reports/*
+!/reports/m7-offline-evaluation.json
+!/reports/task04/
+/reports/task04/*
+!/reports/task04/browser-acceptance.json
+!/reports/task04/mvp-browser.jpg
+!/reports/task05b/
+/reports/task05b/*
+!/reports/task05b/offline-evaluation.json
+!/reports/task05b/before-publish.txt
+!/reports/task05b/online-acceptance.json
+!/reports/task05b/final-tests.txt
+!/reports/task05b/web-qwen.jpg
+!/reports/task05b/security-summary.json

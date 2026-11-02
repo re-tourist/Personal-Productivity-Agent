@@ -1,0 +1,26 @@
+syntax = "proto3";
+package ppa.v1;
+
+// Contract sketch for a future internal gRPC transport.
+// Not connected to PPA M6 HTTP service and not deployed.
+service ProductivityService {
+  rpc CheckCalendar(CalendarCheckRequest) returns (CalendarCheckReply);
+}
+
+message TimeSlot {
+  string start_at = 1; // ISO 8601 offset date-time
+  string end_at = 2;
+}
+
+message CalendarCheckRequest {
+  string title = 1;
+  TimeSlot requested = 2;
+  repeated TimeSlot busy = 3;
+}
+
+message CalendarCheckReply {
+  string status = 1;
+  string message = 2;
+  string suggested_start = 3;
+  string suggested_end = 4;
+}

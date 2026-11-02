@@ -1,0 +1,15 @@
+{
+  "candidate_files": 108,
+  "actual_credential_matches": 0,
+  "credential_findings": 0,
+  "absolute_path_files": 0,
+  "broken_local_markdown_links": 0,
+  "known_negative_test_fixtures": [
+    {
+      "file": "tests/test_task05_qwen.py",
+      "kind": "credential_url_fixture"
+    }
+  ],
+  "private_directory_ignored": "docs/ali/",
+  "raw_audit_logs_excluded": true
+}

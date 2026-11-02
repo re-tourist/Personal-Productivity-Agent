@@ -1,0 +1,17 @@
+{
+  "mode": "offline_rules",
+  "database": "isolated browser-test database under .pytest_cache",
+  "browser_checks": [
+    "root redirect to /app",
+    "missing time -> clarification",
+    "same session supplement time -> awaiting_approval",
+    "explicit approve -> created with verified Task ID",
+    "reload restores conversation",
+    "second operation rejected -> cancelled",
+    "natural language query -> exactly one persisted task",
+    "calendar conflict -> suggestion 16:30-17:30, no calendar write"
+  ],
+  "task_id": "dd1d94ac-287a-4e3c-96e5-777c6d7d6be8",
+  "online_model_calls": 0,
+  "screenshot": "mvp-browser.jpg"
+}
