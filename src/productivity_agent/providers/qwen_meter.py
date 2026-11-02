@@ -1,4 +1,8 @@
-"""Bounded, content-free provider metering; no credentials, prompts or raw replies logged."""
+"""Bounded provider metering; no credentials, prompts or raw replies logged.
+
+Authorized budgeted validation additionally records validated synthetic intents;
+ordinary application metadata remains content-free.
+"""
 import json
 import threading
 from dataclasses import dataclass
@@ -76,6 +80,8 @@ class QwenMeter:
                 self.stopped = True
             if structured and (response.get("parsing_error") is not None or response.get("parsed") is None):
                 raise QwenValidationError("structured_output_invalid")
+            if structured and self.budget:
+                record["parsed_intent"] = response["parsed"].model_dump(mode="json")
             record["status"] = "parsed" if structured else "received"
             return response["parsed"] if structured else response
         except Exception:  # noqa: BLE001 -- provider boundary discards unsafe SDK error text.

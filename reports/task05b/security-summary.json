@@ -1,15 +1,20 @@
 {
-  "candidate_files": 108,
+  "candidate_files": 114,
   "actual_credential_matches": 0,
-  "credential_findings": 0,
+  "private_endpoint_matches": 0,
+  "credential_pattern_findings": 0,
   "absolute_path_files": 0,
   "broken_local_markdown_links": 0,
-  "known_negative_test_fixtures": [
-    {
-      "file": "tests/test_task05_qwen.py",
-      "kind": "credential_url_fixture"
-    }
-  ],
   "private_directory_ignored": "docs/ali/",
-  "raw_audit_logs_excluded": true
+  "env_virtualenv_database_ignored": true,
+  "raw_audit_logs_excluded": true,
+  "reviewed_negative_test_fixture": "synthetic credential URL in tests/test_task05_qwen.py",
+  "scope": "tracked project files plus explicitly selected final deliverables; no credentials printed",
+  "public_branch_history_blobs": 109,
+  "public_branch_history_actual_secret_matches": 0,
+  "staged_actual_secret_matches": 0,
+  "local_codex_hidden_snapshots_contain_private_export": true,
+  "hidden_snapshot_refs_pushed": false,
+  "hidden_snapshots_modified": false,
+  "push_scope": "explicit main only; never mirror/all/hidden refs"
 }

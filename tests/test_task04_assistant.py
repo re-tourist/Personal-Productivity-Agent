@@ -129,6 +129,19 @@ def test_calendar_tools_return_conflict_and_suggestion_without_write(setup_app):
         assert api.get("/v1/tasks").json()["count"] == 0
 
 
+@pytest.mark.parametrize("clock", ["25点", "15:80", "24：00"])
+def test_impossible_numeric_clock_cannot_be_normalized_into_approval(setup_app, clock):
+    # Adversarial provider output reproduces the observed online 25点 -> midnight failure.
+    with TestClient(setup_app(ScriptedExtractor(intent(), intent()))) as api:
+        tid = api.post("/v1/assistant/sessions", json={}).json()["thread_id"]
+        rejected = message(api, tid, f"明天{clock}创建准备组会任务").json()
+        assert rejected["status"] == "clarification_required"
+        assert rejected["approval"] is None
+        assert api.get("/v1/tasks").json()["count"] == 0
+        corrected = message(api, tid, "明天下午三点").json()
+        assert corrected["approval"]["due_at"] == DUE
+
+
 def test_parse_and_write_errors_are_sanitized_and_never_claim_success(setup_app, monkeypatch):
     with TestClient(setup_app(ScriptedExtractor(RuntimeError("private-provider-key"), intent()))) as api:
         tid = api.post("/v1/assistant/sessions", json={}).json()["thread_id"]

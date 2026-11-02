@@ -1,6 +1,6 @@
 # 文档索引
 
-当前：[工程基线与运行方法](ENGINEERING_BASELINE.md) · [TASK 02 集成验收](audits/TASK_02_2026-11-02.md)。
+当前：[项目运行与演示](../README.md) · [真实 Qwen 验收](ONLINE_VALIDATION.md)。历史工程基线：[运行方法](ENGINEERING_BASELINE.md) · [TASK 02 集成验收](audits/TASK_02_2026-11-02.md)。
 
 | 阅读目的 | 文档 |
 |---|---|

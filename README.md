@@ -51,7 +51,7 @@ Linux/macOS 可使用 `.venv/bin/python` 执行相同 pip、pytest、uvicorn 命
 .\.venv\Scripts\python.exe scripts/validate_qwen_agent.py
 ```
 
-本仓库初始基线的真实 Qwen 验收尚待执行，不将 Scripted Model/MockTransport 测试称为模型效果。在线结果会以独立的去敏验收摘要更新。
+2026-11-03 已完成真实 `qwen3.7-flash` 业务验收：单轮创建、多轮补时间、日程冲突、拒绝、查询和重复确认保护。共 12 次调用，输入 9,090 / 输出 726 Token，按北京公开价格估算 ¥0.0023988（不是实扣账单）。在线测试发现的日程漏参数及无效时间问题已窄修复并复测；原始失败记录保留。详见 [真实 Qwen 验收报告](docs/ONLINE_VALIDATION.md)。
 
 ## 测试与架构
 
@@ -61,7 +61,7 @@ Linux/macOS 可使用 `.venv/bin/python` 执行相同 pip、pytest、uvicorn 命
 .\.venv\Scripts\python.exe -m productivity_agent.evaluation --out reports/m7-offline-evaluation.json
 ```
 
-发布前 Windows/Python 3.12 离线基线：**93 passed**，确定性场景 **10/10**。测试包含真实框架、SQLite、HTTP、跨进程恢复和 TCP 断流；Fake/Scripted Model 及内存 HTTP 不产生模型费用。pytest 自动使用工作区中新建的独占测试目录，无需指定可能清空数据的 basetemp。历史 Ruff 16 项单独保留，不通过删改测试制造通过率。
+最终 Windows/Python 3.12 回归：**97 passed，0 failed / errors / warnings**，确定性场景 **10/10**。测试包含真实框架、SQLite、HTTP、跨进程恢复和 TCP 断流；Fake/Scripted Model 及内存 HTTP 不产生模型费用。pytest 自动使用工作区中新建的独占测试目录，无需指定可能清空数据的 basetemp。历史 Ruff 16 项单独保留，不通过删改测试制造通过率。
 
 ```text
 src/productivity_agent/
@@ -76,4 +76,4 @@ src/productivity_agent/
 
 [文档索引](docs/README.md) · [MVP 功能和接口](docs/TASK_04_MVP.md) · [架构](docs/architecture.md) · [安全边界](docs/SECURITY.md) · [在线准备与预算](docs/TASK_05_QWEN_PREPARATION.md)
 
-GitHub Actions 配置为 Ubuntu/Python 3.12 离线回归；是否实际通过以 Actions 运行记录为准。Docker、真实定时通知、第三方日历和统一主流程的动态重规划仍待后续验收/开发。
+GitHub Actions 已在 Ubuntu/Python 3.12 [通过初始基线回归](https://github.com/re-tourist/Personal-Productivity-Agent/actions/runs/41484594861)，后续提交以 [Actions 最新记录](https://github.com/re-tourist/Personal-Productivity-Agent/actions) 为准。Dockerfile 已提供但容器尚未实测；真实定时通知、第三方日历和统一主流程的动态重规划仍待后续开发。

@@ -224,6 +224,8 @@ def serve_web(meter, report):
             with socket.socket() as sock:
                 sock.bind(("127.0.0.1", 0))
                 sock.listen(128)
+                if report.get("web_demo"):
+                    report.setdefault("previous_web_runs", []).append(report["web_demo"])
                 report["web_demo"] = {"status": "RUNNING", "remaining_calls": 12 - begin}
                 meter._save()
                 print(f"WEB_VALIDATION_URL=http://127.0.0.1:{sock.getsockname()[1]}/", flush=True)
@@ -234,10 +236,28 @@ def serve_web(meter, report):
             meter._save()
 
 
+def resume_report(path, profile):
+    """Only known, accounted calls can resume; unknown usage fails closed."""
+    report = json.loads(path.read_text(encoding="utf-8"))
+    calls = report.get("calls", [])
+    if (report.get("profile") != profile or not calls or len(calls) >= 12
+            or report.get("totals", {}).get("calls") != len(calls)
+            or report.get("budget", {}).get("max_calls") != 12
+            or any(c.get("attempt") != i + 1 or c.get("status") not in {"parsed", "received"}
+                   or type(c.get("input_tokens")) is not int
+                   or type(c.get("output_tokens")) is not int for i, c in enumerate(calls))):
+        raise ValueError("Cannot safely resume this ledger")
+    report.setdefault("continuations", []).append({"calls_before": len(calls),
+        "scope": "web_only_same_authorized_budget", "previous_status": report["status"]})
+    report["status"] = "PARTIAL_WITH_WEB_CONTINUATION"
+    return report
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--live", action="store_true")
     parser.add_argument("--web-demo", action="store_true", help="Shares the SAME total budget")
+    parser.add_argument("--resume-web-only", action="store_true", help="Retain all calls in an existing ledger")
     parser.add_argument("--approved-max-calls", type=int)
     parser.add_argument("--approved-max-cny", type=Decimal)
     parser.add_argument("--out", type=Path, default=Path("reports/task05/online-acceptance.json"))
@@ -256,10 +276,11 @@ def main():
     from productivity_agent.providers.qwen import build_qwen_model
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    report = {"status": "RUNNING", "profile": profile, "budget": plan(), "cases": [],
-              "calls": [], "actual_billed_cny": None}
+    report = resume_report(args.out, profile) if args.resume_web_only else {
+        "status": "RUNNING", "profile": profile, "budget": plan(), "cases": [],
+        "calls": [], "actual_billed_cny": None}
     # Exclusive output creation prevents silently rerunning/overwriting a previous approval run.
-    with args.out.open("x", encoding="utf-8") as output:
+    with args.out.open("r+" if args.resume_web_only else "x", encoding="utf-8") as output:
         def save(records):
             report["calls"] = list(records)
             output.seek(0)
@@ -274,10 +295,12 @@ def main():
             os.fsync(output.fileno())
 
         meter = QwenMeter(build_qwen_model(), ValidationBudget(), save)
+        meter.records = list(report["calls"])
         try:
-            run_live(meter, report)
-            passed = sum(c["success"] for c in report["cases"])
-            report["status"] = "PASS" if passed == len(SCENARIOS) else "PARTIAL_OR_FAILED"
+            if not args.resume_web_only:
+                run_live(meter, report)
+                passed = sum(c["success"] for c in report["cases"])
+                report["status"] = "PASS" if passed == len(SCENARIOS) else "PARTIAL_OR_FAILED"
             if args.web_demo and not meter.stopped and len(meter.records) < 12:
                 serve_web(meter, report)
         except Exception:  # noqa: BLE001 -- safe validation-report boundary, no SDK traceback.

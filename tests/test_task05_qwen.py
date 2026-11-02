@@ -11,7 +11,7 @@ import pytest
 from productivity_agent.domain.agent_intent import AgentIntent
 from productivity_agent.providers.qwen import build_qwen_model
 from productivity_agent.providers.qwen_meter import QwenMeter, QwenValidationError, ValidationBudget
-from scripts.validate_qwen_agent import SCENARIOS, checked_profile, run_live
+from scripts.validate_qwen_agent import SCENARIOS, checked_profile, resume_report, run_live
 
 
 def completion(arguments):
@@ -167,3 +167,20 @@ def test_all_validation_scenarios_execute_over_offline_http_fixtures(safe_env):
         assert len(meter.records) == 10
         assert report["cases"][-1]["scope"] == "legacy_readonly_react_only_not_unified_planning"
         assert report["cases"][-1]["actual_tools"] == ["list_tasks"]
+
+
+def test_resume_preserves_call_count_and_rejects_unknown_usage(tmp_path):
+    profile = {"model": "qwen3.7-flash", "region": "cn-beijing", "endpoint": "workspace"}
+    ledger = {"profile": profile, "status": "PARTIAL_OR_FAILED", "budget": {"max_calls": 12},
+              "totals": {"calls": 4}, "calls": [
+                  {"attempt": i+1, "status": "parsed", "input_tokens": 600, "output_tokens": 80}
+                  for i in range(4)]}
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps(ledger), encoding="utf-8")
+    result = resume_report(path, profile)
+    assert len(result["calls"]) == 4
+    assert result["continuations"][-1]["calls_before"] == 4
+    ledger["calls"][0]["input_tokens"] = None
+    path.write_text(json.dumps(ledger), encoding="utf-8")
+    with pytest.raises(ValueError):
+        resume_report(path, profile)

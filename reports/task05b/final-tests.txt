@@ -1,0 +1,11 @@
+........................................................................ [ 74%]
+.........................                                                [100%]
+97 passed in 63.28s (0:01:03)
+
+Python 3.12.8; command: python -m pytest -q
+0 failed / 0 errors / 0 warnings; no tests skipped or weakened.
+M7 deterministic offline evaluation: 10/10 passed (normal Windows permissions).
+python -m pip check: No broken requirements found.
+Ruff changed Python files: All checks passed.
+Full-project Ruff: 16 pre-existing findings retained.
+Live Qwen: separate ledger, 12 calls; not part of pytest.

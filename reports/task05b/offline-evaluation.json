@@ -1,6 +1,6 @@
 {
   "suite": "M7-deterministic-offline-acceptance",
-  "created_at_utc": "2026-11-02T16:42:12.810688+00:00",
+  "created_at_utc": "2026-11-02T17:04:27.635067+00:00",
   "environment": {
     "python": "3.12.8",
     "os": "Windows"
@@ -10,8 +10,8 @@
   "failed": 0,
   "pass_rate": 1.0,
   "latency_ms": {
-    "mean": 19.972,
-    "max": 107.8
+    "mean": 17.323,
+    "max": 95.81
   },
   "llm_calls": 0,
   "llm_cost_cny": 0,
@@ -20,13 +20,13 @@
     {
       "case": "calendar_available",
       "passed": true,
-      "latency_ms": 0.022,
+      "latency_ms": 0.021,
       "error": null
     },
     {
       "case": "calendar_conflict_replanning",
       "passed": true,
-      "latency_ms": 0.05,
+      "latency_ms": 0.048,
       "error": null
     },
     {
@@ -38,43 +38,43 @@
     {
       "case": "calendar_reject_invalid",
       "passed": true,
-      "latency_ms": 0.008,
+      "latency_ms": 0.007,
       "error": null
     },
     {
       "case": "calendar_no_available_slot",
       "passed": true,
-      "latency_ms": 0.026,
+      "latency_ms": 0.025,
       "error": null
     },
     {
       "case": "task_idempotent_replay",
       "passed": true,
-      "latency_ms": 24.374,
+      "latency_ms": 18.265,
       "error": null
     },
     {
       "case": "task_after_commit_timeout_reconciliation",
       "passed": true,
-      "latency_ms": 27.019,
+      "latency_ms": 22.121,
       "error": null
     },
     {
       "case": "task_before_commit_retry",
       "passed": true,
-      "latency_ms": 22.865,
+      "latency_ms": 16.4,
       "error": null
     },
     {
       "case": "task_idempotency_conflict",
       "passed": true,
-      "latency_ms": 17.548,
+      "latency_ms": 20.524,
       "error": null
     },
     {
       "case": "task_concurrent_duplicate_requests",
       "passed": true,
-      "latency_ms": 107.8,
+      "latency_ms": 95.81,
       "error": null
     }
   ]

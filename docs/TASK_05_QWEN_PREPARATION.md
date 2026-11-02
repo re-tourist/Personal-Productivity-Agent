@@ -1,5 +1,7 @@
 # TASK 05 — Qwen Integration & Real Agent Validation（准备阶段）
 
+> 历史准备快照。后续 TASK 05-B 已获单独授权、完成 12 次真实调用并推送 GitHub；当前结论见 [真实验收报告](ONLINE_VALIDATION.md)。下文的“未调用 / 未提交”仅描述准备阶段当时状态。
+
 核查日期：2026-11-03，Asia/Shanghai。**离线准备已完成；在线验收 NOT_RUN，TASK 05 尚未全部通过。** 未获得收费调用的额外授权，没有执行真实 Qwen 请求。真实模型调用 0 次，实际/预估已发生费用 0 元。未 stage、commit、push、merge 或 release。
 
 ## 1. 当前架构的真实能力边界

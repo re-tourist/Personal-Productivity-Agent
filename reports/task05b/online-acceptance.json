@@ -1,0 +1,618 @@
+{
+  "status": "PARTIAL_WITH_WEB_CONTINUATION",
+  "profile": {
+    "model": "qwen3.7-flash",
+    "region": "cn-beijing",
+    "endpoint": "workspace"
+  },
+  "budget": {
+    "status": "NOT_RUN_REQUIRES_USER_AUTHORIZATION",
+    "scenarios": [
+      "single_task",
+      "clarification",
+      "calendar",
+      "reject",
+      "unsupported",
+      "invalid_time",
+      "query_and_replay",
+      "legacy_readonly_feedback"
+    ],
+    "max_calls": 12,
+    "input_reserve_per_call": 8000,
+    "max_completion_tokens": 600,
+    "output_reserve_per_call": 610,
+    "max_input_total": 96000,
+    "max_output_reserve_total": 7320,
+    "max_tokens_reserved": 103320,
+    "estimated_reserved_ceiling_cny": 0.025056,
+    "approval_budget_cny": 0.05,
+    "input_cny_per_million": 0.2,
+    "output_cny_per_million": 0.8,
+    "pricing_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+    "retries": 0,
+    "note": "Beijing <=32K list price, no cache/free-quota discounts assumed; billing receipt unavailable."
+  },
+  "cases": [
+    {
+      "scenario": "single_task",
+      "success": true,
+      "turns": [
+        {
+          "input_intent": "明天下午三点帮我创建一个准备组会的任务。",
+          "reference_now": "2026-11-03T00:46:03.838375+08:00",
+          "timezone": "Asia/Shanghai",
+          "structured_parameters": {
+            "action": "create_task",
+            "title": "准备组会",
+            "at": "2026-11-04T15:00:00+08:00",
+            "duration_minutes": 60,
+            "question": null
+          },
+          "selected_workflow": "create_task",
+          "status": "awaiting_approval",
+          "reply": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。",
+          "business_result": null,
+          "parameter_validation": "accepted_or_unsupported"
+        }
+      ],
+      "decisions": [
+        {
+          "approved": true,
+          "status": "created",
+          "result": {
+            "task": {
+              "id": "b1cc4fc8-f8fb-4c46-a335-32f9680f1561",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00"
+            }
+          }
+        }
+      ],
+      "latency_ms": 2949.43,
+      "model_calls": 1,
+      "unknown_usage_calls": 0,
+      "input_tokens": 611,
+      "output_tokens": 83,
+      "estimated_cny_known_usage": 0.0001886,
+      "actual_task_count": 1
+    },
+    {
+      "scenario": "clarification",
+      "success": true,
+      "turns": [
+        {
+          "input_intent": "帮我创建一个准备组会的任务。 ",
+          "reference_now": "2026-11-03T00:46:03.838375+08:00",
+          "timezone": "Asia/Shanghai",
+          "structured_parameters": {
+            "action": "create_task",
+            "title": "准备组会",
+            "at": null,
+            "duration_minutes": null,
+            "question": null
+          },
+          "selected_workflow": "create_task",
+          "status": "clarification_required",
+          "reply": "请补充明确的日期和时间，例如：明天下午三点。",
+          "business_result": null,
+          "parameter_validation": "clarification_requested"
+        },
+        {
+          "input_intent": "明天下午三点。",
+          "reference_now": "2026-11-03T00:46:03.838375+08:00",
+          "timezone": "Asia/Shanghai",
+          "structured_parameters": {
+            "action": "create_task",
+            "title": "准备组会",
+            "at": "2026-11-04T15:00:00+08:00",
+            "duration_minutes": null,
+            "question": null
+          },
+          "selected_workflow": "create_task",
+          "status": "awaiting_approval",
+          "reply": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。",
+          "business_result": null,
+          "parameter_validation": "accepted_or_unsupported"
+        }
+      ],
+      "decisions": [
+        {
+          "approved": false,
+          "status": "cancelled",
+          "result": null
+        }
+      ],
+      "latency_ms": 2100.95,
+      "model_calls": 2,
+      "unknown_usage_calls": 0,
+      "input_tokens": 1284,
+      "output_tokens": 127,
+      "estimated_cny_known_usage": 0.0003584,
+      "actual_task_count": 1
+    },
+    {
+      "scenario": "calendar",
+      "success": false,
+      "turns": [
+        {
+          "input_intent": "帮我看看明天下午三点能不能安排一小时组会。",
+          "reference_now": "2026-11-03T00:46:03.838375+08:00",
+          "timezone": "Asia/Shanghai",
+          "structured_parameters": {
+            "action": "check_calendar",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": null
+          },
+          "selected_workflow": "check_calendar",
+          "status": "clarification_required",
+          "reply": "请补充任务或日程的标题。",
+          "business_result": null,
+          "parameter_validation": "clarification_requested"
+        }
+      ],
+      "error": "scenario_assertion_or_execution_failed",
+      "latency_ms": 689.56,
+      "model_calls": 1,
+      "unknown_usage_calls": 0,
+      "input_tokens": 612,
+      "output_tokens": 20,
+      "estimated_cny_known_usage": 0.0001384,
+      "actual_task_count": 1
+    }
+  ],
+  "calls": [
+    {
+      "scenario": "single_task",
+      "attempt": 1,
+      "status": "parsed",
+      "input_tokens": 611,
+      "output_tokens": 83,
+      "estimated_cny": 0.0001886,
+      "latency_ms": 2744.86,
+      "reserved_estimate_cny": 0.002088
+    },
+    {
+      "scenario": "clarification",
+      "attempt": 2,
+      "status": "parsed",
+      "input_tokens": 608,
+      "output_tokens": 33,
+      "estimated_cny": 0.000148,
+      "latency_ms": 669.8,
+      "reserved_estimate_cny": 0.002088
+    },
+    {
+      "scenario": "clarification",
+      "attempt": 3,
+      "status": "parsed",
+      "input_tokens": 676,
+      "output_tokens": 94,
+      "estimated_cny": 0.0002104,
+      "latency_ms": 1247.41,
+      "reserved_estimate_cny": 0.002088
+    },
+    {
+      "scenario": "calendar",
+      "attempt": 4,
+      "status": "parsed",
+      "input_tokens": 612,
+      "output_tokens": 20,
+      "estimated_cny": 0.0001384,
+      "latency_ms": 594.52,
+      "reserved_estimate_cny": 0.002088
+    },
+    {
+      "scenario": "web_demo",
+      "attempt": 5,
+      "status": "parsed",
+      "input_tokens": 772,
+      "output_tokens": 82,
+      "estimated_cny": 0.00022,
+      "latency_ms": 1398.22,
+      "reserved_estimate_cny": 0.002088,
+      "parsed_intent": {
+        "action": "check_calendar",
+        "title": "组会",
+        "at": "2026-11-04T15:00:00+08:00",
+        "duration_minutes": 60,
+        "question": null
+      }
+    },
+    {
+      "scenario": "web_demo",
+      "attempt": 6,
+      "status": "parsed",
+      "input_tokens": 878,
+      "output_tokens": 69,
+      "estimated_cny": 0.0002308,
+      "latency_ms": 1576.11,
+      "reserved_estimate_cny": 0.002088,
+      "parsed_intent": {
+        "action": "create_task",
+        "title": "准备组会",
+        "at": "2026-11-04T15:00:00+08:00",
+        "duration_minutes": null,
+        "question": null
+      }
+    },
+    {
+      "scenario": "web_demo",
+      "attempt": 7,
+      "status": "parsed",
+      "input_tokens": 772,
+      "output_tokens": 69,
+      "estimated_cny": 0.0002096,
+      "latency_ms": 1402.85,
+      "reserved_estimate_cny": 0.002088,
+      "parsed_intent": {
+        "action": "create_task",
+        "title": "测试拒绝的任务",
+        "at": "2026-11-04T16:00:00+08:00",
+        "duration_minutes": null,
+        "question": null
+      }
+    },
+    {
+      "scenario": "web_demo",
+      "attempt": 8,
+      "status": "parsed",
+      "input_tokens": 774,
+      "output_tokens": 70,
+      "estimated_cny": 0.0002108,
+      "latency_ms": 937.92,
+      "reserved_estimate_cny": 0.002088,
+      "parsed_intent": {
+        "action": "create_task",
+        "title": "参数错误测试任务",
+        "at": "2026-11-04T00:00:00+08:00",
+        "duration_minutes": null,
+        "question": null
+      }
+    },
+    {
+      "scenario": "web_demo",
+      "attempt": 9,
+      "status": "parsed",
+      "input_tokens": 813,
+      "output_tokens": 86,
+      "estimated_cny": 0.0002314,
+      "latency_ms": 1833.56,
+      "reserved_estimate_cny": 0.002088,
+      "parsed_intent": {
+        "action": "create_task",
+        "title": "参数错误测试任务",
+        "at": null,
+        "duration_minutes": null,
+        "question": "您提到的“25点”不是有效的时间格式，请提供正确的到期时间（例如：明天下午3点或具体的日期时间）。"
+      }
+    },
+    {
+      "scenario": "web_demo",
+      "attempt": 10,
+      "status": "parsed",
+      "input_tokens": 807,
+      "output_tokens": 19,
+      "estimated_cny": 0.0001766,
+      "latency_ms": 619.37,
+      "reserved_estimate_cny": 0.002088,
+      "parsed_intent": {
+        "action": "unsupported",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": null
+      }
+    },
+    {
+      "scenario": "web_demo",
+      "attempt": 11,
+      "status": "parsed",
+      "input_tokens": 812,
+      "output_tokens": 69,
+      "estimated_cny": 0.0002176,
+      "latency_ms": 1066.74,
+      "reserved_estimate_cny": 0.002088,
+      "parsed_intent": {
+        "action": "create_task",
+        "title": "准备组会",
+        "at": "2026-11-04T15:00:00+08:00",
+        "duration_minutes": null,
+        "question": null
+      }
+    },
+    {
+      "scenario": "web_demo",
+      "attempt": 12,
+      "status": "parsed",
+      "input_tokens": 955,
+      "output_tokens": 32,
+      "estimated_cny": 0.0002166,
+      "latency_ms": 640.66,
+      "reserved_estimate_cny": 0.002088,
+      "parsed_intent": {
+        "action": "list_tasks",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": null
+      }
+    }
+  ],
+  "actual_billed_cny": null,
+  "web_demo": {
+    "status": "STOPPED",
+    "remaining_calls": 4,
+    "model_calls": 4,
+    "verified_tasks": [
+      {
+        "id": "6509d2c3-699b-4db4-bb65-8f53a67a1f99",
+        "title": "准备组会",
+        "due_at": "2026-11-04T07:00:00+00:00"
+      }
+    ],
+    "verified_task_count": 1
+  },
+  "totals": {
+    "calls": 12,
+    "unknown_usage_calls": 0,
+    "known_input_tokens": 9090,
+    "known_output_tokens": 726,
+    "estimated_cny_known_usage": 0.0023988,
+    "reserved_cost_ceiling_cny": 0.025056
+  },
+  "continuations": [
+    {
+      "calls_before": 4,
+      "scope": "web_only_same_authorized_budget",
+      "previous_status": "PARTIAL_OR_FAILED"
+    },
+    {
+      "calls_before": 8,
+      "scope": "web_only_same_authorized_budget",
+      "previous_status": "PARTIAL_WITH_WEB_CONTINUATION"
+    }
+  ],
+  "previous_web_runs": [
+    {
+      "status": "STOPPED",
+      "remaining_calls": 8,
+      "model_calls": 4,
+      "verified_tasks": [
+        {
+          "id": "bb718324-9114-49a3-abaf-d0ad38544463",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00"
+        }
+      ],
+      "verified_task_count": 1
+    }
+  ],
+  "verified_web_cases": [
+    {
+      "scenario": "calendar_retest",
+      "calls": [
+        5
+      ],
+      "success": true,
+      "input_intent": "明天下午三点能不能安排一小时组会？",
+      "parameter_validation": "accepted",
+      "workflow": "check_calendar -> list_calendar_events -> check_calendar_conflict/M1",
+      "business_result": {
+        "status": "conflict",
+        "suggested_start": "2026-11-04T16:30:00+08:00",
+        "suggested_end": "2026-11-04T17:30:00+08:00",
+        "calendar": "local_mock",
+        "calendar_writes": 0
+      },
+      "model_calls": 1,
+      "input_tokens": 772,
+      "output_tokens": 82,
+      "model_latency_ms": 1398.22,
+      "estimated_cny": 0.00022,
+      "structured_parameters": [
+        {
+          "action": "check_calendar",
+          "title": "组会",
+          "at": "2026-11-04T15:00:00+08:00",
+          "duration_minutes": 60,
+          "question": null
+        }
+      ]
+    },
+    {
+      "scenario": "web_create_and_repeat_confirmation",
+      "calls": [
+        6
+      ],
+      "success": true,
+      "parameter_validation": "accepted",
+      "workflow": "create_task -> approval -> safe_create_task -> lookup",
+      "business_result": {
+        "task": {
+          "id": "bb718324-9114-49a3-abaf-d0ad38544463",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00"
+        }
+      },
+      "repeat_http_status": 200,
+      "same_tasks_before_after": true,
+      "task_count": 1,
+      "model_calls": 1,
+      "input_tokens": 878,
+      "output_tokens": 69,
+      "model_latency_ms": 1576.11,
+      "estimated_cny": 0.0002308,
+      "structured_parameters": [
+        {
+          "action": "create_task",
+          "title": "准备组会",
+          "at": "2026-11-04T15:00:00+08:00",
+          "duration_minutes": null,
+          "question": null
+        }
+      ]
+    },
+    {
+      "scenario": "web_rejection",
+      "calls": [
+        7
+      ],
+      "success": true,
+      "parameter_validation": "accepted",
+      "workflow": "create_task -> approval -> reject",
+      "business_result": {
+        "status": "cancelled",
+        "task_count": 1,
+        "writes_for_rejected_operation": 0
+      },
+      "model_calls": 1,
+      "input_tokens": 772,
+      "output_tokens": 69,
+      "model_latency_ms": 1402.85,
+      "estimated_cny": 0.0002096,
+      "structured_parameters": [
+        {
+          "action": "create_task",
+          "title": "测试拒绝的任务",
+          "at": "2026-11-04T16:00:00+08:00",
+          "duration_minutes": null,
+          "question": null
+        }
+      ]
+    },
+    {
+      "scenario": "invalid_time_initial",
+      "calls": [
+        8
+      ],
+      "success": false,
+      "parameter_validation": "semantic_error_normalized_25_to_midnight",
+      "workflow": "create_task -> approval -> human_rejected",
+      "business_result": {
+        "status": "cancelled",
+        "writes": 0
+      },
+      "model_calls": 1,
+      "input_tokens": 774,
+      "output_tokens": 70,
+      "model_latency_ms": 937.92,
+      "estimated_cny": 0.0002108,
+      "structured_parameters": [
+        {
+          "action": "create_task",
+          "title": "参数错误测试任务",
+          "at": "2026-11-04T00:00:00+08:00",
+          "duration_minutes": null,
+          "question": null
+        }
+      ]
+    },
+    {
+      "scenario": "invalid_time_retest",
+      "calls": [
+        9
+      ],
+      "success": true,
+      "parameter_validation": "clarification_requested_no_approval",
+      "workflow": "create_task -> validate -> finish",
+      "business_result": {
+        "status": "clarification_required",
+        "approval": null,
+        "writes": 0
+      },
+      "model_calls": 1,
+      "input_tokens": 813,
+      "output_tokens": 86,
+      "model_latency_ms": 1833.56,
+      "estimated_cny": 0.0002314,
+      "structured_parameters": [
+        {
+          "action": "create_task",
+          "title": "参数错误测试任务",
+          "at": null,
+          "duration_minutes": null,
+          "question": "您提到的“25点”不是有效的时间格式，请提供正确的到期时间（例如：明天下午3点或具体的日期时间）。"
+        }
+      ]
+    },
+    {
+      "scenario": "unsupported_intent",
+      "calls": [
+        10
+      ],
+      "success": true,
+      "parameter_validation": "unsupported",
+      "workflow": "unsupported -> finish",
+      "business_result": {
+        "status": "unsupported",
+        "writes": 0
+      },
+      "model_calls": 1,
+      "input_tokens": 807,
+      "output_tokens": 19,
+      "model_latency_ms": 619.37,
+      "estimated_cny": 0.0001766,
+      "structured_parameters": [
+        {
+          "action": "unsupported",
+          "title": null,
+          "at": null,
+          "duration_minutes": null,
+          "question": null
+        }
+      ]
+    },
+    {
+      "scenario": "final_web_create_then_natural_query",
+      "calls": [
+        11,
+        12
+      ],
+      "success": true,
+      "parameter_validation": "accepted",
+      "workflow": "create_task -> approval -> safe_create_task -> lookup; list_tasks -> SQLite",
+      "business_result": {
+        "tasks": [
+          {
+            "id": "6509d2c3-699b-4db4-bb65-8f53a67a1f99",
+            "title": "准备组会",
+            "due_at": "2026-11-04T07:00:00+00:00"
+          }
+        ]
+      },
+      "task_count": 1,
+      "model_calls": 2,
+      "input_tokens": 1767,
+      "output_tokens": 101,
+      "model_latency_ms": 1707.4,
+      "estimated_cny": 0.0004342,
+      "structured_parameters": [
+        {
+          "action": "create_task",
+          "title": "准备组会",
+          "at": "2026-11-04T15:00:00+08:00",
+          "duration_minutes": null,
+          "question": null
+        },
+        {
+          "action": "list_tasks",
+          "title": null,
+          "at": null,
+          "duration_minutes": null,
+          "question": null
+        }
+      ]
+    }
+  ],
+  "acceptance_summary": {
+    "core_scenarios": "A_B_C_D_and_invalid_unsupported_E_verified_including_retests",
+    "first_failures_preserved": true,
+    "legacy_readonly_react": "NOT_RUN_budget_prioritized_for_business_retests",
+    "live_provider_timeout_or_tool_fault": "NOT_INJECTED_offline_only",
+    "autonomous_replanning": "NOT_IMPLEMENTED",
+    "all_databases": "isolated_synthetic_temporary",
+    "further_model_calls": "STOPPED_budget_12_of_12"
+  }
+}
