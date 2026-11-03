@@ -19,6 +19,16 @@ app = create_task_service(SQLiteTaskStore(root / "tasks.sqlite"))
 async def fault(request: Request, call_next):
     marker = root / "fault"
     mode = marker.read_text() if marker.exists() else ""
+    if request.method in {"POST", "PATCH"}:
+        with (root / "write-requests.txt").open("a", encoding="utf-8") as journal:
+            journal.write(request.method + " " + request.url.path + "\n")
+    # B0 characterization adds faults only to this synthetic test server.
+    # Failed reconciliation must stay distinguishable from an absent operation.
+    if mode in {"read_5xx", "read_timeout"} and request.url.path.startswith("/operations/"):
+        marker.unlink()
+        if mode == "read_timeout":
+            await asyncio.sleep(0.5)
+        return JSONResponse(status_code=503, content={"detail": "injected_read_unavailable"})
     if mode and request.method in {"POST", "PATCH"}:
         marker.unlink()
         if mode == "500":
@@ -29,8 +39,12 @@ async def fault(request: Request, call_next):
         if mode == "identity_downgrade":
             app.state.accounts = Accounts()
         response = await call_next(request)
-        if mode == "after_timeout":
+        if mode in {"after_timeout_read_5xx", "after_5xx_read_5xx"}:
+            marker.write_text("read_5xx")
+        if mode in {"after_timeout", "after_timeout_read_5xx"}:
             await asyncio.sleep(0.5)
+        if mode in {"after_5xx", "after_5xx_read_5xx"}:
+            return JSONResponse(status_code=503, content={"detail": "injected_after_commit_unavailable"})
         return response
     return await call_next(request)
 
