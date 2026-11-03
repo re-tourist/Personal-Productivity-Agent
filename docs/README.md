@@ -1,5 +1,7 @@
 # 文档索引
 
+TASK 08：[M9身份降级修复与收尾](TASK_08_M9_CLOSURE.md) · [M10最终集成/清洁启动/恢复证据（Docker未验证）](TASK_08_FINAL_DELIVERY.md)。
+
 TASK 07：[M8受限范围](TASK_07_M8_SCOPE.md) · [M9测试账号、资源隔离与重启验收](TASK_07_M9_SECURITY.md)。
 
 TASK 06-B：[M8真实模型验收、失败与交付门槛](audits/TASK_06B_2026-11-03.md)，当前为部分完成。

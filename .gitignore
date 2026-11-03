@@ -65,3 +65,12 @@ data/local/
 !/reports/task07/m9-summary.json
 !/reports/task07/m9-offline.json
 !/reports/task07/security-summary.json
+
+!/reports/task08/
+/reports/task08/*
+!/reports/task08/local-delivery.json
+!/reports/task08/clean-environment.json
+!/reports/task08/docker-status.json
+!/reports/task08/offline-evaluation.json
+!/reports/task08/final-summary.json
+!/reports/task08/security-summary.json

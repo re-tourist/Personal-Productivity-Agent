@@ -1,0 +1,12 @@
+{
+  "status": "BLOCKED_CLI_UNAVAILABLE",
+  "checked": [
+    "PATH docker command",
+    "standard Docker Desktop executable path"
+  ],
+  "build_executed": false,
+  "container_started": false,
+  "container_restart_verified": false,
+  "host_environment_changed": false,
+  "substitute": "clean Python 3.12 real local HTTP and persistent process restart; not Docker"
+}

@@ -1,84 +1,92 @@
 # Personal Productivity Agent
 
-一个面向 AI Agent 工程实习作品集的本地个人效率助手，使用 **Python 3.12、LangGraph、Qwen（百炼）、FastAPI、Pydantic 与 SQLite**。
+面向 Agent 应用工程实习的本地作品集：Python 3.12、LangGraph、Qwen、FastAPI、SQLite。
+自然语言 → 结构化意图 → 确定性校验/工具路由 → 人工审批 → 事务与幂等写入 → 真实业务状态核验。
 
-主业务链路：自然语言 → 结构化意图 → 参数校验/多轮补充 → 确定性工具路由 → 人工审批 → 幂等写入 → 查询核验真实 Task ID。
+支持创建、列表/详情、改标题/到期时间、完成任务；支持版本冲突、重复确认、会话持久化与重启恢复。
+默认使用有限离线规则，不需要模型Key。配置测试账号后可验证双用户任务/会话/审批/SSE隔离。
+提醒只表示待办到期时间，不主动通知；日历为明确标识的模拟数据，不是企业生产API。
 
-## 功能与边界
+## 清洁安装与认证启动
 
-- 创建带到期时间的待办：批准后才写入 SQLite，拒绝不写入。
-- 同一会话补充缺失时间；Checkpointer 支持重启恢复。
-- 重复确认和提交后超时由稳定 operation_id、事务与对账保护。
-- 查询本地任务；查询明确标识的模拟日历，检查冲突并推荐时间。
-- 按 ID 详情、审批后修改标题/到期时间或完成任务；版本冲突拒绝覆盖，HTTP不确定写入先对账。
-- 轻量 Web 对话、确认按钮、SSE 节点进度；无需 Node.js 前端构建。
-- 默认离线规则模式，无需 Key；Qwen 模式使用同一业务图。
-
-**提醒目前仅表示待办到期时间，不会主动发送通知。** 没有接入真实第三方日历。模型选择固定业务动作，Python/LangGraph 负责路由与执行；统一主流程不具备工具后自主重规划。旧只读 ReAct 示例单独保留，不与主流程能力混淆。本项目仅供单用户本地演示，不是生产多租户服务。
-
-## 本地安装与运行
-
-M9多用户测试配置、迁移和权限矩阵见[安全设计与验收](docs/TASK_07_M9_SECURITY.md)。默认旧模式仍是单用户；必须设置PPA_AUTH_CONFIG才能启用可信测试账号与隔离。
-
-M8 采用[审核后的受限范围](docs/TASK_07_M8_SCOPE.md)：在线复杂目标要求明确Task ID；[业务/HTTP契约](docs/TASK_06_BUSINESS_OPERATIONS.md)和[真实Qwen失败记录](docs/audits/TASK_06B_2026-11-03.md)保留。删除与复杂定位继续待办，不宣称M8整体完成。
-
-在项目根目录，使用 Python 3.12：
+在新checkout的项目根目录执行，先确认 `python --version` 是 **3.12**。已有环境可替换解释器路径，不覆盖已有环境。
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e ".[dev]"
-$env:PPA_ENABLE_LIVE_QWEN = '0'
-$env:PPA_DATA_DIR = '.ppa-data/demo'
-.\.venv\Scripts\python.exe -m uvicorn productivity_agent.api.app:create_app --factory --host 127.0.0.1 --port 8000
+.venv/Scripts/python.exe -m pip install -e ".[dev]"
+.venv/Scripts/python.exe -m pip check
+.venv/Scripts/python.exe -m scripts.setup_test_accounts --out-dir .ppa-data/demo-auth
+$env:PPA_AUTH_CONFIG=(Resolve-Path .ppa-data/demo-auth/accounts.auth.json).Path
+$env:PPA_ENABLE_LIVE_QWEN='0'
+$env:PPA_TASK_SERVICE_URL=''
+$env:PPA_DATA_DIR='.ppa-data/demo'
+.venv/Scripts/python.exe -m uvicorn productivity_agent.api.app:create_app --factory --host 127.0.0.1 --port 8000 --workers 1
 ```
 
-打开 **<http://127.0.0.1:8000/>**（自动进入 `/app`）；API 文档：<http://127.0.0.1:8000/docs>。保持启动终端运行。已有 `.venv-py312` 环境也可将上述解释器路径替换为 `.venv-py312/Scripts/python.exe`。
+Linux/macOS用 `.venv/bin/python`，并以 `export PPA_AUTH_CONFIG="$PWD/.ppa-data/demo-auth/accounts.auth.json"` 等设置相同环境变量。
+账号脚本不会打印Token或覆盖已有文件；Token仅保存在被忽略的client-tokens.auth.json，服务端配置保存摘要。
+不要将Token粘贴到Issue、日志或截图。`PPA_AUTH_CONFIG`未设置时保留旧legacy单用户模式，**不是多用户安全模式**。
 
-Linux/macOS 可使用 `.venv/bin/python` 执行相同 pip、pytest、uvicorn 命令。Windows 时区数据依赖已在 pyproject.toml 声明。
+## Web演示
 
-### 三条演示请求
+访问 <http://127.0.0.1:8000/app>，本地查看client-tokens.auth.json，将alice令牌填入访问令牌框并开启新会话。
 
-1. “明天下午三点提醒我准备组会” → 检查确认卡片 → 点击批准 → 返回真实 Task ID。
-2. “帮我创建一个准备组会的任务” → 收到追问 → 同一会话输入“明天下午三点” → 批准或拒绝。
-3. “帮我看看明天下午三点能不能安排一小时组会” → 查询本地模拟日历 → 返回冲突与候选时间，不修改日程。
+1. “明天下午三点提醒我准备组会” → 核对卡片 → 批准。
+2. 复制返回的Task ID，输入“把<ID>改到后天上午十点” → 核对旧值/新值及ID → 批准。
+3. “查询任务 <ID>” → 核对同一ID、版本增加、没有新建任务。
+4. “完成任务 <ID>” → 批准 → 再次查询应为completed。
+5. 切换bob令牌开启新会话，不能读取alice的任务、会话或审批；切换账号会清理页面会话缓存。
 
-可继续输入“查看我的任务”，或使用页面任务查询按钮核实记录。
+拒绝修改不写入。在线模型遇到同名、纯原时间或不可靠指代时要求明确ID，不猜测目标。
+复杂自然语言消歧/纯原时间跨午夜定位仍延期[#8](https://github.com/re-tourist/Personal-Productivity-Agent/issues/8)，
+删除仍延期[#7](https://github.com/re-tourist/Personal-Productivity-Agent/issues/7)。不把旧离线回放冒充在线能力通过。
 
-## Qwen 配置与费用
+API文档：<http://127.0.0.1:8000/docs>；业务请求使用 `Authorization: Bearer <测试Token>`，不能通过user_id或X-User-ID指定主体。
+[多用户安全设计](docs/TASK_07_M9_SECURITY.md) · [独立HTTP业务服务契约](docs/TASK_06_BUSINESS_OPERATIONS.md)。
 
-复制 `.env.example` 为 `.env`，仅在本地填写同地域的 `DASHSCOPE_API_KEY`、`DASHSCOPE_BASE_URL` 和 `PPA_MODEL`。默认保留低成本 `qwen3.7-flash`；不自动更换高价模型。启用在线模式需设置 `PPA_ENABLE_LIVE_QWEN=1` 并重启服务，后续请求会消耗模型额度。
-
-`.env`、`docs/ali/`、虚拟环境和业务数据库不会进入 Git。不要向 Issue、日志或截图粘贴 Key。首次演示可保持离线模式；模式条会明确区分在线 Qwen 和有限离线规则。
-
-受控验收脚本默认不联网：
+## 一条命令复现启动与恢复
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/validate_qwen_agent.py
+.venv/Scripts/python.exe -m scripts.verify_final_delivery --out reports/local-delivery.json
 ```
 
-2026-11-03 已完成真实 `qwen3.7-flash` 业务验收：单轮创建、多轮补时间、日程冲突、拒绝、查询和重复确认保护。共 12 次调用，输入 9,090 / 输出 726 Token，按北京公开价格估算 ¥0.0023988（不是实扣账单）。在线测试发现的日程漏参数及无效时间问题已窄修复并复测；原始失败记录保留。详见 [真实 Qwen 验收报告](docs/ONLINE_VALIDATION.md)。
+脚本只生成隔离合成数据和测试账号，不调用Qwen；通过真实loopback HTTP完成认证、创建、审批、查询、修改及核验。
+它实际停止/启动三个单Worker进程，恢复待审批Checkpoint并审批，再次重启核对业务SQLite与终态会话。
+这是**本地进程验收，不是Docker实测**。Token、数据库和原始日志不提交。
 
-## 测试与架构
+## Docker（本轮未通过实测）
+
+当前宿主PATH和标准Docker Desktop路径均未发现Docker CLI；未执行镜像构建/容器启动，没有修复宿主环境。
+本轮以清洁Python环境的真实HTTP/重启证据替代。以下仅供Docker可用环境复现，不能作为已通过证据：
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip check
-.\.venv\Scripts\python.exe -m pytest -q
-.\.venv\Scripts\python.exe -m productivity_agent.evaluation --out reports/m7-offline-evaluation.json
+docker build -t ppa:portfolio .
+New-Item -ItemType Directory -Force .ppa-data/docker-demo | Out-Null
+$authFile=(Resolve-Path .ppa-data/demo-auth/accounts.auth.json).Path
+$demoData=(Resolve-Path .ppa-data/docker-demo).Path
+docker run -d --name ppa-portfolio-demo -p 127.0.0.1:8000:8000 --mount "type=bind,source=$authFile,target=/run/ppa-accounts.auth.json,readonly" --mount "type=bind,source=$demoData,target=/app/.ppa-data" -e PPA_AUTH_CONFIG=/run/ppa-accounts.auth.json -e PPA_ENABLE_LIVE_QWEN=0 ppa:portfolio
+docker restart ppa-portfolio-demo
 ```
 
-最终 Windows/Python 3.12 回归：**97 passed，0 failed / errors / warnings**，确定性场景 **10/10**。测试包含真实框架、SQLite、HTTP、跨进程恢复和 TCP 断流；Fake/Scripted Model 及内存 HTTP 不产生模型费用。pytest 自动使用工作区中新建的独占测试目录，无需指定可能清空数据的 basetemp。历史 Ruff 16 项单独保留，不通过删改测试制造通过率。
+沿用相同Web步骤核验重启后ID/任务/待审批会话；Dockerfile默认单Worker，容器内绑定0.0.0.0，宿主发布端口限定127.0.0.1。
+`.dockerignore`排除环境、认证文件、数据库、日志及私人文件；不把Key或账号文件烘焙进镜像。
 
-```text
-src/productivity_agent/
-  domain/       Pydantic 意图与确定性规则
-  providers/    Qwen、有限离线规则、调用计量
-  workflows/    LangGraph 会话、审批、恢复与业务编排
-  tools/        模拟日历工具、授权后的可靠写工具
-  services/     SQLite 业务事实与幂等事务
-  api/          FastAPI、会话 API、SSE
-  static/       单页 Web 演示
+## 工程验收与边界
+
+```powershell
+.venv/Scripts/python.exe -m pytest -q
+.venv/Scripts/python.exe -m productivity_agent.evaluation --out reports/task08/offline-evaluation.json
+.venv/Scripts/python.exe -m pip check
 ```
 
-[文档索引](docs/README.md) · [MVP 功能和接口](docs/TASK_04_MVP.md) · [架构](docs/architecture.md) · [安全边界](docs/SECURITY.md) · [在线准备与预算](docs/TASK_05_QWEN_PREPARATION.md)
+M9收尾完整130 passed，离线10/10；认证降级风险已真实复现并修复：[修复记录](docs/TASK_08_M9_CLOSURE.md)。
+最新交付结果见[M10验收报告](docs/TASK_08_FINAL_DELIVERY.md)及[GitHub Actions](https://github.com/re-tourist/Personal-Productivity-Agent/actions)。
+CI执行全量回归、离线评测、依赖检查和实际认证HTTP进程重启脚本；不会收费调用模型。
 
-GitHub Actions 已在 Ubuntu/Python 3.12 [通过初始基线回归](https://github.com/re-tourist/Personal-Productivity-Agent/actions/runs/41484594861)，后续提交以 [Actions 最新记录](https://github.com/re-tourist/Personal-Productivity-Agent/actions) 为准。Dockerfile 已提供但容器尚未实测；真实定时通知、第三方日历和统一主流程的动态重规划仍待后续开发。
+本项目是单机多用户测试系统，不是生产多租户服务：静态测试Token无到期/在线撤销，缺少生产角色/限流/TLS部署，
+不承诺多Worker会话锁；legacy旧数据隔离而非自动认领。没有真实定时通知、第三方日历、动态重规划、RAG或Multi-Agent。
+M8/M9范围与原始失败记录保留，不改写历史验收事实。
+
+真实Qwen配置使用本地.env与同地域Key；默认qwen3.7-flash，不自动换更贵模型。旧收费授权已用完，本轮0次/0元，
+新在线调用需要单独授权。历史真实验证见[Qwen报告](docs/ONLINE_VALIDATION.md)和[M8失败记录](docs/audits/TASK_06B_2026-11-03.md)。
+[文档索引](docs/README.md) · [架构](docs/architecture.md) · [安全设计](docs/TASK_07_M9_SECURITY.md)

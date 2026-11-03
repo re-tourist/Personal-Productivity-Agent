@@ -1,0 +1,20 @@
+{
+  "python_environment": "fresh isolated Python 3.12.8; installed from README command",
+  "tests": 130,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "warnings": 0,
+  "duration_seconds": 241.772,
+  "offline_passed": 10,
+  "offline_total": 10,
+  "pip_check": "No broken requirements found.",
+  "ruff": "changed Python script passed",
+  "m9_merge": "913cee8b346d7953e834a8e3fa50bd49a9d05260",
+  "m9_ci": "https://github.com/re-tourist/Personal-Productivity-Agent/actions/runs/41592458358",
+  "local_authenticated_http": "PASS; three actual single-worker processes and persisted checkpoints/business SQLite",
+  "docker": "NOT VERIFIED: CLI unavailable; no build/run/restart executed",
+  "live_qwen_calls": 0,
+  "cost_cny": 0,
+  "m10_merge": "not authorized; PR remains for review"
+}

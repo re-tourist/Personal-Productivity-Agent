@@ -4,6 +4,16 @@
 .venv-*
 .idea
 .vscode
+.codex
+.agents
+.aws
+RELEASE_NOTES.md
+exercises
+*.auth.json
+*.sqlite*
+*.db
+*.log
+*.csv
 docs/ali
 __pycache__
 .pytest_cache
