@@ -18,7 +18,7 @@
 
 ## 本地安装与运行
 
-M8 当前为部分验收：[业务/HTTP契约与演示](docs/TASK_06_BUSINESS_OPERATIONS.md)、[真实Qwen结果与剩余缺口](docs/audits/TASK_06B_2026-11-03.md)。同名多轮及纯时间定位的在线验收尚未通过，不宣称M8完成。
+M8 采用[审核后的受限范围](docs/TASK_07_M8_SCOPE.md)：在线复杂目标要求明确Task ID；[业务/HTTP契约](docs/TASK_06_BUSINESS_OPERATIONS.md)和[真实Qwen失败记录](docs/audits/TASK_06B_2026-11-03.md)保留。删除与复杂定位继续待办，不宣称M8整体完成。
 
 在项目根目录，使用 Python 3.12：
 

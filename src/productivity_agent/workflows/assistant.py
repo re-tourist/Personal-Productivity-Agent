@@ -51,6 +51,9 @@ class AssistantState(TypedDict, total=False):
 
 def build_assistant_graph(extractor, store, checkpointer, backend):
     read_tools = {t.name: t for t in build_productivity_tools(backend)}
+    # Deferred semantic capabilities remain available for deterministic replay,
+    # but online model selectors must not resolve ambiguity using inferred time.
+    conservative_selectors = getattr(extractor, "mode", None) == "qwen"
 
     def understand(state):
         if state.get("initialize"):
@@ -118,6 +121,13 @@ def build_assistant_graph(extractor, store, checkpointer, backend):
                     tasks = store.list_tasks(limit=1000)
                     if len(tasks) == 1000:
                         return {"status": "clarification_required", "reply": "任务过多，请使用明确任务 ID。"}
+                    if conservative_selectors:
+                        named = [t for t in tasks if intent.title and t["title"] == intent.title]
+                        if (not intent.title or intent.title not in state["user_text"]
+                                or len(named) != 1):
+                            return {"status": "clarification_required", "candidates": named,
+                                    "result": {"candidates": named},
+                                    "reply": "目标不能可靠确定，请查询任务并提供明确 Task ID。"}
                     grounded_time = (intent.target_at is not None and intent.target_time_text
                                      and intent.target_time_text in state["user_text"]
                                      and not (intent.new_time_text and (
