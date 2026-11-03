@@ -293,3 +293,9 @@ PR 不自动合并；分支提交与推送结果在最终交付及 PR 中记录�
             ├── reliable_task.py
             └── tool_agent.py
 ```
+
+## R1.1 外围架构收尾补充
+
+上文保留 R1.0 的原始目录、测试次数与验证过程。后续 R1.1 在同一分支、同一 PR #12 中，
+将 routes/api.py 拆为业务 Router，并分离 Accounts 与 ThreadOwnership；独立补充记录见
+[R1.1 设计、验收和 R2 交接](R1_1_ARCHITECTURE_CLOSEOUT.md)。当前目录以 architecture.md 为准。

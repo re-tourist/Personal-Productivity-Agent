@@ -8,7 +8,8 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from types import SimpleNamespace
 
-from productivity_agent.infrastructure.security.identity import Accounts, ThreadOwnership
+from productivity_agent.infrastructure.persistence.thread_ownership import ThreadOwnership
+from productivity_agent.infrastructure.security.accounts import Accounts
 
 
 def configured_accounts():

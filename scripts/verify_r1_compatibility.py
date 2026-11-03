@@ -15,6 +15,24 @@ from pathlib import Path
 BASELINE = "0ea0a340de5f43d0f234905930ba40c1d88cc62c"
 
 
+def route_manifest(router):
+    """Preserve registration order, including hidden routes and nested APIRouters.
+
+    FastAPI versions may copy routes or retain an included router. All groups
+    here declare their complete paths and use no include-time prefix override.
+    """
+    result = []
+    for route in router.routes:
+        included = getattr(route, "original_router", None)
+        if included is not None:
+            result.extend(route_manifest(included))
+        elif hasattr(route, "methods"):
+            result.append({"path": route.path, "methods": sorted(route.methods or []),
+                           "name": route.name, "operation_id": getattr(route, "operation_id", None)
+                           or getattr(route, "unique_id", None)})
+    return result
+
+
 def snapshot(mode, root):
     from fastapi.testclient import TestClient
 
@@ -35,7 +53,8 @@ def snapshot(mode, root):
         assert not Path(productivity_agent.__file__).resolve().is_relative_to(root / "baseline")
     assistant = create_app(api_token="")
     business = create_task_service(SQLiteTaskStore(root / "business.sqlite"))
-    result = {"assistant_openapi": assistant.openapi(), "business_openapi": business.openapi()}
+    result = {"assistant_openapi": assistant.openapi(), "business_openapi": business.openapi(),
+              "assistant_routes": route_manifest(assistant), "business_routes": route_manifest(business)}
     with TestClient(assistant) as api, TestClient(business) as service:
         page = api.get("/app")
         assert page.status_code == 200
@@ -44,6 +63,15 @@ def snapshot(mode, root):
         result["root_redirect"] = [redirect.status_code, redirect.headers["location"]]
         result["disabled_agent"] = api.post("/v1/agent/ask", json={
             "message": "offline", "reference_now": "2026-11-03T12:00:00+08:00"}).json()
+        calendar = {"request": {"title": "compatibility-calendar", "start_at": "2026-12-10T15:00:00+08:00",
+                                "end_at": "2026-12-10T16:00:00+08:00"}, "busy_slots": []}
+        checked = api.post("/v1/calendar/check", json=calendar)
+        assert checked.status_code == 200
+        result["calendar_json"] = checked.json()
+        streamed = api.post("/v1/calendar/check/stream", json=calendar)
+        assert streamed.status_code == 200
+        result["calendar_sse"] = {"body": streamed.text, "headers": {
+            key: streamed.headers[key] for key in ("content-type", "cache-control", "x-accel-buffering")}}
         assert service.get("/health").status_code == 200
         result["business_bad_request"] = service.post("/tasks", json={}).json()
         assert service.post("/tasks", json={}).status_code == 400
@@ -114,9 +142,11 @@ def main():
                            check=True, timeout=90)
     previous = json.loads((root / "baseline.json").read_text(encoding="utf-8"))
     current = json.loads((root / "current.json").read_text(encoding="utf-8"))
-    assert previous == current, "R1 HTTP/OpenAPI/static-page compatibility changed"
+    assert previous == current, "R1 HTTP/OpenAPI/route-order/SSE/static-page compatibility changed"
     summary = {"status": "PASS", "baseline": commit, "live_qwen_calls": 0, "cost_cny": 0,
                "baseline_database_read": True, "baseline_checkpoint_resumed": True,
+               "route_order_identical": True, "calendar_json_and_sse_identical": True,
+               "routes": {app: current[app + "_routes"] for app in ("assistant", "business")},
                "duplicate_approval_status": 409, "page_sha256": current["page_sha256"],
                "openapi_sha256": {app: hashlib.sha256(json.dumps(current[app + "_openapi"],
                    ensure_ascii=False, sort_keys=True).encode()).hexdigest()

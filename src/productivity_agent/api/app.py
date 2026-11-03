@@ -5,7 +5,7 @@ from productivity_agent.interfaces.http.assistant_app import (
 from productivity_agent.interfaces.http.dependencies import (
     _check_token,
 )
-from productivity_agent.interfaces.http.routes.api import (
+from productivity_agent.interfaces.http.routes.drafts import (
     _snapshot_response,
     _thread_config,
 )

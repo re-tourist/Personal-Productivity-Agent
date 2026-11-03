@@ -108,3 +108,7 @@ python -m uvicorn productivity_agent.interfaces.http.business_app:create_task_se
 Assistant 使用远程业务模式时设置 `PPA_TASK_SERVICE_URL=http://127.0.0.1:8001`，两端使用同一账号配置。
 默认仍为离线、本地 SQLite 模式。详细迁移、兼容性证据与 R2 清单见
 [R1 工程报告](docs/R1_ARCHITECTURE_REFACTOR.md)和[当前架构](docs/architecture.md)。
+
+R1.1 将 HTTP Routes 按 System、Tasks、Calendar、Drafts、Agent 分组，并将账号验证与
+线程归属 SQLite 分离。组织理由、兼容证据和 R2 边界见[R1.1 收尾记录](docs/R1_1_ARCHITECTURE_CLOSEOUT.md)；
+后续工程判断遵循[架构设计原则](docs/ARCHITECTURE_PRINCIPLES.md)。

@@ -1,7 +1,7 @@
 # 架构设计与边界
 
-PPA 是 Python / LangGraph / FastAPI / SQLite 的本地作品集。R1 只拆分 Application 外围职责。
-[实施计划](R1_IMPLEMENTATION_PLAN.md) · [R1 验收与 R2 交接](R1_ARCHITECTURE_REFACTOR.md)。
+PPA 是 Python / LangGraph / FastAPI / SQLite 的本地作品集。R1/R1.1 只拆分 Application 外围职责。
+[长期设计原则](ARCHITECTURE_PRINCIPLES.md) · [R1 原始验收](R1_ARCHITECTURE_REFACTOR.md) · [R1.1 收尾与 R2 交接](R1_1_ARCHITECTURE_CLOSEOUT.md)。
 
 ## 当前有效目录
 
@@ -11,8 +11,14 @@ src/productivity_agent/
 │   ├── cli.py
 │   └── http/
 │       ├── assistant_app.py, business_app.py  # 两个独立 FastAPI 工厂
-│       ├── routes/api.py                     # 原日程、草稿、系统、Tool Agent HTTP
-│       ├── routes/assistant.py               # 统一会话 HTTP
+│       ├── routes/
+│       │   ├── api.py                        # 按原顺序组合 Router、兼容草稿辅助函数
+│       │   ├── system.py                     # 健康、模式、身份、页面入口
+│       │   ├── tasks.py                      # 任务/操作查询
+│       │   ├── calendar.py                   # 日程 JSON/SSE
+│       │   ├── drafts.py                     # 草稿状态与审批
+│       │   ├── agent.py                      # 独立 Agent 问答/SSE
+│       │   └── assistant.py                  # 原统一会话 HTTP，未改动
 │       ├── schemas.py                        # 原 HTTP 请求模型
 │       ├── dependencies.py                   # 身份访问、授权、每请求资源绑定
 │       ├── middleware.py                     # HTTP 认证与 HTTP 追踪
@@ -23,10 +29,11 @@ src/productivity_agent/
 │   ├── calendar_rules.py, policy.py, time_utils.py
 │   └── state.py, intent.py, agent_intent.py   # R2 待拆的历史状态/LLM 契约
 ├── infrastructure/
-│   ├── persistence/task_store.py
+│   ├── persistence/task_store.py, thread_ownership.py
 │   ├── integrations/http_task_store.py
 │   ├── models/qwen.py, offline_intent.py
-│   ├── security/identity.py
+│   ├── security/accounts.py                  # Identity/Accounts/LEGACY_OWNER
+│   ├── security/identity.py                  # 旧导入兼容，无第二份实现
 │   └── observability/operation_trace.py, qwen_meter.py
 ├── bootstrap.py                              # 配置、资源生命周期、Graph 装配
 ├── workflows/, tools/                        # 现有 Application，R1 冻结
@@ -37,6 +44,13 @@ src/productivity_agent/
 
 四层职责模型已确定。Application 主实现目前仍是 workflows/、tools/ 及历史契约；
 R1 没有创建未使用的 application/、Ports 或 Memory/RAG 目录，R2 再整体迁移。
+R1.1 同样冻结 Application；目标树服务于职责与查找，不要求运行时按四层串行执行。
+
+HTTP 业务组使用模块级 APIRouter，仅保留静态路由定义；请求资源始终从 Request 绑定。
+api_router() 按 System → Task Reads → Calendar → Draft Approval → Agent 组合，统一 Assistant
+Router 在 App 工厂中仍先于这些组注册。Endpoint 名、路径、operationId 和内部执行代码保持一致。
+不将原 Endpoint 认证依赖提升到组级，保留公开健康/页面入口及原认证时机。
+草稿私有辅助函数归 drafts.py；api.py 保留别名，避免新实现反向依赖聚合入口。
 
 ## 依赖方向
 
@@ -61,6 +75,8 @@ flowchart TD
 - Bootstrap 直接引用新 Infrastructure 路径及现有 Graph 构建函数，Graph/SDK 仍延迟导入。
   新实现禁止反向导入 api/、services/、providers/ 和顶层 cli.py。
 - 兼容模块只做显式重导出；R2 迁移内部调用后再评估删除，公开启动入口须继续可用。
+- Accounts 不依赖 SQLite，ThreadOwnership 不依赖 HTTP/账号验证；新主实现直接引用最终归属模块，
+  不引用旧 security/identity.py。它与 services/identity.py 均导出同一份类型实现。
 - tests/test_r1_architecture.py 检查直接/函数内延迟导入、内部模块存在性和循环依赖。
 
 ## 资源与身份
@@ -81,7 +97,8 @@ thread_id 是图上下文，operation_id 是业务操作，二者都不是认证
 不能直接当作写入失败并更换幂等键。数据库 schema、历史迁移、owner 命名空间、事务与指纹不变。
 HTTP 模式仍按原顺序初始化本地业务库再选择 HTTPTaskStore，R1 未顺便改变该行为。
 
-账号校验和归属 SQL 在 infrastructure/security/identity.py；Middleware 验证 Bearer 并设置
+账号校验在 infrastructure/security/accounts.py，归属 SQL 在 persistence/thread_ownership.py；
+两者不相互依赖，Bootstrap 将它们装配到进程状态。Middleware 验证 Bearer 并设置
 request identity，legacy 演示口令仍使用 X-PPA-Token。dependencies.resources_for 的缓存仅存在于
 当前 request；Bootstrap 按可信身份新建 owner-bound Store/Graph，共享基础 Store 不携带用户 bearer。
 安全模式禁止 Business Service 降级后把 Bearer 调用者解释成 legacy owner；

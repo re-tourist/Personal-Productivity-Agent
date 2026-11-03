@@ -18,7 +18,7 @@ from productivity_agent.domain.tasks import (
     VersionConflict,
     validate_task_request,
 )
-from productivity_agent.infrastructure.security.identity import LEGACY_OWNER
+from productivity_agent.infrastructure.security.accounts import LEGACY_OWNER
 
 
 class TransientWriteError(ConnectionError):

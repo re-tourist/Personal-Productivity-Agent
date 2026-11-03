@@ -1,9 +1,9 @@
 """R1 compatibility facade. Migrate internal callers in R2; retain public startup aliases."""
-from productivity_agent.infrastructure.security.identity import (
+from productivity_agent.infrastructure.persistence.thread_ownership import ThreadOwnership
+from productivity_agent.infrastructure.security.accounts import (
     LEGACY_OWNER,
     Accounts,
     Identity,
-    ThreadOwnership,
 )
 from productivity_agent.interfaces.http.dependencies import (
     authorize_thread,
