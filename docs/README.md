@@ -1,5 +1,9 @@
 # 文档索引
 
+R2：[Application 设计审计与 D1–D6 批准条件](R2_A_APPLICATION_DESIGN_AUDIT.md) · [B0 兼容基线、Checkpoint 与故障语义](R2_B0_COMPATIBILITY_BASELINE.md)。B0 不迁移业务代码；B1–B6 仍须单独授权。
+
+B0.1：[Prompt Gate 缺口更正、运行时采集与负向/搬家控制](R2_B0_1_PROMPT_GATE_FIX.md)。原始 B0 的 AST 字符串快照不能证明 Assistant/Natural Language Prompt 完整兼容。
+
 当前架构阶段 R1.1：[长期设计原则](ARCHITECTURE_PRINCIPLES.md) · [收尾设计、验收与 R2 交接](R1_1_ARCHITECTURE_CLOSEOUT.md) · [当前有效架构](architecture.md)。[R1 实施计划](R1_IMPLEMENTATION_PLAN.md)和[原始验收](R1_ARCHITECTURE_REFACTOR.md)保留原文。
 
 TASK 08：[M9身份降级修复与收尾](TASK_08_M9_CLOSURE.md) · [M10最终集成/清洁启动/恢复证据（Docker未验证）](TASK_08_FINAL_DELIVERY.md)。

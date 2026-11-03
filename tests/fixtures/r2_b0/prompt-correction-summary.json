@@ -1,0 +1,78 @@
+{
+  "baseline": "40d837c19f42ffd373686c30f4797df2e2598e23",
+  "pre_fix_head": "fd158bea8b8a1af913c6644facb10ab864df164b",
+  "negative_controls": [
+    {
+      "subsystem": "assistant",
+      "gate_rejected": true,
+      "failure": "contract changed at $.prompts.assistant[0].calls[0].messages[0].items[1]: value",
+      "candidate_fixture_restored": true,
+      "restored_source_sha256_lf": "6f5d02bb292550e008616f7908e8095836d67bf767337fb1ee5522aa5f43d521"
+    },
+    {
+      "subsystem": "natural_language",
+      "gate_rejected": true,
+      "failure": "contract changed at $.prompts.natural_language[0].calls[0].messages[0].items[1]: value",
+      "candidate_fixture_restored": true,
+      "restored_source_sha256_lf": "5a317d64b6f6008cdb9e5e7545c37142c9eebda707a0c2b99d860a34a126aad2"
+    },
+    {
+      "subsystem": "tool_agent",
+      "gate_rejected": true,
+      "failure": "contract changed at $.prompts.tool_agent[0].calls[0].messages[0].fields.content: value",
+      "candidate_fixture_restored": true,
+      "restored_source_sha256_lf": "71e5014d707b6f4635eb724c5ed7c905787e83c5291bc47b0c4ef81c0c0603ee"
+    }
+  ],
+  "definition_relocation": {
+    "destination": "productivity_agent/application/agent/llm/prompts.py",
+    "all_three_prompts_moved": true,
+    "full_contracts_exact": true,
+    "source_manifest_changed": true
+  },
+  "changed_snapshot_sections": [
+    "prompts"
+  ],
+  "runtime_capture": {
+    "assistant": {
+      "cases": 3,
+      "calls": 3
+    },
+    "natural_language": {
+      "cases": 2,
+      "calls": 2
+    },
+    "tool_agent": {
+      "cases": 1,
+      "calls": 2
+    }
+  },
+  "prompt_text_normalization": "none; only generated BaseMessage.id fields are normalized",
+  "targeted_tests": {
+    "passed": 8,
+    "failed": 0,
+    "errors": 0,
+    "warnings": 0,
+    "seconds": 45.71
+  },
+  "live_model_calls": 0,
+  "model_cost_cny": 0,
+  "full_pytest": {
+    "passed": 187,
+    "failed": 0,
+    "errors": 0,
+    "warnings": 0,
+    "seconds": 625.89,
+    "original_tests_retained": 179
+  },
+  "acceptance": {
+    "fixed_source_checkpoint_matrix": "passed; 17 independent workers",
+    "offline_evaluation": "10/10",
+    "real_http_restart": "passed",
+    "r1_compatibility": "passed",
+    "pip_check": "passed",
+    "compileall": "passed",
+    "targeted_ruff": "passed",
+    "business_source_diff": "empty"
+  }
+}
