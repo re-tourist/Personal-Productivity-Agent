@@ -59,6 +59,7 @@ LLM不接收Bearer，也不获得未经批准的写入能力。
 [M8 HTTP步骤](TASK_06_BUSINESS_OPERATIONS.md)，额外在两个终端设置PPA_AUTH_CONFIG。
 请求级Graph/Store绑定凭证，不在全局可变对象中切换用户。HTTP Client转发已验证的Bearer，
 调用资源之前GET /identity核对业务端认证已启用且主体一致；若业务端仍匿名或主体不一致就拒绝。
+TASK08移除身份验证缓存，每次资源请求均重新核验；legacy业务端拒绝Authorization请求，防止认证服务重启降级或预检后切换造成错误身份读写，见[修复记录](TASK_08_M9_CLOSURE.md)。
 带凭证的HTTP Client仅允许loopback地址，避免误发凭证到外部服务。没有新增微服务基础设施。
 
 ## 可复核验收

@@ -32,11 +32,12 @@ DUE = "2026-11-04T15:00:00+08:00"
 
 
 @contextmanager
-def server(module, directory, auth, **extra):
+def server(module, directory, auth, *, port=None, **extra):
     directory.mkdir(parents=True, exist_ok=True)
-    with socket.socket() as sock:
-        sock.bind(("127.0.0.1", 0))
-        port = sock.getsockname()[1]
+    if port is None:
+        with socket.socket() as sock:
+            sock.bind(("127.0.0.1", 0))
+            port = sock.getsockname()[1]
     env = dict(os.environ, PPA_ENABLE_LIVE_QWEN="0", DASHSCOPE_API_KEY="", PPA_API_TOKEN="",
                PPA_DATA_DIR=str(directory), PPA_AUTH_CONFIG=str(auth) if auth else "", LANGSMITH_TRACING="false",
                PPA_TASK_SERVICE_URL="")

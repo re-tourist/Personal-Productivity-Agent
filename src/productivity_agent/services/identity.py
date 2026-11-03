@@ -79,7 +79,11 @@ def install_identity(app, *, business=False):
     async def verify(request: Request, call_next):
         protected = request.url.path.startswith(("/tasks", "/operations", "/identity")) if business else request.url.path.startswith("/v1/")
         if protected:
-            identity = app.state.accounts.authenticate(request.headers.get("Authorization", ""))
+            authorization = request.headers.get("Authorization", "")
+            # A business-service downgrade must not reinterpret an authenticated
+            # caller as the legacy owner, including between identity/read-write calls.
+            identity = (None if business and not app.state.accounts.enabled and authorization
+                        else app.state.accounts.authenticate(authorization))
             if identity is None:
                 return JSONResponse(status_code=401, content={"detail": "authentication_required"},
                                     headers={"WWW-Authenticate": "Bearer"})

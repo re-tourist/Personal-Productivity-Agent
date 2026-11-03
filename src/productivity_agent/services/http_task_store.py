@@ -32,17 +32,15 @@ class HTTPTaskStore:
         self.timeout = timeout
         self.bearer = bearer
         self.expected_owner = expected_owner
-        self.identity_verified = False
 
     def for_owner(self, owner_id, bearer=""):
         return HTTPTaskStore(self.base_url, self.timeout, bearer=bearer, expected_owner=owner_id)
 
     def _request(self, method, path, payload=None):
-        if self.expected_owner and not self.identity_verified and path != "/identity":
+        if self.expected_owner and path != "/identity":
             identity = self._request("GET", "/identity")
             if identity.get("auth_enabled") is not True or identity.get("owner_id") != self.expected_owner:
                 raise BusinessUnavailable("business_identity_mismatch")
-            self.identity_verified = True
         started = time.monotonic()
         status = None
         error = None

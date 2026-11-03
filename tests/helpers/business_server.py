@@ -8,6 +8,7 @@ from fastapi import Request
 from fastapi.responses import JSONResponse
 
 from productivity_agent.api.task_service import create_task_service
+from productivity_agent.services.identity import Accounts
 from productivity_agent.services.task_store import SQLiteTaskStore
 
 root = Path(sys.argv[1])
@@ -25,6 +26,8 @@ async def fault(request: Request, call_next):
         if mode == "before_timeout":
             await asyncio.sleep(0.5)
             return JSONResponse(status_code=503, content={"detail": "not_committed"})
+        if mode == "identity_downgrade":
+            app.state.accounts = Accounts()
         response = await call_next(request)
         if mode == "after_timeout":
             await asyncio.sleep(0.5)
