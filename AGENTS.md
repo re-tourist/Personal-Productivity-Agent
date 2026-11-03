@@ -6,7 +6,7 @@
 
 - 单仓库的 LangGraph + Qwen（百炼） + FastAPI + SQLite 的**本地 Agent 工程作品集**，不是生产级多租户服务。
 - 核心链路包括日程规则、结构化意图、只读模拟 Tool Agent、人工审批、幂等任务写入、恢复与 SSE。
-- 首先阅读 `docs/PROJECT_HANDOFF.md`；验收使用 `docs/ACCEPTANCE_MATRIX.md`；当前初始任务见 `docs/TASK_01_CODEX_AUDIT.md`。
+- 首先阅读 `docs/PROJECT_HANDOFF.md` 和 `docs/architecture.md`；验收使用 `docs/ACCEPTANCE_MATRIX.md`，最新 R1 证据与 R2 交接见 `docs/R1_ARCHITECTURE_REFACTOR.md`；Task 01/02 是历史任务。
 - 用户和 ChatGPT 负责业务与架构裁决，Codex 负责具体工程实现及可复核测试。
 
 ## Engineering constraints
@@ -22,6 +22,11 @@
 9. **不猜测成功**。测试/演示必须标明实际执行、未执行及限制；框架导入成功 ≠ 完整业务验收通过。
 
 ## Preferred workflow
+
+- R1 后的主实现：`interfaces/` 负责 HTTP/CLI，`domain/` 负责纯业务契约与规则，`infrastructure/` 负责存储/SDK/身份/追踪，`bootstrap.py` 负责资源装配和生命周期。新实现禁止反向依赖旧 `api/`、`services/`、`providers/`、顶层 `cli.py` 兼容模块；不要复制实现。
+- R2 才迁移 `workflows/`、`tools/`、CalendarState、ScheduleIntent、AgentIntent 及设计 Use Cases/Ports。R1 未创建未使用的 Application/Memory/RAG 抽象；后续任务须明确授权后再改这些内部逻辑。
+- 保留两个独立 FastAPI App 与全部旧启动入口；身份/bearer 只能绑定当前请求资源，不能放到共享 Store/Graph。业务库、归属库和 Checkpointer 分离；保持单 Worker 与进程内锁约束。
+- 架构改动验收增加 `tests/test_r1_architecture.py`（包含延迟导入/循环依赖/请求绑定），全量 pytest、离线评测、`python -m scripts.verify_final_delivery --out <隔离报告路径>` 和 `python -m scripts.verify_r1_compatibility --out <隔离报告路径>`；不能把模型装配检查描述成真实 Qwen 验收。定向 Ruff 仅覆盖新增/改动文件和已有约定范围。
 
 - Task 01：先记录原始测试基线，再开展技术审计与受控工程整理（2026-11-02 用户追加授权）。允许有证据、行为兼容的小范围整理；大范围业务逻辑或架构调整只提交方案。原只读任务保存在 `docs/history/TASK_01_READONLY_ORIGINAL.md`。
 - Task 02：工程基线与关键集成验收；允许小范围修复和补测试，不升级主要依赖、不改业务语义，不执行 Git Commit/Push/Merge/Release。工程入口见 `docs/ENGINEERING_BASELINE.md`，结果见 `docs/audits/TASK_02_2026-11-02.md`。

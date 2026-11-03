@@ -1,5 +1,7 @@
 # 文档索引
 
+当前架构阶段 R1：[实施计划](R1_IMPLEMENTATION_PLAN.md) · [验收、迁移清单与 R2 交接](R1_ARCHITECTURE_REFACTOR.md) · [当前有效架构](architecture.md)。历史报告保留原文。
+
 TASK 08：[M9身份降级修复与收尾](TASK_08_M9_CLOSURE.md) · [M10最终集成/清洁启动/恢复证据（Docker未验证）](TASK_08_FINAL_DELIVERY.md)。
 
 TASK 07：[M8受限范围](TASK_07_M8_SCOPE.md) · [M9测试账号、资源隔离与重启验收](TASK_07_M9_SECURITY.md)。

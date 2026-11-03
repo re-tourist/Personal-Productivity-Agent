@@ -90,3 +90,21 @@ M8/M9范围与原始失败记录保留，不改写历史验收事实。
 真实Qwen配置使用本地.env与同地域Key；默认qwen3.7-flash，不自动换更贵模型。旧收费授权已用完，本轮0次/0元，
 新在线调用需要单独授权。历史真实验证见[Qwen报告](docs/ONLINE_VALIDATION.md)和[M8失败记录](docs/audits/TASK_06B_2026-11-03.md)。
 [文档索引](docs/README.md) · [架构](docs/architecture.md) · [安全设计](docs/TASK_07_M9_SECURITY.md)
+
+## R1 架构导航
+
+HTTP / CLI 主实现位于 `interfaces/`，纯业务契约与规则位于 `domain/`，SQLite、HTTP
+客户端、身份存储和模型实现位于 `infrastructure/`，资源装配与生命周期位于 `bootstrap.py`。
+现有 `workflows/`、`tools/` 和 Graph/LLM 契约留给 R2；当前没有未使用的 Application 抽象。
+
+旧 Assistant、Business、CLI、模块命令和 Docker 入口均保留兼容重导出。新主入口也可独立启动：
+
+```powershell
+python -m uvicorn productivity_agent.interfaces.http.assistant_app:create_app --factory --host 127.0.0.1 --port 8000 --workers 1
+python -m uvicorn productivity_agent.interfaces.http.business_app:create_task_service --factory --host 127.0.0.1 --port 8001 --workers 1
+```
+
+两条命令在不同终端执行；按上文配置测试账号并为各进程指定独立 `PPA_DATA_DIR`。
+Assistant 使用远程业务模式时设置 `PPA_TASK_SERVICE_URL=http://127.0.0.1:8001`，两端使用同一账号配置。
+默认仍为离线、本地 SQLite 模式。详细迁移、兼容性证据与 R2 清单见
+[R1 工程报告](docs/R1_ARCHITECTURE_REFACTOR.md)和[当前架构](docs/architecture.md)。
