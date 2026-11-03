@@ -6,7 +6,7 @@ import os
 import secrets
 from pathlib import Path
 
-from productivity_agent.services.identity import Accounts
+from productivity_agent.infrastructure.security.accounts import Accounts
 
 
 def main():

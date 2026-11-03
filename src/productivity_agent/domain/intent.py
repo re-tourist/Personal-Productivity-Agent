@@ -8,7 +8,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from productivity_agent.domain.state import CalendarRequest
+from productivity_agent.domain.contracts import CalendarRequest
 
 
 class ScheduleIntent(BaseModel):

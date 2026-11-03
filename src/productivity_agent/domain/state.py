@@ -1,26 +1,7 @@
-"""M1 contract. Keep raw domain data here, not prompts or serialized tool messages.
+"""Historical graph state, deferred to Application in R2. Business contracts are re-exported."""
+from typing import NotRequired, TypedDict
 
-The student should inspect this state and justify each field. Later milestones
-may introduce richer structured state, but preserve the business semantics.
-"""
-
-from typing import Literal, NotRequired, TypedDict
-
-
-class TimeSlot(TypedDict):
-    start_at: str  # Offset-aware ISO 8601; e.g. 2026-11-03T15:00:00+08:00
-    end_at: str
-
-
-class CalendarRequest(TimeSlot):
-    title: str
-
-
-class DecisionResult(TypedDict):
-    status: Literal["invalid", "available", "conflict", "no_available_slot"]
-    message: str
-    suggested_start: NotRequired[str]
-    suggested_end: NotRequired[str]
+from productivity_agent.domain.contracts import CalendarRequest, DecisionResult, TimeSlot
 
 
 class CalendarState(TypedDict):

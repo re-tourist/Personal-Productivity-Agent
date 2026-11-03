@@ -5,11 +5,11 @@ writes are performed here.  These functions can run without LLM dependencies.
 """
 from __future__ import annotations
 
+from collections.abc import Sequence
 from datetime import timedelta
-from typing import Sequence
 
+from productivity_agent.domain.contracts import CalendarRequest, TimeSlot
 from productivity_agent.domain.policy import DEFAULT_POLICY, SchedulingPolicy
-from productivity_agent.domain.state import CalendarRequest, TimeSlot
 from productivity_agent.domain.time_utils import as_interval
 
 
