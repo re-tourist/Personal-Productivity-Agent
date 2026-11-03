@@ -36,6 +36,7 @@
 - R2 才迁移 `workflows/`、`tools/`、CalendarState、ScheduleIntent、AgentIntent 及设计 Use Cases/Ports。R1 未创建未使用的 Application/Memory/RAG 抽象；后续任务须明确授权后再改这些内部逻辑。
 - R2-A 的 D1–D6 及兼容条件见 `docs/R2_A_APPLICATION_DESIGN_AUDIT.md` 第 14 节；B0 入口见 `docs/R2_B0_COMPATIBILITY_BASELINE.md`。仅 `domain/state.py`、`intent.py`、`agent_intent.py` 允许临时兼容例外，不得扩张；Agent Sessions 不依赖 FastAPI，模型默认没有真实写权限。
 - 后续切片须运行 `python -m scripts.verify_r2_baseline --out <隔离路径>`：固定 `40d837c19f42ffd373686c30f4797df2e2598e23` 旧源码生成、候选另进程恢复。不得刷新快照掩盖回归。Reliable Graph 实际继承父 saver/config 并持久化子 namespace，提取策略须保留旧节点/嵌套恢复身份；网络请求可重放，业务效果不得重复。SQLite/HTTP 异常与回执差异不得借迁移统一。
+- Prompt Gate 必须记录真实 Graph 传给模型边界的完整 messages，保留角色、内容、上下文、历史窗口、类型与执行结果；不得用源码字符串扫描替代。B0.1 例外更新仅修正原始快照缺失，见 `docs/R2_B0_1_PROMPT_GATE_FIX.md`；后续保留候选篡改必失败、Prompt 定义搬家仍通过的控制测试。
 - 保留两个独立 FastAPI App 与全部旧启动入口；身份/bearer 只能绑定当前请求资源，不能放到共享 Store/Graph。业务库、归属库和 Checkpointer 分离；保持单 Worker 与进程内锁约束。
 - 架构改动验收增加 `tests/test_r1_architecture.py`（包含延迟导入/循环依赖/请求绑定），全量 pytest、离线评测、`python -m scripts.verify_final_delivery --out <隔离报告路径>` 和 `python -m scripts.verify_r1_compatibility --out <隔离报告路径>`；不能把模型装配检查描述成真实 Qwen 验收。定向 Ruff 仅覆盖新增/改动文件和已有约定范围。
 

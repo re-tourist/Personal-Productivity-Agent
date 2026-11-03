@@ -118,10 +118,25 @@ def audit_business(path):
             "version_sum": sum(row[1] for row in tasks)}
 
 
-def verify(root, *, refresh_snapshot=False, checkpoints=True):
+def assert_contract_equal(expected, actual, path="$"):
+    """Exact JSON structure/value/type equality; report the first changed field."""
+    assert type(expected) is type(actual), f"contract changed at {path}: value type"
+    if isinstance(expected, dict):
+        assert expected.keys() == actual.keys(), f"contract changed at {path}: fields"
+        for key in expected:
+            assert_contract_equal(expected[key], actual[key], f"{path}.{key}")
+    elif isinstance(expected, list):
+        assert len(expected) == len(actual), f"contract changed at {path}: list length"
+        for index, (left, right) in enumerate(zip(expected, actual, strict=True)):
+            assert_contract_equal(left, right, f"{path}[{index}]")
+    else:
+        assert expected == actual, f"contract changed at {path}: value"
+
+
+def verify(root, *, refresh_snapshot=False, checkpoints=True, candidate_source=None):
     root.mkdir(parents=True, exist_ok=True)
     old = export_baseline(root / "baseline")
-    current = REPO / "src"
+    current = candidate_source if candidate_source is not None else REPO / "src"
     report = {"baseline": BASELINE, "candidate_head": subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True, check=True).stdout.strip(),
         "baseline_source": source_manifest(old), "candidate_source": source_manifest(current),
@@ -134,13 +149,13 @@ def verify(root, *, refresh_snapshot=False, checkpoints=True):
         if phase == "produce":
             frozen = {"baseline": BASELINE, "versions": data["versions"], "contracts": data["result"]}
         else:
-            assert data["result"] == frozen["contracts"], "candidate HTTP/graph/prompt/tool contract changed"
-            assert data["versions"] == frozen["versions"]
+            assert_contract_equal(frozen["contracts"], data["result"])
+            assert_contract_equal(frozen["versions"], data["versions"], "$.versions")
     if refresh_snapshot:
         SNAPSHOT.parent.mkdir(parents=True, exist_ok=True)
         SNAPSHOT.write_text(json.dumps(frozen, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     else:
-        assert frozen == json.loads(SNAPSHOT.read_text(encoding="utf-8")), "immutable fixture or dependencies changed"
+        assert_contract_equal(json.loads(SNAPSHOT.read_text(encoding="utf-8")), frozen, "$.snapshot")
     report["contracts_exact"] = True
     report["versions"] = frozen["versions"]
     if not checkpoints:

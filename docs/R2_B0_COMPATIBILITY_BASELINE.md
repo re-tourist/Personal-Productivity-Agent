@@ -1,5 +1,10 @@
 # PPA R2-B0：Application 迁移前的兼容基线
 
+> **B0.1 更正**：原始 B0 的 AST 多行字符串采集漏掉 Assistant 与 Natural Language 的实际系统指令，
+> Tool Agent 也只采到未格式化模板。因此下文原始“Prompt 已冻结”的描述不能作为完整 Prompt
+> 兼容证明。现已由固定旧来源的运行时 messages 契约替换；旧验收次数与故障记录保留。
+> 修复范围、负向/搬家控制与新验收见 [B0.1 Prompt Gate 修复](R2_B0_1_PROMPT_GATE_FIX.md)。
+
 固定来源：`40d837c19f42ffd373686c30f4797df2e2598e23`，R1/R1.1 Merge Commit。
 工作分支：`codex/r2-application-architecture`。本阶段只新增测试、夹具、验证工具和设计记录，
 `src/`、Graph、Prompt、业务数据库 Schema、公共接口没有修改。没有进入 B1–B6。
