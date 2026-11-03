@@ -16,6 +16,7 @@ from productivity_agent.workflows.reliable_task import build_reliable_task_graph
 
 
 class ApprovalState(TypedDict):
+    owner_id: NotRequired[str]
     operation_id: str
     title: str
     due_at: str

@@ -1,0 +1,9 @@
+{
+  "staged_sensitive_matches": [],
+  "staged_forbidden_files": [],
+  "staged_personal_absolute_paths": [],
+  "outgoing_history_sensitive_blob_count": 0,
+  "scope": "Index and feature-branch reachable history; exact active Qwen credential/private endpoint and common key patterns. Not a guarantee against every secret format.",
+  "private_untracked_files_included": false,
+  "live_qwen_calls_this_task": 0
+}

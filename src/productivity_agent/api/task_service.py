@@ -10,6 +10,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, StrictBool
 
+from productivity_agent.services.identity import identity_for, install_identity
 from productivity_agent.services.task_store import (
     IdempotencyConflict,
     SQLiteTaskStore,
@@ -40,6 +41,10 @@ def create_task_service(store=None):
     configure_logging()
     store = store or SQLiteTaskStore(Path(os.getenv("PPA_DATA_DIR", ".ppa-data")) / "tasks.sqlite")
     app = FastAPI(title="PPA local test business service")
+    install_identity(app, business=True)
+
+    def owned(request):
+        return store.for_owner(identity_for(request).owner_id)
 
     @app.middleware("http")
     async def trace(request: Request, call_next):
@@ -78,26 +83,30 @@ def create_task_service(store=None):
         return {"status": "ok", "local_test_service": True}
 
     @app.get("/tasks")
-    def listing(limit: int = 100):
-        return {"items": run(store.list_tasks, limit=limit)}
+    def listing(request: Request, limit: int = 100):
+        return {"items": run(owned(request).list_tasks, limit=limit)}
+
+    @app.get("/identity")
+    def identity(request: Request):
+        return {"owner_id": identity_for(request).owner_id, "auth_enabled": app.state.accounts.enabled}
 
     @app.get("/tasks/{task_id}")
-    def get(task_id: str):
-        return run(store.get_task, task_id)
+    def get(task_id: str, request: Request):
+        return run(owned(request).get_task, task_id)
 
     @app.get("/operations/{operation_id}")
-    def operation(operation_id: str):
-        return {"operation": store.get_operation(operation_id)}
+    def operation(operation_id: str, request: Request):
+        return {"operation": owned(request).get_operation(operation_id)}
 
     @app.post("/tasks")
-    def create(body: CreateRequest):
+    def create(body: CreateRequest, request: Request):
         require_approval(body)
-        return run(store.create_task, body.operation_id, body.title, body.due_at.isoformat())
+        return run(owned(request).create_task, body.operation_id, body.title, body.due_at.isoformat())
 
     @app.patch("/tasks/{task_id}")
-    def change(task_id: str, body: ChangeRequest):
+    def change(task_id: str, body: ChangeRequest, request: Request):
         require_approval(body)
-        return run(store.change_task, body.operation_id, task_id, body.expected_version,
+        return run(owned(request).change_task, body.operation_id, task_id, body.expected_version,
                    body.action, title=body.title,
                    due_at=body.due_at.isoformat() if body.due_at else None)
 

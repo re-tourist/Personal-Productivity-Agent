@@ -34,7 +34,7 @@
   </header>
   <section class="banner">
     <div><strong>本地演示环境</strong><div class="muted">所有写入仅作用于本地 SQLite。真实千问调用需要主动开启。</div></div>
-    <div class="rows"><label for="token" class="muted">演示 Token（可选）</label><input id="token" type="password" style="width:190px" placeholder="X-PPA-Token"></div>
+    <div class="rows"><label for="token" class="muted">访问令牌（演示或测试账号）</label><input id="token" type="password" style="width:190px" placeholder="测试账号 Bearer Token"></div>
   </section>
   <section class="card" style="margin-bottom:20px">
     <h2>统一 Agent 助手</h2>
@@ -109,10 +109,13 @@ const hourLater=new Date(tomorrow.getTime()+60*60000);
 for(const [id,date] of [['eventStart',tomorrow],['eventEnd',hourLater],['taskTime',tomorrow]])document.getElementById(id).value=localValue(date);
 function el(id){return document.getElementById(id)}
 function out(id,data){el(id).textContent=typeof data==='string'?data:JSON.stringify(data,null,2)}
-function headers(){const h={'Content-Type':'application/json'};const t=el('token').value.trim();if(t)h['X-PPA-Token']=t;return h}
+let authEpoch=0;
+function headers(){const h={'Content-Type':'application/json'};const t=el('token').value.trim();if(t){h['X-PPA-Token']=t;h['Authorization']='Bearer '+t;}return h}
 async function request(path,payload,method='POST'){
+ const epoch=authEpoch;
  const resp=await fetch(path,{method,headers:headers(),body:payload===undefined?undefined:JSON.stringify(payload)});
  const result=await resp.json().catch(()=>({detail:resp.statusText}));
+ if(epoch!==authEpoch)throw Error('账号已切换，请重新请求');
  if(!resp.ok)throw Error(`HTTP ${resp.status}: ${JSON.stringify(result)}`);
  return result;
 }
@@ -125,11 +128,12 @@ function fillConflict(){
  el('busy').value=JSON.stringify([{start_at:isoOffset(localValue(b)),end_at:isoOffset(localValue(c))}],null,2);
 }
 async function sse(path,payload,target,onEvent){
+ const epoch=authEpoch;
  const resp=await fetch(path,{method:'POST',headers:headers(),body:JSON.stringify(payload)});
  if(!resp.ok)throw Error(`HTTP ${resp.status}: ${await resp.text()}`);
  if(!resp.body)throw Error('浏览器不支持流式响应');
  const reader=resp.body.getReader(),decoder=new TextDecoder();let pending='',messages=[];
- while(true){const {done,value}=await reader.read();if(done)break;pending+=decoder.decode(value,{stream:true});
+ while(true){const {done,value}=await reader.read();if(epoch!==authEpoch){await reader.cancel();throw Error('账号已切换');}if(done)break;pending+=decoder.decode(value,{stream:true});
   const sections=pending.split('\n\n');pending=sections.pop()||'';
   for(const block of sections){const event=block.split('\n').find(x=>x.startsWith('event: '))?.slice(7)||'message';
    const data=block.split('\n').find(x=>x.startsWith('data: '))?.slice(6)||'{}';
@@ -152,6 +156,13 @@ function agentPayload(){return {message:el('agentInput').value,reference_now:now
 function askAgent(){return run('agentOutput',()=>request('/v1/agent/ask',agentPayload()))}
 function streamAgent(){return run('agentOutput',()=>sse('/v1/agent/stream',agentPayload(),'agentOutput'))}
 let assistantThread=localStorage.getItem('ppa-assistant-thread')||'',assistantApproval=null,assistantBusy=false;
+el('token').addEventListener('change',()=>{
+ authEpoch++;assistantThread='';assistantApproval=null;localStorage.removeItem('ppa-assistant-thread');
+ for(const node of document.querySelectorAll('pre'))node.textContent='';
+ for(const id of ['conversation','assistantResult','assistantSession','assistantProgress'])out(id,'账号已切换，请开启新会话');
+ el('thread').value='';el('assistantInput').value='';
+ el('approveAssistant').hidden=true;el('rejectAssistant').hidden=true;
+});
 function assistantPath(){return '/v1/assistant/sessions/'+encodeURIComponent(assistantThread)}
 function assistantRender(data){
  assistantThread=data.thread_id;localStorage.setItem('ppa-assistant-thread',assistantThread);

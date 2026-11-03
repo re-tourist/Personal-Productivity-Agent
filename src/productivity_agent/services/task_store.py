@@ -14,6 +14,8 @@ from contextlib import closing
 from datetime import UTC, datetime
 from pathlib import Path
 
+from productivity_agent.services.identity import LEGACY_OWNER
+
 
 class IdempotencyConflict(ValueError):
     """An operation id was reused with different business parameters."""
@@ -84,6 +86,8 @@ class SQLiteTaskStore:
             columns = {r[1] for r in conn.execute("PRAGMA table_info(tasks)")}
             if "version" not in columns:
                 conn.execute("ALTER TABLE tasks ADD COLUMN version INTEGER NOT NULL DEFAULT 1")
+            if "owner_id" not in columns:
+                conn.execute("ALTER TABLE tasks ADD COLUMN owner_id TEXT NOT NULL DEFAULT '__legacy__'")
             if "status" not in columns:
                 conn.execute("ALTER TABLE tasks ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'")
             conn.execute("""CREATE TABLE IF NOT EXISTS task_changes (
@@ -96,30 +100,32 @@ class SQLiteTaskStore:
         conn.execute("PRAGMA foreign_keys = ON")
         return conn
 
-    def _read_operation(self, conn: sqlite3.Connection, operation_id: str):
+    def _read_operation(self, conn: sqlite3.Connection, operation_id: str, owner_id=LEGACY_OWNER):
         return conn.execute("""
             SELECT o.request_hash, t.id, t.title, t.due_at
             FROM task_operations o JOIN tasks t ON t.id = o.task_id
-            WHERE o.operation_id = ?
-        """, (operation_id,)).fetchone()
+            WHERE o.operation_id = ? AND t.owner_id = ?
+        """, (operation_id, owner_id)).fetchone()
 
-    def lookup(self, operation_id: str, title: str, due_at: str) -> dict | None:
+    def lookup(self, operation_id: str, title: str, due_at: str, *, owner_id=LEGACY_OWNER) -> dict | None:
         operation_id, title, due_utc = validate_task_request(operation_id, title, due_at)
         digest = request_fingerprint(title, due_utc)
+        operation_id = self._operation_key(owner_id, operation_id)
         with closing(self._connect()) as conn:
-            row = self._read_operation(conn, operation_id)
+            row = self._read_operation(conn, operation_id, owner_id)
         if row is None:
             return None
         if row[0] != digest:
             raise IdempotencyConflict("operation_id already used for different parameters")
-        return self.get_task(row[1])
+        return self.get_task(row[1], owner_id=owner_id)
 
     def create_task(
-        self, operation_id: str, title: str, due_at: str, *, fault: str | None = None,
+        self, operation_id: str, title: str, due_at: str, *, fault: str | None = None, owner_id=LEGACY_OWNER,
     ) -> dict:
         """Create once; fault may be 'before_commit' or 'after_commit' for tests only."""
         operation_id, title, due_utc = validate_task_request(operation_id, title, due_at)
         digest = request_fingerprint(title, due_utc)
+        operation_id = self._operation_key(owner_id, operation_id)
         if fault not in (None, "before_commit", "after_commit"):
             raise ValueError("unknown fault injection mode")
 
@@ -128,13 +134,13 @@ class SQLiteTaskStore:
                 conn.execute("BEGIN IMMEDIATE")  # serialize concurrent writers
                 if conn.execute("SELECT 1 FROM task_changes WHERE operation_id=?", (operation_id,)).fetchone():
                     raise IdempotencyConflict("operation_id reused")
-                row = self._read_operation(conn, operation_id)
+                row = self._read_operation(conn, operation_id, owner_id)
                 if row is not None:
                     if row[0] != digest:
                         raise IdempotencyConflict(
                             "operation_id already used for different parameters"
                         )
-                    task = self.get_task(row[1])
+                    task = self.get_task(row[1], owner_id=owner_id)
                     conn.commit()
                     return {"status": "replayed", "task": task}
 
@@ -144,8 +150,8 @@ class SQLiteTaskStore:
                 task = {"id": str(uuid.uuid4()), "title": title, "due_at": due_utc,
                         "version": 1, "status": "pending"}
                 conn.execute(
-                    "INSERT INTO tasks (id,title,due_at) VALUES (?,?,?)",
-                    (task["id"], title, due_utc),
+                    "INSERT INTO tasks (id,title,due_at,owner_id) VALUES (?,?,?,?)",
+                    (task["id"], title, due_utc, owner_id),
                 )
                 conn.execute(
                     "INSERT INTO task_operations (operation_id,request_hash,task_id) VALUES (?,?,?)",
@@ -161,11 +167,11 @@ class SQLiteTaskStore:
             raise AmbiguousCommitError("injected timeout after commit")
         return {"status": "created", "task": task}
 
-    def count_tasks(self) -> int:
+    def count_tasks(self, *, owner_id=LEGACY_OWNER) -> int:
         with closing(self._connect()) as conn:
-            return conn.execute("SELECT COUNT(*) FROM tasks").fetchone()[0]
+            return conn.execute("SELECT COUNT(*) FROM tasks WHERE owner_id=?", (owner_id,)).fetchone()[0]
 
-    def list_tasks(self, *, limit: int = 100) -> list[dict]:
+    def list_tasks(self, *, limit: int = 100, owner_id=LEGACY_OWNER) -> list[dict]:
         """Read a bounded set of local demo tasks (newest first).
 
         This is not a user-scoped production endpoint; it is only for the
@@ -175,21 +181,21 @@ class SQLiteTaskStore:
             raise ValueError("limit must be in 1..1000")
         with closing(self._connect()) as conn:
             rows = conn.execute(
-                "SELECT id, title, due_at, version, status FROM tasks ORDER BY rowid DESC LIMIT ?", (limit,)
+                "SELECT id, title, due_at, version, status FROM tasks WHERE owner_id=? ORDER BY rowid DESC LIMIT ?", (owner_id, limit)
             ).fetchall()
         return [dict(zip(("id", "title", "due_at", "version", "status"), row)) for row in rows]
 
-    def get_task(self, task_id):
+    def get_task(self, task_id, *, owner_id=LEGACY_OWNER):
         with closing(self._connect()) as conn:
             row = conn.execute(
-                "SELECT id,title,due_at,version,status FROM tasks WHERE id=?", (task_id,)
+                "SELECT id,title,due_at,version,status FROM tasks WHERE id=? AND owner_id=?", (task_id, owner_id)
             ).fetchone()
         if row is None:
             raise KeyError("task_not_found")
         return dict(zip(("id", "title", "due_at", "version", "status"), row))
 
     def change_task(self, operation_id, task_id, expected_version, action, *,
-                    title=None, due_at=None):
+                    title=None, due_at=None, owner_id=LEGACY_OWNER):
         if action not in {"update_task", "complete_task"}:
             raise ValueError("unsupported_action")
         if type(expected_version) is not int or expected_version < 1:
@@ -209,9 +215,13 @@ class SQLiteTaskStore:
         payload = {"task_id": task_id, "expected_version": expected_version,
                        "action": action, "title": title, "due_at": due_at}
         encoded = json.dumps(payload, sort_keys=True)
+        operation_id = self._operation_key(owner_id, operation_id)
         with closing(self._connect()) as conn:
             try:
                 conn.execute("BEGIN IMMEDIATE")
+                owned = conn.execute("SELECT 1 FROM tasks WHERE id=? AND owner_id=?", (task_id, owner_id)).fetchone()
+                if owned is None:
+                    raise KeyError("task_not_found")
                 old = conn.execute("SELECT request_json,result_json FROM task_changes "
                                    "WHERE operation_id=?", (operation_id,)).fetchone()
                 if old:
@@ -241,13 +251,44 @@ class SQLiteTaskStore:
                 conn.rollback()
                 raise
 
-    def get_operation(self, operation_id):
+    def get_operation(self, operation_id, *, owner_id=LEGACY_OWNER):
+        operation_id = self._operation_key(owner_id, operation_id)
         with closing(self._connect()) as conn:
             row = conn.execute("SELECT request_json,result_json FROM task_changes "
                                "WHERE operation_id=?", (operation_id,)).fetchone()
             if row:
-                return {"request": json.loads(row[0]), "task": json.loads(row[1])}
-            row = self._read_operation(conn, operation_id)
+                task = json.loads(row[1])
+                if not conn.execute("SELECT 1 FROM tasks WHERE id=? AND owner_id=?", (task["id"], owner_id)).fetchone():
+                    return None
+                return {"request": json.loads(row[0]), "task": task}
+            row = self._read_operation(conn, operation_id, owner_id)
         if row:
-            return {"request_hash": row[0], "task": self.get_task(row[1])}
+            return {"request_hash": row[0], "task": self.get_task(row[1], owner_id=owner_id)}
         return None
+
+
+    @staticmethod
+    def _operation_key(owner_id, operation_id):
+        # Preserve old operation rows byte-for-byte; secure users get separate namespaces.
+        if owner_id == LEGACY_OWNER:
+            return operation_id
+        encoded = json.dumps([owner_id, operation_id], separators=(",", ":")).encode()
+        return "owner:" + hashlib.sha256(encoded).hexdigest()
+
+    def for_owner(self, owner_id, bearer=""):
+        return OwnedTaskStore(self, owner_id)
+
+
+class OwnedTaskStore:
+    """Trusted server-side binding; never constructed from a request user_id field."""
+    def __init__(self, store, owner_id):
+        self.store = store
+        self.owner_id = owner_id
+
+    def __getattr__(self, name):
+        if name not in {"create_task", "change_task", "get_task", "list_tasks", "count_tasks",
+                        "lookup", "get_operation"}:
+            raise AttributeError(name)
+        def call(*args, **kwargs):
+            return getattr(self.store, name)(*args, **kwargs, owner_id=self.owner_id)
+        return call

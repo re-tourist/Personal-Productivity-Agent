@@ -1,0 +1,95 @@
+{
+  "python": "3.12.8",
+  "tests": 127,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "warnings": 0,
+  "duration_seconds": 213.918,
+  "offline": "10/10",
+  "pip_check": "No broken requirements found.",
+  "ruff": "changed Python files passed",
+  "qwen_calls": 0,
+  "estimated_and_actual_cny": 0,
+  "m8_merge": "f470c419895668307d2b7d71dade242256615a10",
+  "m8_ci": "https://github.com/re-tourist/Personal-Productivity-Agent/actions/runs/41585281049",
+  "database_evidence": [
+    {
+      "scenario": "two-account-isolation",
+      "mode": "direct",
+      "rows": [
+        {
+          "id": "35999450-cf2e-4da1-a6e3-5a761c968cde",
+          "owner_id": "alice",
+          "title": "同名",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "status": "pending",
+          "version": 1
+        },
+        {
+          "id": "520dda20-1a39-4107-a360-345a57ab6dd6",
+          "owner_id": "bob",
+          "title": "同名",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "status": "pending",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "scenario": "two-account-isolation",
+      "mode": "http",
+      "rows": [
+        {
+          "id": "6eaa9dce-4a2d-466c-a856-3c31710d0cd6",
+          "owner_id": "alice",
+          "title": "同名",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "status": "pending",
+          "version": 1
+        },
+        {
+          "id": "ae22cba9-b7d6-44ef-a3d1-1ddbba782d21",
+          "owner_id": "bob",
+          "title": "同名",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "status": "pending",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "scenario": "concurrent-and-restart",
+      "mode": "direct",
+      "rows": [
+        {
+          "id": "d112c850-053e-42fa-b2a6-49f12039c506",
+          "owner_id": "alice",
+          "title": "版本甲",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "status": "completed",
+          "version": 3
+        }
+      ]
+    },
+    {
+      "scenario": "concurrent-and-restart",
+      "mode": "http",
+      "rows": [
+        {
+          "id": "47fd717d-1afc-4cd5-894e-58c0b41bac12",
+          "owner_id": "alice",
+          "title": "版本甲",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "status": "completed",
+          "version": 3
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Accounts/configuration/tokens and raw logs are intentionally excluded.",
+    "HTTP cases run independent Agent/business processes, including restart.",
+    "A later focused configuration test also passed after the loopback-only credential guard."
+  ]
+}
