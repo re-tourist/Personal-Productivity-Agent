@@ -3,6 +3,7 @@ import json
 import logging
 import time
 import uuid
+from urllib.parse import quote, urlsplit
 
 import httpx
 
@@ -21,11 +22,25 @@ class BusinessUnavailable(RuntimeError):
 
 
 class HTTPTaskStore:
-    def __init__(self, base_url, timeout=3.0):
+    def __init__(self, base_url, timeout=3.0, *, bearer="", expected_owner=None):
+        if bearer or expected_owner:
+            url = urlsplit(base_url)
+            if (url.scheme not in {"http", "https"} or url.hostname not in {"127.0.0.1", "localhost", "::1"}
+                    or url.username or url.password or url.query or url.fragment):
+                raise ValueError("authenticated_business_service_must_be_loopback")
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
+        self.bearer = bearer
+        self.expected_owner = expected_owner
+
+    def for_owner(self, owner_id, bearer=""):
+        return HTTPTaskStore(self.base_url, self.timeout, bearer=bearer, expected_owner=owner_id)
 
     def _request(self, method, path, payload=None):
+        if self.expected_owner and path != "/identity":
+            identity = self._request("GET", "/identity")
+            if identity.get("auth_enabled") is not True or identity.get("owner_id") != self.expected_owner:
+                raise BusinessUnavailable("business_identity_mismatch")
         started = time.monotonic()
         status = None
         error = None
@@ -33,8 +48,10 @@ class HTTPTaskStore:
         rid = context.get("request_id") or str(uuid.uuid4())
         try:
             with httpx.Client(timeout=self.timeout, trust_env=False) as client:
-                response = client.request(method, self.base_url + path, json=payload,
-                                          headers={"X-Request-ID": rid})
+                headers = {"X-Request-ID": rid}
+                if self.bearer:
+                    headers["Authorization"] = "Bearer " + self.bearer
+                response = client.request(method, self.base_url + path, json=payload, headers=headers)
             status = response.status_code
             if status == 404:
                 raise KeyError("task_not_found")
@@ -64,10 +81,10 @@ class HTTPTaskStore:
         return self._request("GET", f"/tasks?limit={limit}")["items"]
 
     def get_task(self, task_id):
-        return self._request("GET", f"/tasks/{task_id}")
+        return self._request("GET", f"/tasks/{quote(task_id, safe='')}")
 
     def get_operation(self, operation_id):
-        return self._request("GET", f"/operations/{operation_id}")["operation"]
+        return self._request("GET", f"/operations/{quote(operation_id, safe='')}")["operation"]
 
     def lookup(self, operation_id, title, due_at):
         _, title, due = validate_task_request(operation_id, title, due_at)
@@ -86,6 +103,6 @@ class HTTPTaskStore:
             raise AmbiguousCommitError("http_write_outcome_unknown") from None
 
     def change_task(self, operation_id, task_id, expected_version, action, **patch):
-        return self._request("PATCH", f"/tasks/{task_id}", dict(
+        return self._request("PATCH", f"/tasks/{quote(task_id, safe='')}", dict(
             operation_id=operation_id, expected_version=expected_version,
             action=action, approved=True, **patch))

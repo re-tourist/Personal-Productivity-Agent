@@ -1,5 +1,7 @@
 # 文档索引
 
+TASK 07：[M8受限范围](TASK_07_M8_SCOPE.md) · [M9测试账号、资源隔离与重启验收](TASK_07_M9_SECURITY.md)。
+
 TASK 06-B：[M8真实模型验收、失败与交付门槛](audits/TASK_06B_2026-11-03.md)，当前为部分完成。
 
 TASK 06（M8）：[业务操作、HTTP 契约与 Web 演示](TASK_06_BUSINESS_OPERATIONS.md) · [实施与验收证据](audits/TASK_06_2026-11-03.md)。代码待审核，未 Push。

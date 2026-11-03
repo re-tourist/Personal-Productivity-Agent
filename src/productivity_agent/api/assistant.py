@@ -8,6 +8,14 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, StrictBool, field_validator
 
+from productivity_agent.api.resources import resources_for
+from productivity_agent.services.identity import (
+    authorize_thread,
+    claim_thread,
+    identity_for,
+    thread_key,
+)
+
 
 class MessageRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -53,13 +61,17 @@ def assistant_router(check_token):
     router = APIRouter(prefix="/v1/assistant", dependencies=[Depends(check_token)])
 
     def graph_for(request):
-        graph = request.app.state.assistant_graph
+        graph = resources_for(request).assistant_graph
         if graph is None:
             raise HTTPException(503, "Unified assistant unavailable")
         return graph
 
+    def owned_config(request, tid):
+        return {"configurable": {"thread_id": thread_key(request, "assistant", tid)}, "recursion_limit": 20}
+
     async def snapshot_for(request, tid):
-        snapshot = await graph_for(request).aget_state(config(tid))
+        authorize_thread(request, "assistant", tid)
+        snapshot = await graph_for(request).aget_state(owned_config(request, tid))
         if not snapshot.values:
             raise HTTPException(404, "Unknown assistant session")
         return snapshot
@@ -70,7 +82,8 @@ def assistant_router(check_token):
     @router.post("/sessions", status_code=201)
     async def create(request: Request):
         tid = uuid.uuid4()
-        await graph_for(request).ainvoke({"initialize": True}, config(tid))
+        claim_thread(request, "assistant", tid)
+        await graph_for(request).ainvoke({"initialize": True, "owner_id": identity_for(request).owner_id}, owned_config(request, tid))
         return view(tid, await snapshot_for(request, tid))
 
     @router.get("/sessions/{thread_id}")
@@ -91,7 +104,7 @@ def assistant_router(check_token):
             payload = {"request_id": str(uuid.uuid4()), "thread_id": str(tid), "initialize": False, "user_text": body.message,
                        "reference_now": body.reference_now.isoformat(), "timezone": body.timezone,
                        "last_message_id": str(body.message_id)}
-            async for update in graph.astream(payload, config(tid), stream_mode="updates"):
+            async for update in graph.astream(payload, owned_config(request, tid), stream_mode="updates"):
                 for node in update:
                     if node != "__interrupt__":
                         yield "progress", {"node": node}
@@ -132,7 +145,7 @@ def assistant_router(check_token):
                 if not snapshot.next and snapshot.values.get("approved") is body.approved:
                     return view(thread_id, snapshot)
                 raise HTTPException(409, "当前操作不在待审批状态。")
-            await graph_for(request).ainvoke(Command(resume=body.approved), config(thread_id))
+            await graph_for(request).ainvoke(Command(resume=body.approved), owned_config(request, thread_id))
             return view(thread_id, await snapshot_for(request, thread_id))
 
     @router.post("/sessions/{thread_id}/recover")
@@ -140,7 +153,7 @@ def assistant_router(check_token):
         async with lock_for(request, thread_id):
             snapshot = await snapshot_for(request, thread_id)
             if snapshot.next and "approval" not in snapshot.next:
-                await graph_for(request).ainvoke(None, config(thread_id))
+                await graph_for(request).ainvoke(None, owned_config(request, thread_id))
             return view(thread_id, await snapshot_for(request, thread_id))
 
     return router

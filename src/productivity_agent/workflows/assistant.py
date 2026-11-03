@@ -28,6 +28,7 @@ def invalid_numeric_clock(text):
 
 
 class AssistantState(TypedDict, total=False):
+    owner_id: str
     request_id: str
     thread_id: str
     initialize: bool

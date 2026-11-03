@@ -8,7 +8,7 @@ trace_context = ContextVar("ppa_trace", default=None)
 
 def traced_node(fn):
     def run(state):
-        context = {k: state.get(k) for k in ("request_id", "thread_id", "operation_id")}
+        context = {k: state.get(k) for k in ("owner_id", "request_id", "thread_id", "operation_id")}
         context["action"] = (state.get("intent") or {}).get("action")
         context["target_id"] = (state.get("target") or {}).get("id")
         token = trace_context.set(context)

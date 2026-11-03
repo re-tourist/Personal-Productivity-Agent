@@ -33,6 +33,7 @@ data/local/
 
 # Private model credentials and account exports (never publish)
 /docs/ali/
+*.auth.json
 
 # Publish only reviewed summaries; raw local audit logs stay local.
 /reports/*
@@ -58,3 +59,9 @@ data/local/
 !/reports/task06b/regression-summary.json
 !/reports/task06b/security-summary.json
 !/reports/task06b/web-http.png
+
+!/reports/task07/
+/reports/task07/*
+!/reports/task07/m9-summary.json
+!/reports/task07/m9-offline.json
+!/reports/task07/security-summary.json

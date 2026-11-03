@@ -23,6 +23,16 @@ from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from productivity_agent.api.resources import resources_for
+from productivity_agent.services.identity import (
+    ThreadOwnership,
+    authorize_thread,
+    claim_thread,
+    identity_for,
+    install_identity,
+    thread_key,
+)
+
 
 def _encode_sse(event: str, data: dict[str, Any]) -> str:
     return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False, default=str)}\n\n"
@@ -117,6 +127,9 @@ def _snapshot_response(thread_id: str, snapshot: Any) -> dict:
 
 def _check_token(request: Request) -> None:
     """Optional demo token. Authentication and ownership require a real provider in prod."""
+    if request.app.state.accounts.enabled:
+        identity_for(request)  # Middleware already verified the credential.
+        return
     expected = getattr(request.app.state, "api_token", "")
     if expected and not secrets.compare_digest(
         request.headers.get("X-PPA-Token", ""), expected
@@ -153,6 +166,7 @@ def create_app(
         app.state.api_token = (
             os.getenv("PPA_API_TOKEN", "") if api_token is None else api_token
         )
+        app.state.accounts = type(app.state.accounts)(os.getenv("PPA_AUTH_CONFIG"))
         app.state.thread_locks = {}
         app.state.live_agent = live_agent
         app.state.intent_graph = intent_graph
@@ -179,6 +193,7 @@ def create_app(
 
         data_dir = Path(os.getenv("PPA_DATA_DIR", ".ppa-data"))
         data_dir.mkdir(parents=True, exist_ok=True)
+        app.state.thread_ownership = ThreadOwnership(data_dir / "access.sqlite")
         task_store = SQLiteTaskStore(data_dir / "tasks.sqlite")
         if os.getenv("PPA_TASK_SERVICE_URL"):
             from productivity_agent.services.http_task_store import HTTPTaskStore
@@ -222,12 +237,16 @@ def create_app(
                 }])
             else:
                 backend = session_backend
+            app.state.saver = saver
+            app.state.session_extractor = extractor
+            app.state.session_backend = backend
             app.state.assistant_graph = build_assistant_graph(extractor, task_store, saver, backend)
             yield
 
     app = FastAPI(
         title="Personal Productivity Agent", version="1.0.0", lifespan=lifespan
     )
+    install_identity(app)
     from productivity_agent.api.assistant import assistant_router
     app.include_router(assistant_router(_check_token))
 
@@ -252,16 +271,35 @@ def create_app(
             "intent_parser_enabled": request.app.state.intent_graph is not None,
             "assistant_mode": request.app.state.assistant_mode,
             "storage": "SQLite demo; local single-process",
-            "warning": "No user-scoped authentication; bind only to 127.0.0.1",
+            "auth_enabled": request.app.state.accounts.enabled,
+            "warning": "Local test authentication; bind only to 127.0.0.1" if request.app.state.accounts.enabled else "No user-scoped authentication; bind only to 127.0.0.1",
         }
+
+    @app.get("/v1/me", dependencies=[Depends(_check_token)])
+    async def me(request: Request):
+        return {"owner_id": identity_for(request).owner_id, "auth_enabled": request.app.state.accounts.enabled}
 
     @app.get("/v1/tasks", dependencies=[Depends(_check_token)])
     async def list_tasks(request: Request, limit: int = 100) -> dict:
         if not 1 <= limit <= 100:
             raise HTTPException(status_code=422, detail="limit must be 1..100")
         # SQLiteTaskStore is synchronous; avoid blocking the event loop.
-        records = await asyncio.to_thread(request.app.state.store.list_tasks, limit=limit)
+        records = await asyncio.to_thread(resources_for(request).store.list_tasks, limit=limit)
         return {"items": records, "count": len(records)}
+
+    @app.get("/v1/tasks/{task_id}", dependencies=[Depends(_check_token)])
+    async def task_detail(task_id: str, request: Request):
+        try:
+            return await asyncio.to_thread(resources_for(request).store.get_task, task_id)
+        except KeyError:
+            raise HTTPException(404, "resource_not_found") from None
+
+    @app.get("/v1/operations/{operation_id}", dependencies=[Depends(_check_token)])
+    async def operation_detail(operation_id: str, request: Request):
+        result = await asyncio.to_thread(resources_for(request).store.get_operation, operation_id)
+        if result is None:
+            raise HTTPException(404, "resource_not_found")
+        return {"operation": result}
 
     @app.post("/v1/calendar/natural-language", dependencies=[Depends(_check_token)])
     async def calendar_natural_language(body: NaturalLanguageCalendarRequest, request: Request) -> dict:
@@ -314,9 +352,11 @@ def create_app(
     @app.post("/v1/tasks/drafts", status_code=201, dependencies=[Depends(_check_token)])
     async def create_task_draft(body: TaskDraftRequest, request: Request) -> dict:
         thread_id, operation_id = str(uuid.uuid4()), str(uuid.uuid4())
-        config = _thread_config(thread_id)
-        graph = request.app.state.approval_graph
+        claim_thread(request, "draft", thread_id)
+        config = _thread_config(thread_key(request, "draft", thread_id))
+        graph = resources_for(request).approval_graph
         outcome = await graph.ainvoke({
+            "owner_id": identity_for(request).owner_id,
             "operation_id": operation_id,
             "title": body.title,
             "due_at": body.due_at.isoformat(),
@@ -332,7 +372,8 @@ def create_app(
 
     @app.get("/v1/tasks/drafts/{thread_id}", dependencies=[Depends(_check_token)])
     async def get_task_draft(thread_id: str, request: Request) -> dict:
-        snapshot = await request.app.state.approval_graph.aget_state(_thread_config(thread_id))
+        authorize_thread(request, "draft", thread_id)
+        snapshot = await resources_for(request).approval_graph.aget_state(_thread_config(thread_key(request, "draft", thread_id)))
         return _snapshot_response(thread_id, snapshot)
 
     @app.post("/v1/tasks/drafts/{thread_id}/decision", dependencies=[Depends(_check_token)])
@@ -344,16 +385,17 @@ def create_app(
             from langgraph.types import Command
             factory = lambda decision: Command(resume=decision)
 
-        graph = request.app.state.approval_graph
+        authorize_thread(request, "draft", thread_id)
+        graph = resources_for(request).approval_graph
         # Protect a thread from overlapping decisions in this ONE server process.
         lock = request.app.state.thread_locks.setdefault(thread_id, asyncio.Lock())
         async with lock:
-            snapshot = await graph.aget_state(_thread_config(thread_id))
+            snapshot = await graph.aget_state(_thread_config(thread_key(request, "draft", thread_id)))
             if not snapshot.values:
                 raise HTTPException(status_code=404, detail="unknown thread_id")
             if "approval" not in snapshot.next:
                 raise HTTPException(status_code=409, detail="thread is not awaiting approval")
-            outcome = await graph.ainvoke(factory(body.approved), config=_thread_config(thread_id))
+            outcome = await graph.ainvoke(factory(body.approved), config=_thread_config(thread_key(request, "draft", thread_id)))
             return {
                 "thread_id": thread_id,
                 "status": outcome.get("status", "unknown"),

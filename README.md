@@ -18,6 +18,8 @@
 
 ## 本地安装与运行
 
+M9多用户测试配置、迁移和权限矩阵见[安全设计与验收](docs/TASK_07_M9_SECURITY.md)。默认旧模式仍是单用户；必须设置PPA_AUTH_CONFIG才能启用可信测试账号与隔离。
+
 M8 采用[审核后的受限范围](docs/TASK_07_M8_SCOPE.md)：在线复杂目标要求明确Task ID；[业务/HTTP契约](docs/TASK_06_BUSINESS_OPERATIONS.md)和[真实Qwen失败记录](docs/audits/TASK_06B_2026-11-03.md)保留。删除与复杂定位继续待办，不宣称M8整体完成。
 
 在项目根目录，使用 Python 3.12：
