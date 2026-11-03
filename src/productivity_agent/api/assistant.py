@@ -44,7 +44,8 @@ def view(thread_id, snapshot):
         "thread_id": str(thread_id), "status": status, "reply": state.get("reply", ""),
         "result": state.get("result"), "history": state.get("history", []),
         "approval": {"operation_id": state["operation_id"], "title": state["title"],
-                     "due_at": state["due_at"]} if waiting else None,
+                     "due_at": state["due_at"], "action": (state.get("intent") or {}).get("action", "create_task"),
+                     "before": state.get("target"), "changes": state.get("patch")} if waiting else None,
     }
 
 
@@ -87,7 +88,7 @@ def assistant_router(check_token):
                 return
             if snapshot.next:
                 raise HTTPException(409, "请先批准/拒绝待确认操作，或恢复中断执行。")
-            payload = {"initialize": False, "user_text": body.message,
+            payload = {"request_id": str(uuid.uuid4()), "thread_id": str(tid), "initialize": False, "user_text": body.message,
                        "reference_now": body.reference_now.isoformat(), "timezone": body.timezone,
                        "last_message_id": str(body.message_id)}
             async for update in graph.astream(payload, config(tid), stream_mode="updates"):

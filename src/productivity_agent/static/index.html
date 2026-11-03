@@ -45,7 +45,7 @@
     <textarea id="assistantInput" placeholder="明天下午三点提醒我准备组会"></textarea>
     <div class="actions">
       <button class="primary" id="sendAssistant" onclick="sendAssistant()">发送</button>
-      <button id="approveAssistant" onclick="approveAssistant(true)" hidden>批准创建</button>
+      <button id="approveAssistant" onclick="approveAssistant(true)" hidden>批准操作</button>
       <button id="rejectAssistant" class="danger" onclick="approveAssistant(false)" hidden>拒绝</button>
       <button id="recoverAssistant" onclick="recoverAssistant()" hidden>恢复中断执行</button>
       <button onclick="refreshAssistant()">查询/恢复会话状态</button>
@@ -158,7 +158,7 @@ function assistantRender(data){
  assistantApproval=data.approval;el('assistantSession').textContent='会话：'+assistantThread+' · '+data.status;
  out('conversation',(data.history||[]).map(m=>(m.role==='user'?'你：':'助手：')+m.content).join('\n\n')||data.reply);
  el('approveAssistant').hidden=!assistantApproval;el('rejectAssistant').hidden=!assistantApproval;
- el('recoverAssistant').hidden=data.status!=='interrupted';out('assistantResult',data.result||data.reply);
+ el('recoverAssistant').hidden=data.status!=='interrupted';out('assistantResult',data.approval||data.result||data.reply);
 }
 async function assistantRun(task){
  if(assistantBusy)return;assistantBusy=true;

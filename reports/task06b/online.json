@@ -1,0 +1,3391 @@
+{
+  "profile": {
+    "model": "qwen3.7-flash",
+    "region": "cn-beijing",
+    "endpoint": "workspace"
+  },
+  "max_calls": 16,
+  "max_cny": "0.05",
+  "calls": [
+    {
+      "scenario": "A",
+      "attempt": 1,
+      "status": "parsed",
+      "input_tokens": 1043,
+      "output_tokens": 69,
+      "estimated_cny": 0.0002638,
+      "latency_ms": 2332.24,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "create_task",
+        "title": "准备组会",
+        "at": "2026-11-04T15:00:00+08:00",
+        "duration_minutes": null,
+        "question": null,
+        "task_id": null,
+        "new_title": null,
+        "target_at": null
+      }
+    },
+    {
+      "scenario": "A",
+      "attempt": 2,
+      "status": "parsed",
+      "input_tokens": 1191,
+      "output_tokens": 105,
+      "estimated_cny": 0.0003222,
+      "latency_ms": 1275.65,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": "准备组会",
+        "at": "2026-11-05T10:00:00+08:00",
+        "duration_minutes": null,
+        "question": null,
+        "task_id": null,
+        "new_title": null,
+        "target_at": "2026-11-04T15:00:00+08:00"
+      }
+    },
+    {
+      "scenario": "B",
+      "attempt": 3,
+      "status": "parsed",
+      "input_tokens": 1042,
+      "output_tokens": 69,
+      "estimated_cny": 0.0002636,
+      "latency_ms": 1002.93,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "create_task",
+        "title": "准备组会",
+        "at": "2026-11-04T15:00:00+08:00",
+        "duration_minutes": null,
+        "question": null,
+        "task_id": null,
+        "new_title": null,
+        "target_at": null
+      }
+    },
+    {
+      "scenario": "B",
+      "attempt": 4,
+      "status": "parsed",
+      "input_tokens": 1189,
+      "output_tokens": 105,
+      "estimated_cny": 0.0003218,
+      "latency_ms": 1355.95,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": "准备组会",
+        "at": "2026-11-05T10:00:00+08:00",
+        "duration_minutes": null,
+        "question": null,
+        "task_id": null,
+        "new_title": null,
+        "target_at": "2026-11-04T15:00:00+08:00"
+      }
+    },
+    {
+      "scenario": "C",
+      "attempt": 5,
+      "status": "parsed",
+      "input_tokens": 1044,
+      "output_tokens": 106,
+      "estimated_cny": 0.0002936,
+      "latency_ms": 1230.89,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": "今晚十一点的任务",
+        "at": "2026-11-04T01:00:00+08:00",
+        "duration_minutes": null,
+        "question": null,
+        "task_id": null,
+        "new_title": null,
+        "target_at": "2026-11-03T23:00:00+08:00"
+      }
+    },
+    {
+      "scenario": "D",
+      "attempt": 6,
+      "status": "parsed",
+      "input_tokens": 1072,
+      "output_tokens": 64,
+      "estimated_cny": 0.0002656,
+      "latency_ms": 795.75,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "complete_task",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": null,
+        "task_id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+        "new_title": null,
+        "target_at": null
+      }
+    },
+    {
+      "scenario": "E",
+      "attempt": 7,
+      "status": "parsed",
+      "input_tokens": 1071,
+      "output_tokens": 74,
+      "estimated_cny": 0.0002734,
+      "latency_ms": 853.89,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": null,
+        "task_id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+        "new_title": "审核材料",
+        "target_at": null
+      }
+    },
+    {
+      "scenario": "F_vague",
+      "attempt": 8,
+      "status": "parsed",
+      "input_tokens": 1039,
+      "output_tokens": 19,
+      "estimated_cny": 0.000223,
+      "latency_ms": 647.66,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "unsupported",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": null,
+        "task_id": null,
+        "new_title": null,
+        "target_at": null
+      }
+    },
+    {
+      "scenario": "F_invalid",
+      "attempt": 9,
+      "status": "parsed",
+      "input_tokens": 1075,
+      "output_tokens": 120,
+      "estimated_cny": 0.000311,
+      "latency_ms": 1200.22,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": "时间“明天25点”无效，请提供正确的时间（例如：明天下午1点）。",
+        "task_id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+        "new_title": null,
+        "target_at": null
+      }
+    },
+    {
+      "scenario": "G",
+      "attempt": 10,
+      "status": "parsed",
+      "input_tokens": 1073,
+      "output_tokens": 65,
+      "estimated_cny": 0.0002666,
+      "latency_ms": 974.49,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "get_task",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": null,
+        "task_id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+        "new_title": null,
+        "target_at": null
+      }
+    },
+    {
+      "scenario": "B",
+      "attempt": 11,
+      "status": "parsed",
+      "input_tokens": 1256,
+      "output_tokens": 91,
+      "estimated_cny": 0.000324,
+      "latency_ms": 2473.28,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": "准备组会",
+        "at": null,
+        "duration_minutes": null,
+        "question": "请提供“准备组会”的具体任务ID，以便我为您修改时间。",
+        "task_id": null,
+        "new_title": null,
+        "target_at": null,
+        "target_time_text": "后天上午十点",
+        "new_time_text": "后天上午十点"
+      }
+    },
+    {
+      "scenario": "B",
+      "attempt": 12,
+      "status": "parsed",
+      "input_tokens": 1739,
+      "output_tokens": 248,
+      "estimated_cny": 0.0005462,
+      "latency_ms": 3498.27,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": "准备组会",
+        "at": null,
+        "duration_minutes": null,
+        "question": "请提供“准备组会”的具体任务ID，以便我为您修改时间。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\"}]",
+        "task_id": null,
+        "new_title": null,
+        "target_at": null,
+        "target_time_text": "明天下午三点",
+        "new_time_text": "明天下午三点"
+      }
+    },
+    {
+      "scenario": "C",
+      "attempt": 13,
+      "status": "parsed",
+      "input_tokens": 1257,
+      "output_tokens": 86,
+      "estimated_cny": 0.0003202,
+      "latency_ms": 1082.92,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": "请提供需要修改的具体任务标题，以便我准确找到目标。",
+        "task_id": null,
+        "new_title": null,
+        "target_at": null,
+        "target_time_text": "今晚十一点",
+        "new_time_text": "明天凌晨一点"
+      }
+    },
+    {
+      "scenario": "F_vague",
+      "attempt": 14,
+      "status": "parsed",
+      "input_tokens": 1252,
+      "output_tokens": 53,
+      "estimated_cny": 0.0002928,
+      "latency_ms": 752.33,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": "请提供要修改的任务标题或ID，以及具体的修改内容（如新标题、新时间等）。",
+        "task_id": null,
+        "new_title": null,
+        "target_at": null,
+        "target_time_text": null,
+        "new_time_text": null
+      }
+    },
+    {
+      "scenario": "B_selection",
+      "attempt": 15,
+      "status": "parsed",
+      "input_tokens": 2213,
+      "output_tokens": 285,
+      "estimated_cny": 0.0006706,
+      "latency_ms": 3238.78,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": "准备组会",
+        "at": null,
+        "duration_minutes": null,
+        "question": "请确认目标任务 ID。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\"}]",
+        "task_id": null,
+        "new_title": null,
+        "target_at": "2026-11-03T07:00:00Z",
+        "target_time_text": "明天下午三点",
+        "new_time_text": "后天上午十点"
+      }
+    },
+    {
+      "scenario": "C",
+      "attempt": 16,
+      "status": "parsed",
+      "input_tokens": 1350,
+      "output_tokens": 78,
+      "estimated_cny": 0.0003324,
+      "latency_ms": 1088.99,
+      "reserved_estimate_cny": 0.002888,
+      "parsed_intent": {
+        "action": "update_task",
+        "title": null,
+        "at": null,
+        "duration_minutes": null,
+        "question": "请提供需要修改的具体任务标题或ID，以便我为您更新到期时间。",
+        "task_id": null,
+        "new_title": null,
+        "target_at": null,
+        "target_time_text": "今晚十一点",
+        "new_time_text": "明天凌晨一点"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "case": "A",
+      "success": true,
+      "calls_before": 0,
+      "turns": [
+        {
+          "input": "明天下午三点帮我创建一个准备组会的任务。",
+          "thread_id": "4fcf191b-7da9-4e0e-aab1-44b366d597e7",
+          "intent": {
+            "action": "create_task",
+            "title": "准备组会",
+            "at": "2026-11-04T15:00:00+08:00",
+            "duration_minutes": null,
+            "question": null,
+            "task_id": null,
+            "new_title": null,
+            "target_at": null
+          },
+          "path": "create_task",
+          "response": {
+            "thread_id": "4fcf191b-7da9-4e0e-aab1-44b366d597e7",
+            "status": "awaiting_approval",
+            "reply": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "明天下午三点帮我创建一个准备组会的任务。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。"
+              }
+            ],
+            "approval": {
+              "operation_id": "7980e25d-39cf-4b66-8991-fb1981770451",
+              "title": "准备组会",
+              "due_at": "2026-11-04T15:00:00+08:00",
+              "action": "create_task",
+              "before": null,
+              "changes": null
+            }
+          },
+          "database_before": [],
+          "database_after": []
+        },
+        {
+          "input": "把准备组会改到后天上午十点。",
+          "thread_id": "4fcf191b-7da9-4e0e-aab1-44b366d597e7",
+          "intent": {
+            "action": "update_task",
+            "title": "准备组会",
+            "at": "2026-11-05T10:00:00+08:00",
+            "duration_minutes": null,
+            "question": null,
+            "task_id": null,
+            "new_title": null,
+            "target_at": "2026-11-04T15:00:00+08:00"
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "4fcf191b-7da9-4e0e-aab1-44b366d597e7",
+            "status": "awaiting_approval",
+            "reply": "待确认：update_task；目标 ID 6f87bc5f-8438-4a3d-964e-550f7fac991e；修改前 {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T10:00:00+08:00\", \"version\": 1, \"status\": \"pending\"}",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "明天下午三点帮我创建一个准备组会的任务。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。"
+              },
+              {
+                "role": "assistant",
+                "content": "已核实创建待办“准备组会”，Task ID：6f87bc5f-8438-4a3d-964e-550f7fac991e。这是一条带到期时间的待办，不会主动发送通知。"
+              },
+              {
+                "role": "user",
+                "content": "把准备组会改到后天上午十点。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：update_task；目标 ID 6f87bc5f-8438-4a3d-964e-550f7fac991e；修改前 {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T10:00:00+08:00\", \"version\": 1, \"status\": \"pending\"}"
+              }
+            ],
+            "approval": {
+              "operation_id": "9eefdf30-20bf-4a96-9f0d-5db002967ac4",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "action": "update_task",
+              "before": {
+                "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+                "title": "准备组会",
+                "due_at": "2026-11-04T07:00:00+00:00",
+                "version": 1,
+                "status": "pending"
+              },
+              "changes": {
+                "due_at": "2026-11-05T10:00:00+08:00"
+              }
+            }
+          },
+          "database_before": [
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "decisions": [
+        {
+          "approved": true,
+          "approval": {
+            "operation_id": "7980e25d-39cf-4b66-8991-fb1981770451",
+            "title": "准备组会",
+            "due_at": "2026-11-04T15:00:00+08:00",
+            "action": "create_task",
+            "before": null,
+            "changes": null
+          },
+          "response": {
+            "thread_id": "4fcf191b-7da9-4e0e-aab1-44b366d597e7",
+            "status": "created",
+            "reply": "已核实创建待办“准备组会”，Task ID：6f87bc5f-8438-4a3d-964e-550f7fac991e。这是一条带到期时间的待办，不会主动发送通知。",
+            "result": {
+              "task": {
+                "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+                "title": "准备组会",
+                "due_at": "2026-11-04T07:00:00+00:00",
+                "version": 1,
+                "status": "pending"
+              }
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "明天下午三点帮我创建一个准备组会的任务。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。"
+              },
+              {
+                "role": "assistant",
+                "content": "已核实创建待办“准备组会”，Task ID：6f87bc5f-8438-4a3d-964e-550f7fac991e。这是一条带到期时间的待办，不会主动发送通知。"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [],
+          "database_after": [
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            }
+          ]
+        },
+        {
+          "approved": true,
+          "approval": {
+            "operation_id": "9eefdf30-20bf-4a96-9f0d-5db002967ac4",
+            "title": "准备组会",
+            "due_at": "2026-11-04T07:00:00+00:00",
+            "action": "update_task",
+            "before": {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            "changes": {
+              "due_at": "2026-11-05T10:00:00+08:00"
+            }
+          },
+          "response": {
+            "thread_id": "4fcf191b-7da9-4e0e-aab1-44b366d597e7",
+            "status": "updated",
+            "reply": "已核实操作后状态：{\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}",
+            "result": {
+              "task": {
+                "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+                "title": "准备组会",
+                "due_at": "2026-11-05T02:00:00+00:00",
+                "version": 2,
+                "status": "pending"
+              }
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "明天下午三点帮我创建一个准备组会的任务。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。"
+              },
+              {
+                "role": "assistant",
+                "content": "已核实创建待办“准备组会”，Task ID：6f87bc5f-8438-4a3d-964e-550f7fac991e。这是一条带到期时间的待办，不会主动发送通知。"
+              },
+              {
+                "role": "user",
+                "content": "把准备组会改到后天上午十点。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：update_task；目标 ID 6f87bc5f-8438-4a3d-964e-550f7fac991e；修改前 {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T10:00:00+08:00\", \"version\": 1, \"status\": \"pending\"}"
+              },
+              {
+                "role": "assistant",
+                "content": "已核实操作后状态：{\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "model_calls": 2,
+      "latency_ms": 5826.58,
+      "database_final": [
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "B",
+      "success": false,
+      "calls_before": 2,
+      "turns": [
+        {
+          "input": "明天下午三点创建一个准备组会的任务。",
+          "thread_id": "c6b79aab-8ce6-41cb-bc14-e930cc3c1c5f",
+          "intent": {
+            "action": "create_task",
+            "title": "准备组会",
+            "at": "2026-11-04T15:00:00+08:00",
+            "duration_minutes": null,
+            "question": null,
+            "task_id": null,
+            "new_title": null,
+            "target_at": null
+          },
+          "path": "create_task",
+          "response": {
+            "thread_id": "c6b79aab-8ce6-41cb-bc14-e930cc3c1c5f",
+            "status": "awaiting_approval",
+            "reply": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "明天下午三点创建一个准备组会的任务。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。"
+              }
+            ],
+            "approval": {
+              "operation_id": "21567325-3770-4265-940f-d90e0d5a74e3",
+              "title": "准备组会",
+              "due_at": "2026-11-04T15:00:00+08:00",
+              "action": "create_task",
+              "before": null,
+              "changes": null
+            }
+          },
+          "database_before": [
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        },
+        {
+          "input": "把准备组会改到后天上午十点。",
+          "thread_id": "c6b79aab-8ce6-41cb-bc14-e930cc3c1c5f",
+          "intent": {
+            "action": "update_task",
+            "title": "准备组会",
+            "at": "2026-11-05T10:00:00+08:00",
+            "duration_minutes": null,
+            "question": null,
+            "task_id": null,
+            "new_title": null,
+            "target_at": "2026-11-04T15:00:00+08:00"
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "c6b79aab-8ce6-41cb-bc14-e930cc3c1c5f",
+            "status": "awaiting_approval",
+            "reply": "待确认：update_task；目标 ID aa318c43-41da-4f7e-9002-dd581028f7f2；修改前 {\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T10:00:00+08:00\", \"version\": 1, \"status\": \"pending\"}",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "明天下午三点创建一个准备组会的任务。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。"
+              },
+              {
+                "role": "assistant",
+                "content": "已核实创建待办“准备组会”，Task ID：aa318c43-41da-4f7e-9002-dd581028f7f2。这是一条带到期时间的待办，不会主动发送通知。"
+              },
+              {
+                "role": "user",
+                "content": "把准备组会改到后天上午十点。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：update_task；目标 ID aa318c43-41da-4f7e-9002-dd581028f7f2；修改前 {\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T10:00:00+08:00\", \"version\": 1, \"status\": \"pending\"}"
+              }
+            ],
+            "approval": {
+              "operation_id": "e73514ea-cb04-4c69-ac33-944e3d227534",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "action": "update_task",
+              "before": {
+                "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+                "title": "准备组会",
+                "due_at": "2026-11-04T07:00:00+00:00",
+                "version": 1,
+                "status": "pending"
+              },
+              "changes": {
+                "due_at": "2026-11-05T10:00:00+08:00"
+              }
+            }
+          },
+          "database_before": [
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "decisions": [
+        {
+          "approved": true,
+          "approval": {
+            "operation_id": "21567325-3770-4265-940f-d90e0d5a74e3",
+            "title": "准备组会",
+            "due_at": "2026-11-04T15:00:00+08:00",
+            "action": "create_task",
+            "before": null,
+            "changes": null
+          },
+          "response": {
+            "thread_id": "c6b79aab-8ce6-41cb-bc14-e930cc3c1c5f",
+            "status": "created",
+            "reply": "已核实创建待办“准备组会”，Task ID：aa318c43-41da-4f7e-9002-dd581028f7f2。这是一条带到期时间的待办，不会主动发送通知。",
+            "result": {
+              "task": {
+                "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+                "title": "准备组会",
+                "due_at": "2026-11-04T07:00:00+00:00",
+                "version": 1,
+                "status": "pending"
+              }
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "明天下午三点创建一个准备组会的任务。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：创建待办“准备组会”，到期时间 2026-11-04T15:00:00+08:00。不会发送定时通知。"
+              },
+              {
+                "role": "assistant",
+                "content": "已核实创建待办“准备组会”，Task ID：aa318c43-41da-4f7e-9002-dd581028f7f2。这是一条带到期时间的待办，不会主动发送通知。"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "error_category": "AssertionError",
+      "model_calls": 2,
+      "latency_ms": 3681.78,
+      "database_final": [
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "C",
+      "success": false,
+      "calls_before": 4,
+      "synthetic_fixture_setup": [
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        }
+      ],
+      "turns": [
+        {
+          "input": "把今晚十一点的任务改到明天凌晨一点。",
+          "thread_id": "fe2acc57-98c7-4073-8c1b-775189c97ede",
+          "intent": {
+            "action": "update_task",
+            "title": "今晚十一点的任务",
+            "at": "2026-11-04T01:00:00+08:00",
+            "duration_minutes": null,
+            "question": null,
+            "task_id": null,
+            "new_title": null,
+            "target_at": "2026-11-03T23:00:00+08:00"
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "fe2acc57-98c7-4073-8c1b-775189c97ede",
+            "status": "clarification_required",
+            "reply": "请确认目标任务 ID（未找到时请重新查询）。候选：[]",
+            "result": {
+              "candidates": []
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "把今晚十一点的任务改到明天凌晨一点。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[]"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "error_category": "TypeError",
+      "model_calls": 1,
+      "latency_ms": 1561.95,
+      "database_final": [
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "D",
+      "success": true,
+      "calls_before": 5,
+      "synthetic_fixture_setup": [
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        }
+      ],
+      "turns": [
+        {
+          "input": "请把任务 e042d1e1-6db6-42cd-9e48-f441ef1d3c4c 标记为已完成。",
+          "thread_id": "9b588a59-2f9a-4655-b794-acb430955fb6",
+          "intent": {
+            "action": "complete_task",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": null,
+            "task_id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+            "new_title": null,
+            "target_at": null
+          },
+          "path": "complete_task",
+          "response": {
+            "thread_id": "9b588a59-2f9a-4655-b794-acb430955fb6",
+            "status": "awaiting_approval",
+            "reply": "待确认：complete_task；目标 ID e042d1e1-6db6-42cd-9e48-f441ef1d3c4c；修改前 {\"id\": \"e042d1e1-6db6-42cd-9e48-f441ef1d3c4c\", \"title\": \"完成合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"e042d1e1-6db6-42cd-9e48-f441ef1d3c4c\", \"title\": \"完成合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"completed\"}",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "请把任务 e042d1e1-6db6-42cd-9e48-f441ef1d3c4c 标记为已完成。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：complete_task；目标 ID e042d1e1-6db6-42cd-9e48-f441ef1d3c4c；修改前 {\"id\": \"e042d1e1-6db6-42cd-9e48-f441ef1d3c4c\", \"title\": \"完成合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"e042d1e1-6db6-42cd-9e48-f441ef1d3c4c\", \"title\": \"完成合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"completed\"}"
+              }
+            ],
+            "approval": {
+              "operation_id": "3c6b540e-3cb6-463e-a365-85c348831ac3",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "action": "complete_task",
+              "before": {
+                "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+                "title": "完成合成任务",
+                "due_at": "2026-11-04T07:00:00+00:00",
+                "version": 1,
+                "status": "pending"
+              },
+              "changes": {}
+            }
+          },
+          "database_before": [
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "decisions": [
+        {
+          "approved": true,
+          "approval": {
+            "operation_id": "3c6b540e-3cb6-463e-a365-85c348831ac3",
+            "title": "完成合成任务",
+            "due_at": "2026-11-04T07:00:00+00:00",
+            "action": "complete_task",
+            "before": {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            "changes": {}
+          },
+          "response": {
+            "thread_id": "9b588a59-2f9a-4655-b794-acb430955fb6",
+            "status": "updated",
+            "reply": "已核实操作后状态：{\"id\": \"e042d1e1-6db6-42cd-9e48-f441ef1d3c4c\", \"title\": \"完成合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 2, \"status\": \"completed\"}",
+            "result": {
+              "task": {
+                "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+                "title": "完成合成任务",
+                "due_at": "2026-11-04T07:00:00+00:00",
+                "version": 2,
+                "status": "completed"
+              }
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "请把任务 e042d1e1-6db6-42cd-9e48-f441ef1d3c4c 标记为已完成。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：complete_task；目标 ID e042d1e1-6db6-42cd-9e48-f441ef1d3c4c；修改前 {\"id\": \"e042d1e1-6db6-42cd-9e48-f441ef1d3c4c\", \"title\": \"完成合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"e042d1e1-6db6-42cd-9e48-f441ef1d3c4c\", \"title\": \"完成合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"completed\"}"
+              },
+              {
+                "role": "assistant",
+                "content": "已核实操作后状态：{\"id\": \"e042d1e1-6db6-42cd-9e48-f441ef1d3c4c\", \"title\": \"完成合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 2, \"status\": \"completed\"}"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "model_calls": 1,
+      "latency_ms": 2086.47,
+      "database_final": [
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "E",
+      "success": true,
+      "calls_before": 6,
+      "synthetic_fixture_setup": [
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        }
+      ],
+      "turns": [
+        {
+          "input": "把任务 a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a 的标题改为审核材料。",
+          "thread_id": "4d3fb989-a9db-4ffb-b060-b5f146452346",
+          "intent": {
+            "action": "update_task",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": null,
+            "task_id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+            "new_title": "审核材料",
+            "target_at": null
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "4d3fb989-a9db-4ffb-b060-b5f146452346",
+            "status": "awaiting_approval",
+            "reply": "待确认：update_task；目标 ID a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a；修改前 {\"id\": \"a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a\", \"title\": \"拒绝合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a\", \"title\": \"审核材料\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "把任务 a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a 的标题改为审核材料。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：update_task；目标 ID a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a；修改前 {\"id\": \"a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a\", \"title\": \"拒绝合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a\", \"title\": \"审核材料\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}"
+              }
+            ],
+            "approval": {
+              "operation_id": "be64b983-9b06-4492-92c8-5ed956660f87",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "action": "update_task",
+              "before": {
+                "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+                "title": "拒绝合成任务",
+                "due_at": "2026-11-04T07:00:00+00:00",
+                "version": 1,
+                "status": "pending"
+              },
+              "changes": {
+                "title": "审核材料"
+              }
+            }
+          },
+          "database_before": [
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "decisions": [
+        {
+          "approved": false,
+          "approval": {
+            "operation_id": "be64b983-9b06-4492-92c8-5ed956660f87",
+            "title": "拒绝合成任务",
+            "due_at": "2026-11-04T07:00:00+00:00",
+            "action": "update_task",
+            "before": {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            "changes": {
+              "title": "审核材料"
+            }
+          },
+          "response": {
+            "thread_id": "4d3fb989-a9db-4ffb-b060-b5f146452346",
+            "status": "cancelled",
+            "reply": "已取消，没有创建任务，也没有修改任务。",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "把任务 a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a 的标题改为审核材料。"
+              },
+              {
+                "role": "assistant",
+                "content": "待确认：update_task；目标 ID a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a；修改前 {\"id\": \"a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a\", \"title\": \"拒绝合成任务\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}；修改后 {\"id\": \"a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a\", \"title\": \"审核材料\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}"
+              },
+              {
+                "role": "assistant",
+                "content": "已取消，没有创建任务，也没有修改任务。"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "model_calls": 1,
+      "latency_ms": 1235.57,
+      "database_final": [
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "F_vague",
+      "success": false,
+      "calls_before": 7,
+      "synthetic_fixture_setup": [
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        }
+      ],
+      "turns": [
+        {
+          "input": "把那个任务改一下。",
+          "thread_id": "4ef63c24-fdaf-4749-9937-baa82b9e7b24",
+          "intent": {
+            "action": "unsupported",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": null,
+            "task_id": null,
+            "new_title": null,
+            "target_at": null
+          },
+          "path": "unsupported",
+          "response": {
+            "thread_id": "4ef63c24-fdaf-4749-9937-baa82b9e7b24",
+            "status": "unsupported",
+            "reply": "目前支持创建待办、查询待办和日程检查。",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "把那个任务改一下。"
+              },
+              {
+                "role": "assistant",
+                "content": "目前支持创建待办、查询待办和日程检查。"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "error_category": "AssertionError",
+      "model_calls": 1,
+      "latency_ms": 697.8,
+      "database_final": [
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "F_invalid",
+      "success": true,
+      "calls_before": 8,
+      "synthetic_fixture_setup": [
+        {
+          "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        }
+      ],
+      "turns": [
+        {
+          "input": "把任务 fa2db2d2-3c1d-4777-8a6d-edc6e4d63717 改到明天25点。",
+          "thread_id": "b6bbec4b-1766-43c9-ab62-ac9fd2c5f3a3",
+          "intent": {
+            "action": "update_task",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": "时间“明天25点”无效，请提供正确的时间（例如：明天下午1点）。",
+            "task_id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+            "new_title": null,
+            "target_at": null
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "b6bbec4b-1766-43c9-ab62-ac9fd2c5f3a3",
+            "status": "clarification_required",
+            "reply": "时间“明天25点”无效，请提供正确的时间（例如：明天下午1点）。",
+            "result": null,
+            "history": [
+              {
+                "role": "user",
+                "content": "把任务 fa2db2d2-3c1d-4777-8a6d-edc6e4d63717 改到明天25点。"
+              },
+              {
+                "role": "assistant",
+                "content": "时间“明天25点”无效，请提供正确的时间（例如：明天下午1点）。"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "model_calls": 1,
+      "latency_ms": 1585.36,
+      "database_final": [
+        {
+          "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "G",
+      "success": true,
+      "calls_before": 9,
+      "turns": [
+        {
+          "input": "查询任务 6f87bc5f-8438-4a3d-964e-550f7fac991e 的详情。",
+          "thread_id": "535f3344-6aed-4276-be2c-32be7bca684e",
+          "intent": {
+            "action": "get_task",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": null,
+            "task_id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+            "new_title": null,
+            "target_at": null
+          },
+          "path": "get_task",
+          "response": {
+            "thread_id": "535f3344-6aed-4276-be2c-32be7bca684e",
+            "status": "completed",
+            "reply": "{\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}",
+            "result": {
+              "task": {
+                "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+                "title": "准备组会",
+                "due_at": "2026-11-05T02:00:00+00:00",
+                "version": 2,
+                "status": "pending"
+              }
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "查询任务 6f87bc5f-8438-4a3d-964e-550f7fac991e 的详情。"
+              },
+              {
+                "role": "assistant",
+                "content": "{\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "model_calls": 1,
+      "latency_ms": 1327.24,
+      "database_final": [
+        {
+          "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "B",
+      "success": false,
+      "calls_before": 10,
+      "reused_fixture_task_id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+      "turns": [
+        {
+          "input": "把准备组会改到后天上午十点。",
+          "thread_id": "5a39171f-52dc-426b-95b2-1b4661275321",
+          "intent": {
+            "action": "update_task",
+            "title": "准备组会",
+            "at": null,
+            "duration_minutes": null,
+            "question": "请提供“准备组会”的具体任务ID，以便我为您修改时间。",
+            "task_id": null,
+            "new_title": null,
+            "target_at": null,
+            "target_time_text": "后天上午十点",
+            "new_time_text": "后天上午十点"
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "5a39171f-52dc-426b-95b2-1b4661275321",
+            "status": "clarification_required",
+            "reply": "请确认目标任务 ID（未找到时请重新查询）。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}]",
+            "result": {
+              "candidates": [
+                {
+                  "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+                  "title": "准备组会",
+                  "due_at": "2026-11-04T07:00:00+00:00",
+                  "version": 1,
+                  "status": "pending"
+                },
+                {
+                  "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+                  "title": "准备组会",
+                  "due_at": "2026-11-05T02:00:00+00:00",
+                  "version": 2,
+                  "status": "pending"
+                }
+              ]
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "把准备组会改到后天上午十点。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}]"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        },
+        {
+          "input": "明天下午三点的那个。",
+          "thread_id": "5a39171f-52dc-426b-95b2-1b4661275321",
+          "intent": {
+            "action": "update_task",
+            "title": "准备组会",
+            "at": null,
+            "duration_minutes": null,
+            "question": "请提供“准备组会”的具体任务ID，以便我为您修改时间。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\"}]",
+            "task_id": null,
+            "new_title": null,
+            "target_at": null,
+            "target_time_text": "明天下午三点",
+            "new_time_text": "后天上午十点"
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "5a39171f-52dc-426b-95b2-1b4661275321",
+            "status": "clarification_required",
+            "reply": "请确认目标任务 ID（未找到时请重新查询）。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}]",
+            "result": {
+              "candidates": [
+                {
+                  "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+                  "title": "准备组会",
+                  "due_at": "2026-11-04T07:00:00+00:00",
+                  "version": 1,
+                  "status": "pending"
+                },
+                {
+                  "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+                  "title": "准备组会",
+                  "due_at": "2026-11-05T02:00:00+00:00",
+                  "version": 2,
+                  "status": "pending"
+                }
+              ]
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "把准备组会改到后天上午十点。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}]"
+              },
+              {
+                "role": "user",
+                "content": "明天下午三点的那个。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}]"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "error_category": "TypeError",
+      "model_calls": 2,
+      "latency_ms": 6659.86,
+      "database_final": [
+        {
+          "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "C",
+      "success": false,
+      "calls_before": 12,
+      "turns": [
+        {
+          "input": "把今晚十一点的任务改到明天凌晨一点。",
+          "thread_id": "26f62857-79b0-4cbb-872c-82b9b8195a1f",
+          "intent": {
+            "action": "update_task",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": "请提供需要修改的具体任务标题，以便我准确找到目标。",
+            "task_id": null,
+            "new_title": null,
+            "target_at": null,
+            "target_time_text": "今晚十一点",
+            "new_time_text": "明天凌晨一点"
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "26f62857-79b0-4cbb-872c-82b9b8195a1f",
+            "status": "clarification_required",
+            "reply": "请确认目标任务 ID（未找到时请重新查询）。候选：[]",
+            "result": {
+              "candidates": []
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "把今晚十一点的任务改到明天凌晨一点。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[]"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "error_category": "TypeError",
+      "model_calls": 1,
+      "latency_ms": 1432.98,
+      "database_final": [
+        {
+          "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "F_vague",
+      "success": true,
+      "calls_before": 13,
+      "synthetic_fixture_setup": [
+        {
+          "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        }
+      ],
+      "turns": [
+        {
+          "input": "把那个任务改一下。",
+          "thread_id": "c05b0034-4efd-440a-ac25-acf835af0d34",
+          "intent": {
+            "action": "update_task",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": "请提供要修改的任务标题或ID，以及具体的修改内容（如新标题、新时间等）。",
+            "task_id": null,
+            "new_title": null,
+            "target_at": null,
+            "target_time_text": null,
+            "new_time_text": null
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "c05b0034-4efd-440a-ac25-acf835af0d34",
+            "status": "clarification_required",
+            "reply": "请确认目标任务 ID（未找到时请重新查询）。候选：[]",
+            "result": {
+              "candidates": []
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "把那个任务改一下。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[]"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "model_calls": 1,
+      "latency_ms": 1099.18,
+      "database_final": [
+        {
+          "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "B",
+      "success": false,
+      "calls_before": 14,
+      "continuation_from_prior_selection": true,
+      "turns": [
+        {
+          "input": "明天下午三点的那个。",
+          "thread_id": "5a39171f-52dc-426b-95b2-1b4661275321",
+          "intent": {
+            "action": "update_task",
+            "title": "准备组会",
+            "at": null,
+            "duration_minutes": null,
+            "question": "请确认目标任务 ID。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\"}]",
+            "task_id": null,
+            "new_title": null,
+            "target_at": "2026-11-03T07:00:00Z",
+            "target_time_text": "明天下午三点",
+            "new_time_text": "后天上午十点"
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "5a39171f-52dc-426b-95b2-1b4661275321",
+            "status": "clarification_required",
+            "reply": "请确认目标任务 ID（未找到时请重新查询）。候选：[]",
+            "result": {
+              "candidates": []
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "把准备组会改到后天上午十点。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}]"
+              },
+              {
+                "role": "user",
+                "content": "明天下午三点的那个。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[{\"id\": \"aa318c43-41da-4f7e-9002-dd581028f7f2\", \"title\": \"准备组会\", \"due_at\": \"2026-11-04T07:00:00+00:00\", \"version\": 1, \"status\": \"pending\"}, {\"id\": \"6f87bc5f-8438-4a3d-964e-550f7fac991e\", \"title\": \"准备组会\", \"due_at\": \"2026-11-05T02:00:00+00:00\", \"version\": 2, \"status\": \"pending\"}]"
+              },
+              {
+                "role": "user",
+                "content": "明天下午三点的那个。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[]"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "error_category": "TypeError",
+      "model_calls": 1,
+      "latency_ms": 3594.82,
+      "database_final": [
+        {
+          "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "case": "C",
+      "success": false,
+      "calls_before": 15,
+      "turns": [
+        {
+          "input": "把今晚十一点的任务改到明天凌晨一点。",
+          "thread_id": "6fd7b52f-b71c-4ae6-8cd9-9a73cb8055d4",
+          "intent": {
+            "action": "update_task",
+            "title": null,
+            "at": null,
+            "duration_minutes": null,
+            "question": "请提供需要修改的具体任务标题或ID，以便我为您更新到期时间。",
+            "task_id": null,
+            "new_title": null,
+            "target_at": null,
+            "target_time_text": "今晚十一点",
+            "new_time_text": "明天凌晨一点"
+          },
+          "path": "update_task",
+          "response": {
+            "thread_id": "6fd7b52f-b71c-4ae6-8cd9-9a73cb8055d4",
+            "status": "clarification_required",
+            "reply": "请确认目标任务 ID（未找到时请重新查询）。候选：[]",
+            "result": {
+              "candidates": []
+            },
+            "history": [
+              {
+                "role": "user",
+                "content": "把今晚十一点的任务改到明天凌晨一点。"
+              },
+              {
+                "role": "assistant",
+                "content": "请确认目标任务 ID（未找到时请重新查询）。候选：[]"
+              }
+            ],
+            "approval": null
+          },
+          "database_before": [
+            {
+              "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ],
+          "database_after": [
+            {
+              "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+              "title": "无效时间合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+              "title": "拒绝合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+              "title": "完成合成任务",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 2,
+              "status": "completed"
+            },
+            {
+              "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+              "title": "午夜合成任务",
+              "due_at": "2026-11-03T15:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+              "title": "准备组会",
+              "due_at": "2026-11-04T07:00:00+00:00",
+              "version": 1,
+              "status": "pending"
+            },
+            {
+              "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+              "title": "准备组会",
+              "due_at": "2026-11-05T02:00:00+00:00",
+              "version": 2,
+              "status": "pending"
+            }
+          ]
+        }
+      ],
+      "error_category": "TypeError",
+      "model_calls": 1,
+      "latency_ms": 1412.45,
+      "database_final": [
+        {
+          "id": "b3e65a20-2188-4b07-b4df-5db1be1c2d61",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "fa2db2d2-3c1d-4777-8a6d-edc6e4d63717",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "5591c5c5-308b-4510-b8e8-5a8a41c91a9e",
+          "title": "无效时间合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "a8a9cbd8-08b5-4ceb-b0a3-af8388ba4c0a",
+          "title": "拒绝合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "e042d1e1-6db6-42cd-9e48-f441ef1d3c4c",
+          "title": "完成合成任务",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 2,
+          "status": "completed"
+        },
+        {
+          "id": "b83f7ba2-f711-44de-a2d6-1e055dc7d348",
+          "title": "午夜合成任务",
+          "due_at": "2026-11-03T15:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "aa318c43-41da-4f7e-9002-dd581028f7f2",
+          "title": "准备组会",
+          "due_at": "2026-11-04T07:00:00+00:00",
+          "version": 1,
+          "status": "pending"
+        },
+        {
+          "id": "6f87bc5f-8438-4a3d-964e-550f7fac991e",
+          "title": "准备组会",
+          "due_at": "2026-11-05T02:00:00+00:00",
+          "version": 2,
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "reference_now": "2026-11-03T12:17:31.931657+08:00",
+  "test_directory": "m8-online-ejlwo50v",
+  "actual_billed_cny": null,
+  "pricing_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+  "price_verified_on": "2026-11-03",
+  "input_cny_per_million": 0.2,
+  "output_cny_per_million": 0.8,
+  "totals": {
+    "calls": 16,
+    "known_input_tokens": 19906,
+    "known_output_tokens": 1637,
+    "unknown_usage_calls": 0,
+    "estimated_cny": 0.0052908,
+    "reserved_cny": 0.046208
+  },
+  "primary_task_id": "6f87bc5f-8438-4a3d-964e-550f7fac991e"
+}

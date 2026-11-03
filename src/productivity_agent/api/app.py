@@ -143,6 +143,8 @@ def create_app(
     """
     @asynccontextmanager
     async def lifespan(app: FastAPI):
+        from productivity_agent.services.operation_trace import configure_logging
+        configure_logging()
         try:
             from dotenv import load_dotenv
             load_dotenv(override=False)
@@ -178,6 +180,9 @@ def create_app(
         data_dir = Path(os.getenv("PPA_DATA_DIR", ".ppa-data"))
         data_dir.mkdir(parents=True, exist_ok=True)
         task_store = SQLiteTaskStore(data_dir / "tasks.sqlite")
+        if os.getenv("PPA_TASK_SERVICE_URL"):
+            from productivity_agent.services.http_task_store import HTTPTaskStore
+            task_store = HTTPTaskStore(os.environ["PPA_TASK_SERVICE_URL"])
         async with AsyncSqliteSaver.from_conn_string(
             str(data_dir / "m6-checkpoints.sqlite")
         ) as saver:
