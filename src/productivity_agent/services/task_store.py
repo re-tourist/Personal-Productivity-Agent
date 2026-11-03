@@ -11,12 +11,16 @@ import json
 import sqlite3
 import uuid
 from contextlib import closing
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 
 class IdempotencyConflict(ValueError):
     """An operation id was reused with different business parameters."""
+
+
+class VersionConflict(ValueError):
+    """The approved snapshot is stale; read again and obtain fresh approval."""
 
 
 class TransientWriteError(ConnectionError):
@@ -39,7 +43,7 @@ def validate_task_request(operation_id: str, title: str, due_at: str) -> tuple[s
     if due.utcoffset() is None:
         raise ValueError("due_at must have a timezone offset")
     # Canonicalize the same instant to avoid false conflicts from timezone representations.
-    due_utc = due.astimezone(timezone.utc).isoformat()
+    due_utc = due.astimezone(UTC).isoformat()
     return operation_id.strip(), title.strip(), due_utc
 
 
@@ -75,6 +79,17 @@ class SQLiteTaskStore:
                 );
             """)
             conn.commit()
+            # Additive, transactional migration: preserve IDs and historical operations.
+            conn.execute("BEGIN IMMEDIATE")
+            columns = {r[1] for r in conn.execute("PRAGMA table_info(tasks)")}
+            if "version" not in columns:
+                conn.execute("ALTER TABLE tasks ADD COLUMN version INTEGER NOT NULL DEFAULT 1")
+            if "status" not in columns:
+                conn.execute("ALTER TABLE tasks ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'")
+            conn.execute("""CREATE TABLE IF NOT EXISTS task_changes (
+                operation_id TEXT PRIMARY KEY, request_json TEXT NOT NULL,
+                result_json TEXT NOT NULL)""")
+            conn.commit()
 
     def _connect(self) -> sqlite3.Connection:
         conn = sqlite3.connect(str(self.db_path), timeout=10.0)
@@ -97,7 +112,7 @@ class SQLiteTaskStore:
             return None
         if row[0] != digest:
             raise IdempotencyConflict("operation_id already used for different parameters")
-        return {"id": row[1], "title": row[2], "due_at": row[3]}
+        return self.get_task(row[1])
 
     def create_task(
         self, operation_id: str, title: str, due_at: str, *, fault: str | None = None,
@@ -111,20 +126,23 @@ class SQLiteTaskStore:
         with closing(self._connect()) as conn:
             try:
                 conn.execute("BEGIN IMMEDIATE")  # serialize concurrent writers
+                if conn.execute("SELECT 1 FROM task_changes WHERE operation_id=?", (operation_id,)).fetchone():
+                    raise IdempotencyConflict("operation_id reused")
                 row = self._read_operation(conn, operation_id)
                 if row is not None:
                     if row[0] != digest:
                         raise IdempotencyConflict(
                             "operation_id already used for different parameters"
                         )
-                    task = {"id": row[1], "title": row[2], "due_at": row[3]}
+                    task = self.get_task(row[1])
                     conn.commit()
                     return {"status": "replayed", "task": task}
 
                 if fault == "before_commit":
                     raise TransientWriteError("injected connection failure before commit")
 
-                task = {"id": str(uuid.uuid4()), "title": title, "due_at": due_utc}
+                task = {"id": str(uuid.uuid4()), "title": title, "due_at": due_utc,
+                        "version": 1, "status": "pending"}
                 conn.execute(
                     "INSERT INTO tasks (id,title,due_at) VALUES (?,?,?)",
                     (task["id"], title, due_utc),
@@ -157,6 +175,79 @@ class SQLiteTaskStore:
             raise ValueError("limit must be in 1..1000")
         with closing(self._connect()) as conn:
             rows = conn.execute(
-                "SELECT id, title, due_at FROM tasks ORDER BY rowid DESC LIMIT ?", (limit,)
+                "SELECT id, title, due_at, version, status FROM tasks ORDER BY rowid DESC LIMIT ?", (limit,)
             ).fetchall()
-        return [{"id": row[0], "title": row[1], "due_at": row[2]} for row in rows]
+        return [dict(zip(("id", "title", "due_at", "version", "status"), row)) for row in rows]
+
+    def get_task(self, task_id):
+        with closing(self._connect()) as conn:
+            row = conn.execute(
+                "SELECT id,title,due_at,version,status FROM tasks WHERE id=?", (task_id,)
+            ).fetchone()
+        if row is None:
+            raise KeyError("task_not_found")
+        return dict(zip(("id", "title", "due_at", "version", "status"), row))
+
+    def change_task(self, operation_id, task_id, expected_version, action, *,
+                    title=None, due_at=None):
+        if action not in {"update_task", "complete_task"}:
+            raise ValueError("unsupported_action")
+        if type(expected_version) is not int or expected_version < 1:
+            raise ValueError("invalid_version")
+        if not isinstance(operation_id, str) or not 0 < len(operation_id.strip()) <= 128:
+            raise ValueError("invalid_operation_id")
+        if action == "complete_task" and (title is not None or due_at is not None):
+            raise ValueError("completion_has_no_patch")
+        if action == "update_task" and title is None and due_at is None:
+            raise ValueError("empty_patch")
+        if title is not None or due_at is not None:
+            _, cleaned_title, cleaned_due = validate_task_request(
+                operation_id, title if title is not None else "unused",
+                due_at if due_at is not None else "2000-01-01T00:00:00+00:00")
+            title = cleaned_title if title is not None else None
+            due_at = cleaned_due if due_at is not None else None
+        payload = {"task_id": task_id, "expected_version": expected_version,
+                       "action": action, "title": title, "due_at": due_at}
+        encoded = json.dumps(payload, sort_keys=True)
+        with closing(self._connect()) as conn:
+            try:
+                conn.execute("BEGIN IMMEDIATE")
+                old = conn.execute("SELECT request_json,result_json FROM task_changes "
+                                   "WHERE operation_id=?", (operation_id,)).fetchone()
+                if old:
+                    if old[0] != encoded:
+                        raise IdempotencyConflict("operation_id reused")
+                    return {"status": "replayed", "task": json.loads(old[1])}
+                if conn.execute("SELECT 1 FROM task_operations WHERE operation_id=?",
+                                (operation_id,)).fetchone():
+                    raise IdempotencyConflict("operation_id reused")
+                row = conn.execute("SELECT title,due_at,status,version FROM tasks WHERE id=?",
+                                   (task_id,)).fetchone()
+                if row is None:
+                    raise KeyError("task_not_found")
+                if row[3] != expected_version:
+                    raise VersionConflict("stale_version_read_again")
+                task = {"id": task_id, "title": title if title is not None else row[0],
+                            "due_at": due_at if due_at is not None else row[1],
+                            "status": "completed" if action == "complete_task" else row[2],
+                            "version": row[3] + 1}
+                conn.execute("UPDATE tasks SET title=?,due_at=?,status=?,version=? WHERE id=?",
+                             (task["title"], task["due_at"], task["status"], task["version"], task_id))
+                conn.execute("INSERT INTO task_changes VALUES (?,?,?)",
+                             (operation_id, encoded, json.dumps(task)))
+                conn.commit()
+                return {"status": "updated", "task": task}
+            except Exception:
+                conn.rollback()
+                raise
+
+    def get_operation(self, operation_id):
+        with closing(self._connect()) as conn:
+            row = conn.execute("SELECT request_json,result_json FROM task_changes "
+                               "WHERE operation_id=?", (operation_id,)).fetchone()
+            if row:
+                return {"request": json.loads(row[0]), "task": json.loads(row[1])}
+            row = self._read_operation(conn, operation_id)
+        if row:
+            return {"request_hash": row[0], "task": self.get_task(row[1])}
+        return None

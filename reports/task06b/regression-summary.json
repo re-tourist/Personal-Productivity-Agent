@@ -1,0 +1,30 @@
+{
+  "python": "3.12.8",
+  "baseline_passed": 105,
+  "final": {
+    "tests": 113,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "warnings": 0,
+  "duration_seconds": 79.433,
+  "offline_passed": 10,
+  "offline_total": 10,
+  "pip_check": "No broken requirements found.",
+  "ruff": "passed for changed Python files",
+  "web": {
+    "model": "offline_rules",
+    "transport": "real HTTP to independent loopback business process",
+    "tasks": [
+      {
+        "id": "8fb478ba-7240-40ba-bdc3-07c393209d6b",
+        "title": "准备组会",
+        "due_at": "2026-11-05T02:00:00+00:00",
+        "status": "completed",
+        "version": 3
+      }
+    ]
+  },
+  "online_validation": "partial; B/C failed; 16 calls exhausted; no merge permitted"
+}

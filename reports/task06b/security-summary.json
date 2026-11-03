@@ -1,0 +1,9 @@
+{
+  "staged_sensitive_matches": [],
+  "staged_forbidden_files": [],
+  "staged_personal_absolute_paths": [],
+  "outgoing_history_sensitive_blob_count": 0,
+  "method": "Exact active credential/private endpoint and common key patterns; tracked file types; outgoing reachable history. Not a guarantee against every secret format.",
+  "private_untracked_files_staged": false,
+  "only_branch_push": true
+}

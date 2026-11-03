@@ -30,7 +30,9 @@ def request_task_approval(state: ApprovalState) -> dict:
     decision = interrupt({
         "type": "task_creation_approval", "operation_id": state["operation_id"],
         "title": state["title"], "due_at": state["due_at"],
-        "question": "是否确认创建这个待办任务？",
+        "question": "是否确认本次任务操作？",
+        "before": state.get("target"), "changes": state.get("patch"),
+        "action": (state.get("intent") or {}).get("action", "create_task"),
     })
     if type(decision) is not bool:
         raise ValueError("resume payload must be a boolean: true or false")

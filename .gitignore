@@ -49,3 +49,12 @@ data/local/
 !/reports/task05b/final-tests.txt
 !/reports/task05b/web-qwen.jpg
 !/reports/task05b/security-summary.json
+
+# Reviewed M8 evidence only; raw logs, checkpoints and test databases stay local.
+!/reports/task06b/
+/reports/task06b/*
+!/reports/task06b/online.json
+!/reports/task06b/offline-evaluation.json
+!/reports/task06b/regression-summary.json
+!/reports/task06b/security-summary.json
+!/reports/task06b/web-http.png

@@ -1,5 +1,9 @@
 # 文档索引
 
+TASK 06-B：[M8真实模型验收、失败与交付门槛](audits/TASK_06B_2026-11-03.md)，当前为部分完成。
+
+TASK 06（M8）：[业务操作、HTTP 契约与 Web 演示](TASK_06_BUSINESS_OPERATIONS.md) · [实施与验收证据](audits/TASK_06_2026-11-03.md)。代码待审核，未 Push。
+
 当前：[项目运行与演示](../README.md) · [真实 Qwen 验收](ONLINE_VALIDATION.md)。历史工程基线：[运行方法](ENGINEERING_BASELINE.md) · [TASK 02 集成验收](audits/TASK_02_2026-11-02.md)。
 
 | 阅读目的 | 文档 |
