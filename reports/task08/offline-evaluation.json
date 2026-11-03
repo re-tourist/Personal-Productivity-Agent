@@ -1,0 +1,81 @@
+{
+  "suite": "M7-deterministic-offline-acceptance",
+  "created_at_utc": "2026-11-03T07:19:44.281743+00:00",
+  "environment": {
+    "python": "3.12.8",
+    "os": "Windows"
+  },
+  "total": 10,
+  "passed": 10,
+  "failed": 0,
+  "pass_rate": 1.0,
+  "latency_ms": {
+    "mean": 18.814,
+    "max": 107.467
+  },
+  "llm_calls": 0,
+  "llm_cost_cny": 0,
+  "limitations": "Synthetic fixed cases and local SQLite only; not a live Qwen or production latency benchmark. Framework/API integration is tested separately by pytest.",
+  "cases": [
+    {
+      "case": "calendar_available",
+      "passed": true,
+      "latency_ms": 0.023,
+      "error": null
+    },
+    {
+      "case": "calendar_conflict_replanning",
+      "passed": true,
+      "latency_ms": 0.048,
+      "error": null
+    },
+    {
+      "case": "calendar_half_open_boundary",
+      "passed": true,
+      "latency_ms": 0.01,
+      "error": null
+    },
+    {
+      "case": "calendar_reject_invalid",
+      "passed": true,
+      "latency_ms": 0.008,
+      "error": null
+    },
+    {
+      "case": "calendar_no_available_slot",
+      "passed": true,
+      "latency_ms": 0.033,
+      "error": null
+    },
+    {
+      "case": "task_idempotent_replay",
+      "passed": true,
+      "latency_ms": 21.525,
+      "error": null
+    },
+    {
+      "case": "task_after_commit_timeout_reconciliation",
+      "passed": true,
+      "latency_ms": 20.498,
+      "error": null
+    },
+    {
+      "case": "task_before_commit_retry",
+      "passed": true,
+      "latency_ms": 19.528,
+      "error": null
+    },
+    {
+      "case": "task_idempotency_conflict",
+      "passed": true,
+      "latency_ms": 19.0,
+      "error": null
+    },
+    {
+      "case": "task_concurrent_duplicate_requests",
+      "passed": true,
+      "latency_ms": 107.467,
+      "error": null
+    }
+  ]
+}

@@ -1,5 +1,8 @@
 # TASK 07 — M9 多用户测试系统
 
+> TASK08更新：身份降级风险修复并通过最新CI后，PR #9已按新授权合并为913cee8，M9按约定本地测试范围关闭。
+> 下文“不自动合并/关闭”保留TASK07阶段的历史审核边界；M10仍必须独立PR并等待审核。
+
 范围：可信测试账号、任务/会话/审批/幂等隔离、真实HTTP与重启验证；不做生产认证或公网部署。
 M8 PR #6 已按受限范围合并，合并提交 `f470c419895668307d2b7d71dade242256615a10`；
 [Linux CI](https://github.com/re-tourist/Personal-Productivity-Agent/actions/runs/41585281049)通过。

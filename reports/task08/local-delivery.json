@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "evidence_kind": "local_process_real_http_not_docker",
+  "processes": [
+    {
+      "pid": 10832,
+      "workers": 1,
+      "binding": "loopback",
+      "stopped": true
+    },
+    {
+      "pid": 13904,
+      "workers": 1,
+      "binding": "loopback",
+      "stopped": true
+    },
+    {
+      "pid": 19524,
+      "workers": 1,
+      "binding": "loopback",
+      "stopped": true
+    }
+  ],
+  "live_qwen_calls": 0,
+  "cost_cny": 0,
+  "private_work_directory_name": "task08-delivery-lkoqrm_i",
+  "python_version": "3.12.8",
+  "reference_now": "2026-11-03T15:13:08.945155+08:00",
+  "created_task": {
+    "id": "7cc7b6c2-1788-41d3-bb57-bd3cbf6f9653",
+    "title": "作品集验收",
+    "due_at": "2026-11-04T07:00:00+00:00",
+    "version": 1,
+    "status": "pending"
+  },
+  "pending_approval": {
+    "operation_id": "aa60439f-2b14-4680-893d-96c51857373c",
+    "title": "作品集验收",
+    "due_at": "2026-11-04T07:00:00+00:00",
+    "action": "update_task",
+    "before": {
+      "id": "7cc7b6c2-1788-41d3-bb57-bd3cbf6f9653",
+      "title": "作品集验收",
+      "due_at": "2026-11-04T07:00:00+00:00",
+      "version": 1,
+      "status": "pending"
+    },
+    "changes": {
+      "due_at": "2026-11-05T10:00:00+08:00"
+    }
+  },
+  "updated_task": {
+    "id": "7cc7b6c2-1788-41d3-bb57-bd3cbf6f9653",
+    "title": "作品集验收",
+    "due_at": "2026-11-05T02:00:00+00:00",
+    "version": 2,
+    "status": "pending"
+  },
+  "pending_checkpoint_recovered": true,
+  "duplicate_approval_unchanged": true,
+  "terminal_checkpoint_recovered": true,
+  "database_rows": [
+    {
+      "id": "7cc7b6c2-1788-41d3-bb57-bd3cbf6f9653",
+      "owner_id": "alice",
+      "title": "作品集验收",
+      "due_at": "2026-11-05T02:00:00+00:00",
+      "status": "pending",
+      "version": 2
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "python": "3.12.8",
+  "installation": "fresh venv; pip install -e .[dev] exited 0",
+  "pip_check": "No broken requirements found.",
+  "packages": {
+    "personal-productivity-agent": "1.0.0",
+    "langgraph": "1.2.19",
+    "langgraph-checkpoint-sqlite": "3.1.3",
+    "langchain-openai": "1.7.3",
+    "fastapi": "0.162.0",
+    "pydantic": "2.14.2",
+    "httpx": "0.28.1",
+    "aiosqlite": "0.22.1",
+    "pytest": "9.2.0",
+    "ruff": "0.17.3"
+  }
+}
