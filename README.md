@@ -91,11 +91,15 @@ M8/M9范围与原始失败记录保留，不改写历史验收事实。
 新在线调用需要单独授权。历史真实验证见[Qwen报告](docs/ONLINE_VALIDATION.md)和[M8失败记录](docs/audits/TASK_06B_2026-11-03.md)。
 [文档索引](docs/README.md) · [架构](docs/architecture.md) · [安全设计](docs/TASK_07_M9_SECURITY.md)
 
-## R1 架构导航
+## 架构导航
 
 HTTP / CLI 主实现位于 `interfaces/`，纯业务契约与规则位于 `domain/`，SQLite、HTTP
 客户端、身份存储和模型实现位于 `infrastructure/`，资源装配与生命周期位于 `bootstrap.py`。
-现有 `workflows/`、`tools/` 和 Graph/LLM 契约留给 R2；当前没有未使用的 Application 抽象。
+R2-B1 的读取与日程主实现位于 `application/`：`ports/` 描述已绑定 scope 的读取能力，
+`use_cases/` 提供不依赖框架的业务读取与日程检查，`agent/` 保留 M1/M2/M3 的 Graph、Tool、
+Schema 和 Prompt。模拟数据具体实现位于 `infrastructure/integrations/mock_productivity.py`。
+旧入口继续重导出；Assistant 写入、审批、可靠执行和会话控制留给后续切片。
+组织理由及历史子 Checkpoint 验证见 [B1 工程报告](docs/R2_B1_READ_CALENDAR_REFACTOR.md)。
 
 旧 Assistant、Business、CLI、模块命令和 Docker 入口均保留兼容重导出。新主入口也可独立启动：
 

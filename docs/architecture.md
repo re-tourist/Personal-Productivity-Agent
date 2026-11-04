@@ -1,12 +1,19 @@
 # 架构设计与边界
 
-PPA 是 Python / LangGraph / FastAPI / SQLite 的本地作品集。R1/R1.1 只拆分 Application 外围职责。
+PPA 是 Python / LangGraph / FastAPI / SQLite 的本地作品集。R1/R1.1 拆分外围职责；R2-B1 建立可复用读取与日程能力。
 [长期设计原则](ARCHITECTURE_PRINCIPLES.md) · [R1 原始验收](R1_ARCHITECTURE_REFACTOR.md) · [R1.1 收尾与 R2 交接](R1_1_ARCHITECTURE_CLOSEOUT.md)。
 
 ## 当前有效目录
 
 ```text
 src/productivity_agent/
+├── application/
+│   ├── ports/                               # TaskReader、CalendarReader、StructuredExtractor
+│   ├── use_cases/tasks.py, calendar.py        # 框架无关的读取、日程检查与备选提案
+│   └── agent/
+│       ├── workflows/calendar.py, natural_language.py, tool_agent.py
+│       ├── tools/productivity.py             # 模型 Tool 适配与显式模拟能力契约
+│       └── llm/contracts.py, normalization.py, prompts.py
 ├── interfaces/
 │   ├── cli.py
 │   └── http/
@@ -27,24 +34,30 @@ src/productivity_agent/
 │   ├── contracts.py                          # TimeSlot、CalendarRequest、DecisionResult
 │   ├── tasks.py                              # 任务请求校验、版本/幂等冲突
 │   ├── calendar_rules.py, policy.py, time_utils.py
-│   └── state.py, intent.py, agent_intent.py   # R2 待拆的历史状态/LLM 契约
+│   ├── state.py, intent.py                   # 已批准的历史兼容 facade
+│   └── agent_intent.py                       # Assistant 输出契约，留 B4
 ├── infrastructure/
 │   ├── persistence/task_store.py, thread_ownership.py
-│   ├── integrations/http_task_store.py
+│   ├── integrations/http_task_store.py, mock_productivity.py
 │   ├── models/qwen.py, offline_intent.py
 │   ├── security/accounts.py                  # Identity/Accounts/LEGACY_OWNER
 │   ├── security/identity.py                  # 旧导入兼容，无第二份实现
 │   └── observability/operation_trace.py, qwen_meter.py
 ├── bootstrap.py                              # 配置、资源生命周期、Graph 装配
-├── workflows/, tools/                        # 现有 Application，R1 冻结
+├── workflows/, tools/                        # B1 旧入口 facade + 后续切片的原主实现
 ├── api/, services/, providers/, cli.py        # 兼容重导出
 ├── static/index.html                         # Python 包数据
 └── evaluation.py, demo_*.py, __main__.py
 ```
 
-四层职责模型已确定。Application 主实现目前仍是 workflows/、tools/ 及历史契约；
-R1 没有创建未使用的 application/、Ports 或 Memory/RAG 目录，R2 再整体迁移。
-R1.1 同样冻结 Application；目标树服务于职责与查找，不要求运行时按四层串行执行。
+四层职责模型不要求运行时串行经过每一层。TaskReader 的三个同步读取方法由 SQLite/HTTP 的
+owner-bound Store 结构满足，不新增 Repository/Service 包装。两个 HTTP App 和 Assistant 列表节点
+调用同一读取用例；错误与 None 原样传播，协议状态码映射仍由 Interfaces 负责。
+日程用例与阶段函数复用 Domain 区间/备选算法，无 LangGraph/LangChain/FastAPI 依赖。
+M1 节点调用这些步骤，同时保留原节点名、State 和 SSE；自然语言与 Tool Agent 的编排留在 Agent。
+Mock Backend 归 Infrastructure：CalendarReader 明确区分 events_on 和全量 busy_slots。
+模型的模拟任务列表仍读取内存模拟数据，普通任务查询读取真实 Store，不因结构相似而混用。
+详见 [B1 的迁移判断与证据](R2_B1_READ_CALENDAR_REFACTOR.md)。未创建 Memory/RAG 或空 Port。
 
 HTTP 业务组使用模块级 APIRouter，仅保留静态路由定义；请求资源始终从 Request 绑定。
 api_router() 按 System → Task Reads → Calendar → Draft Approval → Agent 组合，统一 Assistant
@@ -58,26 +71,41 @@ Router 在 App 工厂中仍先于这些组注册。Endpoint 名、路径、opera
 flowchart TD
     Client[HTTP / CLI] --> Interfaces[interfaces]
     Interfaces --> Bootstrap[bootstrap]
-    Interfaces --> Existing[现有 workflows / tools]
-    Bootstrap --> Existing
+    Interfaces --> UseCases[Application Use Cases]
+    Interfaces --> Agent[Application Agent]
+    Bootstrap --> Agent
     Bootstrap --> Infra[infrastructure]
+    Agent --> UseCases
+    UseCases --> Ports[Application Ports]
+    UseCases --> Domain[domain 规则与契约]
+    Infra -. 结构满足 .-> Ports
+    Agent --> Domain
+    Bootstrap --> Existing[后续切片的原 Assistant / 审批 / 可靠图]
+    Existing --> UseCases
     Existing --> Compat[旧 services / providers 兼容导入]
     Compat --> Infra
-    Existing --> Domain[domain 规则与契约]
+    Existing --> Domain
     Infra --> Domain
 ```
 
-- Domain 不导入 HTTP、SQLite、模型 SDK、Graph 或 Infrastructure。CalendarState 是待迁出的
-  Graph 状态，不是领域实体；ScheduleIntent / AgentIntent 属于 R2 的 Agent 输出契约。
+- Domain 的业务主实现不导入上层或框架。仅 `state.py`、`intent.py`、`agent_intent.py` 三个历史位置获准
+  兼容例外：前两个现已重导出 Application 实现，第三个暂留 Assistant DTO 待 B4；不扩大白名单。
 - Infrastructure 不导入 FastAPI、Interfaces 或旧兼容模块。HTTPTaskStore 仍复用持久化模块的
   不确定提交异常和请求指纹，未强行引入新 Port。
-- Interfaces 不包含 SQL 事务；路由对 Graph API / Command 的既有依赖暂留，R2 再提取用例。
+- Interfaces 不包含 SQL 事务；任务读取已调用 Use Cases，会话路由的 Graph API / Command 控制留 B5。
 - Bootstrap 直接引用新 Infrastructure 路径及现有 Graph 构建函数，Graph/SDK 仍延迟导入。
   新实现禁止反向导入 api/、services/、providers/ 和顶层 cli.py。
 - 兼容模块只做显式重导出；R2 迁移内部调用后再评估删除，公开启动入口须继续可用。
 - Accounts 不依赖 SQLite，ThreadOwnership 不依赖 HTTP/账号验证；新主实现直接引用最终归属模块，
   不引用旧 security/identity.py。它与 services/identity.py 均导出同一份类型实现。
 - tests/test_r1_architecture.py 检查直接/函数内延迟导入、内部模块存在性和循环依赖。
+- tests/test_r2_b1_reads.py 增加新 Application 禁止反向依赖、无框架执行、真实源隔离与旧 Calendar
+  诊断等值检查。`verify_r2_b1_reads` 从固定旧源码生成嵌套中断，验证读子图和模型消息恢复。
+
+Assistant 的 `read_tools` 节点已取消 LangChain Tool 中转，但在原调用位置保留 Calendar Graph 驱动。
+M3 Tool 也保留其 Calendar 子图驱动：同步/异步 Saver 实测均会继承父配置并写子 namespace。
+这些驱动负责执行/恢复，业务计算来自框架无关用例。不能为了消除目录依赖而删除历史子 Checkpoint。
+Assistant 写入/审批/意图规划、M4/M5 可靠执行及会话生命周期尚未重构。
 
 ## 资源与身份
 
