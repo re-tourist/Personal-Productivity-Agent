@@ -1,6 +1,6 @@
 # 架构设计与边界
 
-PPA 是 Python / LangGraph / FastAPI / SQLite 的本地作品集。R1/R1.1 拆分外围职责；R2-B1 建立可复用读取与日程能力。
+PPA 是 Python / LangGraph / FastAPI / SQLite 的本地作品集。R1/R1.1 拆分外围职责；R2-B1 建立读取与日程能力，R2-B2 分离可靠创建策略与审批驱动。
 [长期设计原则](ARCHITECTURE_PRINCIPLES.md) · [R1 原始验收](R1_ARCHITECTURE_REFACTOR.md) · [R1.1 收尾与 R2 交接](R1_1_ARCHITECTURE_CLOSEOUT.md)。
 
 ## 当前有效目录
@@ -8,11 +8,14 @@ PPA 是 Python / LangGraph / FastAPI / SQLite 的本地作品集。R1/R1.1 拆�
 ```text
 src/productivity_agent/
 ├── application/
-│   ├── ports/                               # TaskReader、CalendarReader、StructuredExtractor
+│   ├── ports/                               # TaskReader/TaskCreator、CalendarReader、StructuredExtractor
 │   ├── use_cases/tasks.py, calendar.py        # 框架无关的读取、日程检查与备选提案
+│   ├── use_cases/task_creation.py             # 单次创建、可靠步骤/无 Graph 入口、事实核验
 │   └── agent/
 │       ├── workflows/calendar.py, natural_language.py, tool_agent.py
+│       ├── workflows/reliable_task.py, approval_session.py # 兼容旧子 Checkpoint 的执行/审批驱动
 │       ├── tools/productivity.py             # 模型 Tool 适配与显式模拟能力契约
+│       ├── tools/reliable_task.py            # 可信调用方限定的单 operation 写 Tool
 │       └── llm/contracts.py, normalization.py, prompts.py
 ├── interfaces/
 │   ├── cli.py
@@ -44,7 +47,7 @@ src/productivity_agent/
 │   ├── security/identity.py                  # 旧导入兼容，无第二份实现
 │   └── observability/operation_trace.py, qwen_meter.py
 ├── bootstrap.py                              # 配置、资源生命周期、Graph 装配
-├── workflows/, tools/                        # B1 旧入口 facade + 后续切片的原主实现
+├── workflows/, tools/                        # B1/B2 旧入口 facade + 后续切片的原主实现
 ├── api/, services/, providers/, cli.py        # 兼容重导出
 ├── static/index.html                         # Python 包数据
 └── evaluation.py, demo_*.py, __main__.py
@@ -80,7 +83,7 @@ flowchart TD
     UseCases --> Domain[domain 规则与契约]
     Infra -. 结构满足 .-> Ports
     Agent --> Domain
-    Bootstrap --> Existing[后续切片的原 Assistant / 审批 / 可靠图]
+    Bootstrap --> Existing[后续切片的原 Assistant / Chat Memory]
     Existing --> UseCases
     Existing --> Compat[旧 services / providers 兼容导入]
     Compat --> Infra
@@ -91,7 +94,7 @@ flowchart TD
 - Domain 的业务主实现不导入上层或框架。仅 `state.py`、`intent.py`、`agent_intent.py` 三个历史位置获准
   兼容例外：前两个现已重导出 Application 实现，第三个暂留 Assistant DTO 待 B4；不扩大白名单。
 - Infrastructure 不导入 FastAPI、Interfaces 或旧兼容模块。HTTPTaskStore 仍复用持久化模块的
-  不确定提交异常和请求指纹，未强行引入新 Port。
+  请求指纹；提交失败异常由 Application Port 定义，旧路径重导出相同类型。
 - Interfaces 不包含 SQL 事务；任务读取已调用 Use Cases，会话路由的 Graph API / Command 控制留 B5。
 - Bootstrap 直接引用新 Infrastructure 路径及现有 Graph 构建函数，Graph/SDK 仍延迟导入。
   新实现禁止反向导入 api/、services/、providers/ 和顶层 cli.py。
@@ -105,7 +108,15 @@ flowchart TD
 Assistant 的 `read_tools` 节点已取消 LangChain Tool 中转，但在原调用位置保留 Calendar Graph 驱动。
 M3 Tool 也保留其 Calendar 子图驱动：同步/异步 Saver 实测均会继承父配置并写子 namespace。
 这些驱动负责执行/恢复，业务计算来自框架无关用例。不能为了消除目录依赖而删除历史子 Checkpoint。
-Assistant 写入/审批/意图规划、M4/M5 可靠执行及会话生命周期尚未重构。
+可靠创建的步骤由 `use_cases/task_creation.py` 共享，普通调用方可以在可信批准后调用无 Graph
+入口；Business HTTP 保留单次写入，不擅自引入重试。M4 Graph 复用相同步骤，保持历史节点/
+State/子 namespace；M5 审批驱动仍使用原 interrupt 和嵌套调用。Assistant 创建分支直接使用
+可靠子图，再核验持久 Task ID，不再绕经 Tool。默认模型工具集仍无真实持久写能力。
+TaskCreator 只包含 create_task/lookup；不含 fault、owner、bearer、change_task。故障注入保留
+在旧 Graph 参数的测试接缝中。SQLite OperationalError 的历史分类仍显式存在于策略中，
+没有数据库操作；保留它是为了不改变故障语义，不能将 HTTP 对账异常误转为 None。
+详见 [B2 的设计、恢复证据与权衡](R2_B2_RELIABLE_CREATION.md)。修改/完成、意图规划和
+HTTP 会话生命周期尚未重构，B3–B6 需要另行授权。
 
 ## 资源与身份
 

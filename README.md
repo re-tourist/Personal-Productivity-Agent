@@ -98,8 +98,11 @@ HTTP / CLI 主实现位于 `interfaces/`，纯业务契约与规则位于 `domai
 R2-B1 的读取与日程主实现位于 `application/`：`ports/` 描述已绑定 scope 的读取能力，
 `use_cases/` 提供不依赖框架的业务读取与日程检查，`agent/` 保留 M1/M2/M3 的 Graph、Tool、
 Schema 和 Prompt。模拟数据具体实现位于 `infrastructure/integrations/mock_productivity.py`。
-旧入口继续重导出；Assistant 写入、审批、可靠执行和会话控制留给后续切片。
+R2-B2 的 `use_cases/task_creation.py` 提供共享可靠创建步骤、无 Graph 的审批后执行入口与
+事实核验；M4/M5 Graph 保留审批/恢复驱动，旧入口重导出同一实现。Assistant 创建取消 Tool
+中转，模型默认权限不变。修改/完成与会话控制留给后续切片。
 组织理由及历史子 Checkpoint 验证见 [B1 工程报告](docs/R2_B1_READ_CALENDAR_REFACTOR.md)。
+可靠创建的权衡与中间子状态恢复证据见 [B2 工程报告](docs/R2_B2_RELIABLE_CREATION.md)。
 
 旧 Assistant、Business、CLI、模块命令和 Docker 入口均保留兼容重导出。新主入口也可独立启动：
 
