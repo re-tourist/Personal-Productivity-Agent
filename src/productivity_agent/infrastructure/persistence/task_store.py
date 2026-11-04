@@ -13,22 +13,13 @@ import uuid
 from contextlib import closing
 from pathlib import Path
 
+from productivity_agent.application.ports.tasks import AmbiguousCommitError, TransientWriteError
 from productivity_agent.domain.tasks import (
     IdempotencyConflict,
     VersionConflict,
     validate_task_request,
 )
 from productivity_agent.infrastructure.security.accounts import LEGACY_OWNER
-
-
-class TransientWriteError(ConnectionError):
-    """Temporary failure before the transaction committed."""
-
-
-class AmbiguousCommitError(TimeoutError):
-    """The transaction committed but the caller did not receive a response."""
-
-
 
 
 def request_fingerprint(title: str, due_utc: str) -> str:

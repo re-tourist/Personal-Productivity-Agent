@@ -52,6 +52,9 @@ def assistant_lifespan(
         # Defer these imports: unit tests of the transport layer don't need LangGraph.
         from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
+        from productivity_agent.application.agent.workflows.approval_session import (
+            build_approval_graph,
+        )
         from productivity_agent.application.agent.workflows.calendar import build_graph
         from productivity_agent.domain.agent_intent import AgentIntent
         from productivity_agent.infrastructure.integrations.mock_productivity import (
@@ -59,7 +62,6 @@ def assistant_lifespan(
         )
         from productivity_agent.infrastructure.models.offline_intent import OfflineIntentExtractor
         from productivity_agent.infrastructure.persistence.task_store import SQLiteTaskStore
-        from productivity_agent.workflows.approval_session import build_approval_graph
         from productivity_agent.workflows.assistant import build_assistant_graph
 
         data_dir = Path(os.getenv("PPA_DATA_DIR", ".ppa-data"))
@@ -131,7 +133,7 @@ def business_store(store=None):
 
 def bind_user_resources(state, owner_id, bearer):
     """Build per-request graphs/store; never put a user's credentials on shared state."""
-    from productivity_agent.workflows.approval_session import build_approval_graph
+    from productivity_agent.application.agent.workflows.approval_session import build_approval_graph
     from productivity_agent.workflows.assistant import build_assistant_graph
 
     store = state.store.for_owner(owner_id, bearer)

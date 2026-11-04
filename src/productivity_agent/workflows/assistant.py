@@ -8,16 +8,17 @@ from zoneinfo import ZoneInfo
 
 from langgraph.graph import END, START, StateGraph
 
+from productivity_agent.application.agent.workflows.approval_session import request_task_approval
 from productivity_agent.application.agent.workflows.calendar import (
     build_graph as build_calendar_graph,
 )
+from productivity_agent.application.agent.workflows.reliable_task import build_reliable_task_graph
 from productivity_agent.application.use_cases.calendar import calendar_busy_slots, calendar_events
+from productivity_agent.application.use_cases.task_creation import verify_created_task
 from productivity_agent.application.use_cases.tasks import list_tasks
 from productivity_agent.domain.agent_intent import AgentIntent
 from productivity_agent.services.operation_trace import traced_node
 from productivity_agent.services.task_store import VersionConflict
-from productivity_agent.tools.reliable_task import build_safe_create_task_tool
-from productivity_agent.workflows.approval_session import request_task_approval
 
 
 def invalid_numeric_clock(text):
@@ -265,13 +266,15 @@ def build_assistant_graph(extractor, store, checkpointer, backend):
             return {"status": "cancelled", "reply": "已取消，没有创建任务，也没有修改任务。", "result": None}
         try:
             # The model never receives this write capability. M5 has already authorized it.
-            tool = build_safe_create_task_tool(store, state["operation_id"])
-            outcome = tool.invoke({"title": state["title"], "due_at": state["due_at"]})
+            outcome = build_reliable_task_graph(store).invoke({
+                "operation_id": state["operation_id"], "title": state["title"],
+                "due_at": state["due_at"], "max_attempts": 3,
+            })
             if outcome["status"] not in {"created", "recovered"}:
                 return {"status": outcome["status"], "result": None,
                         "reply": "未能确认创建成功，请先查看任务列表，再决定是否重试。"}
-            task = store.lookup(state["operation_id"], state["title"], state["due_at"])
-            if task is None or task["id"] != outcome["task"]["id"]:
+            task = verify_created_task(store, state["operation_id"], state["title"], state["due_at"], outcome)
+            if task is None:
                 return {"status": "needs_review", "result": None,
                         "reply": "写入结果尚未核实，请查询任务列表；不要重复创建。"}
             return {"status": outcome["status"], "result": {"task": task},

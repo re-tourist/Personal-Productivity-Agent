@@ -16,8 +16,8 @@ from pathlib import Path
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.types import Command
 
+from productivity_agent.application.agent.workflows.approval_session import build_approval_graph
 from productivity_agent.services.task_store import SQLiteTaskStore
-from productivity_agent.workflows.approval_session import build_approval_graph
 
 
 def main():
