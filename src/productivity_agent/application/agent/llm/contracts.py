@@ -20,5 +20,3 @@ class ScheduleIntent(BaseModel):
     clarification_question: str | None = Field(
         description="Short question for missing or ambiguous details, otherwise null"
     )
-
-

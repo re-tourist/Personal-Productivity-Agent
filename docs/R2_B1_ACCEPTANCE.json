@@ -3,7 +3,6 @@
   "fixed_contract_source": "40d837c19f42ffd373686c30f4797df2e2598e23",
   "contracts_exact": true,
   "implementation_changed": true,
-  "candidate_source_manifest_sha256": "d3b50841f9591c082910dceb9393be48874b4fb534876101a1b6ff195b1d62e5",
   "versions": {
     "langgraph": "1.2.19",
     "langgraph-checkpoint": "4.3.1",
@@ -130,5 +129,14 @@
     "agent_intent"
   ],
   "live_model_calls": 0,
-  "model_cost_cny": 0
+  "model_cost_cny": 0,
+  "validated_source_manifest_sha256": "d3b50841f9591c082910dceb9393be48874b4fb534876101a1b6ff195b1d62e5",
+  "final_source_manifest_sha256": "a424991c32bd482780172ed4d61f7466322c015205a4cd9d71f9dbe61414da43",
+  "post_validation_whitespace_cleanup": {
+    "files": [
+      "src/productivity_agent/application/agent/llm/contracts.py",
+      "src/productivity_agent/infrastructure/integrations/mock_productivity.py"
+    ],
+    "same_module_ast": true
+  }
 }

@@ -33,5 +33,3 @@ class MockProductivityBackend:
                 "title": title, "due_at": due.isoformat()}
         self.tasks.append(task)
         return task.copy()
-
-

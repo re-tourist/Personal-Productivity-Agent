@@ -144,6 +144,9 @@ mock/真实任务不混源、别名身份和新增主实现的依赖边界。
 公开验收摘要见 [R2_B1_ACCEPTANCE.json](R2_B1_ACCEPTANCE.json)，由实际报告提取，移除宿主路径、
 凭证和临时数据库内容；它是证据摘要，不是替代固定旧来源的测试期望。
 CI 除保留原兼容 artifact，另上传 `r2-b1-read-recovery`，可核对本次读取子图的真实执行记录。
+最终暂存检查另清理两个新增模块的多余 EOF 空行；模块 AST 相同，随后完整契约再次通过
+（`--contracts-only --out reports/r2-b1/contracts-final.json`）。摘要分别保留全量验证时及最终源码
+manifest 哈希；未重写先前提交，最终 HEAD 仍由 CI 运行完整回归。
 
 旧 187 项测试、B0/B0.1 工具和固定 `tests/fixtures/r2_b0/` 保持原样；新增测试不替代它们。
 既有 pytest 会重写其固定输出 `reports/r2-b0/pytest-compatibility.json`，本阶段独立 CLI 的完整矩阵
