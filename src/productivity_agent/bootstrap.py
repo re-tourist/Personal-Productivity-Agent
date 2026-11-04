@@ -52,13 +52,15 @@ def assistant_lifespan(
         # Defer these imports: unit tests of the transport layer don't need LangGraph.
         from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
+        from productivity_agent.application.agent.workflows.calendar import build_graph
         from productivity_agent.domain.agent_intent import AgentIntent
+        from productivity_agent.infrastructure.integrations.mock_productivity import (
+            MockProductivityBackend,
+        )
         from productivity_agent.infrastructure.models.offline_intent import OfflineIntentExtractor
         from productivity_agent.infrastructure.persistence.task_store import SQLiteTaskStore
-        from productivity_agent.tools.productivity import MockProductivityBackend
         from productivity_agent.workflows.approval_session import build_approval_graph
         from productivity_agent.workflows.assistant import build_assistant_graph
-        from productivity_agent.workflows.calendar import build_graph
 
         data_dir = Path(os.getenv("PPA_DATA_DIR", ".ppa-data"))
         data_dir.mkdir(parents=True, exist_ok=True)
@@ -78,14 +80,18 @@ def assistant_lifespan(
                 getattr(session_extractor, "mode", "scripted") if session_extractor else "offline_rules"
             )
             if os.getenv("PPA_ENABLE_LIVE_QWEN", "0") == "1":
-                from productivity_agent.domain.intent import ScheduleIntent
-                from productivity_agent.infrastructure.models.qwen import build_qwen_model
-                from productivity_agent.infrastructure.observability.qwen_meter import QwenMeter
-                from productivity_agent.tools.productivity import MockProductivityBackend
-                from productivity_agent.workflows.natural_language import (
+                from productivity_agent.application.agent.llm.contracts import ScheduleIntent
+                from productivity_agent.application.agent.workflows.natural_language import (
                     build_natural_language_graph,
                 )
-                from productivity_agent.workflows.tool_agent import build_tool_agent
+                from productivity_agent.application.agent.workflows.tool_agent import (
+                    build_tool_agent,
+                )
+                from productivity_agent.infrastructure.integrations.mock_productivity import (
+                    MockProductivityBackend,
+                )
+                from productivity_agent.infrastructure.models.qwen import build_qwen_model
+                from productivity_agent.infrastructure.observability.qwen_meter import QwenMeter
 
                 model = build_qwen_model()
                 app.state.live_agent = build_tool_agent(

@@ -8,10 +8,14 @@ from zoneinfo import ZoneInfo
 
 from langgraph.graph import END, START, StateGraph
 
+from productivity_agent.application.agent.workflows.calendar import (
+    build_graph as build_calendar_graph,
+)
+from productivity_agent.application.use_cases.calendar import calendar_busy_slots, calendar_events
+from productivity_agent.application.use_cases.tasks import list_tasks
 from productivity_agent.domain.agent_intent import AgentIntent
 from productivity_agent.services.operation_trace import traced_node
 from productivity_agent.services.task_store import VersionConflict
-from productivity_agent.tools.productivity import build_productivity_tools
 from productivity_agent.tools.reliable_task import build_safe_create_task_tool
 from productivity_agent.workflows.approval_session import request_task_approval
 
@@ -51,7 +55,9 @@ class AssistantState(TypedDict, total=False):
 
 
 def build_assistant_graph(extractor, store, checkpointer, backend):
-    read_tools = {t.name: t for t in build_productivity_tools(backend)}
+    # Preserve the historical read_tools child namespace, without a LangChain
+    # Tool hop. This driver is needed to consume existing calendar checkpoints.
+    calendar_graph = build_calendar_graph()
     # Deferred semantic capabilities remain available for deterministic replay,
     # but online model selectors must not resolve ambiguity using inferred time.
     conservative_selectors = getattr(extractor, "mode", None) == "qwen"
@@ -205,18 +211,19 @@ def build_assistant_graph(extractor, store, checkpointer, backend):
     def read(state):
         try:
             if state["status"] == "list_tasks":
-                tasks = store.list_tasks(limit=100)
+                tasks = list_tasks(store, limit=100)
                 return {"status": "completed", "result": {"tasks": tasks},
                         "reply": f"本地 SQLite 中查询到 {len(tasks)} 条待办。"}
-            # M3 tools fetch mock calendar data and delegate conflict checks to the M1 graph.
-            events = json.loads(read_tools["list_calendar_events"].invoke({
-                "date_iso": datetime.fromisoformat(state["due_at"]).date().isoformat(),
-            }))
+            # Display dates must not narrow the full conflict interval snapshot.
+            events = json.loads(json.dumps(calendar_events(
+                backend, datetime.fromisoformat(state["due_at"]).date().isoformat(),
+            ), ensure_ascii=False))
             duration = state["intent"]["duration_minutes"]
             end = datetime.fromisoformat(state["due_at"]) + timedelta(minutes=duration)
-            decision = read_tools["check_calendar_conflict"].invoke({
-                "title": state["title"], "start_at": state["due_at"], "end_at": end.isoformat(),
-            })
+            decision = calendar_graph.invoke({
+                "request": {"title": state["title"], "start_at": state["due_at"], "end_at": end.isoformat()},
+                "busy_slots": calendar_busy_slots(backend),
+            })["result"]
             status = decision["status"]
             reply = {"available": "该时段可用。", "conflict": "该时段有冲突。",
                      "no_available_slot": "当天没有符合规则的备选时段。"}.get(status, "日期参数无效。")

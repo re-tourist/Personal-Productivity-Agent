@@ -15,7 +15,7 @@ def main() -> int:
         print("PPA v1.0 ready. Use ppa --demo or start the API with uvicorn (see README).")
         return 0
 
-    from productivity_agent.workflows.calendar import build_graph
+    from productivity_agent.application.agent.workflows.calendar import build_graph
 
     graph = build_graph()
     final = graph.invoke(make_tomorrow_conflict_case())

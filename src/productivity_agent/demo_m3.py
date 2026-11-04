@@ -7,9 +7,9 @@ from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, ToolMessage
 
-from productivity_agent.providers.qwen import build_qwen_model
-from productivity_agent.tools.productivity import MockProductivityBackend
-from productivity_agent.workflows.tool_agent import build_tool_agent
+from productivity_agent.application.agent.workflows.tool_agent import build_tool_agent
+from productivity_agent.infrastructure.integrations.mock_productivity import MockProductivityBackend
+from productivity_agent.infrastructure.models.qwen import build_qwen_model
 
 
 def main() -> None:
