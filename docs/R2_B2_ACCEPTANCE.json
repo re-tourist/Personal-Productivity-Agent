@@ -1,0 +1,120 @@
+{
+  "stage": "R2-B2",
+  "git_base": "07153198a3f25b2da2acb5eed2db06dfa7e26c84",
+  "fixed_historical_source": "40d837c19f42ffd373686c30f4797df2e2598e23",
+  "versions": {
+    "langgraph": "1.2.19",
+    "langgraph-checkpoint": "4.3.1",
+    "langgraph-checkpoint-sqlite": "3.1.3",
+    "langchain-core": "1.7.3",
+    "langgraph-prebuilt": "1.1.1",
+    "aiosqlite": "0.22.1",
+    "ormsgpack": "1.13.0",
+    "fastapi": "0.162.0",
+    "starlette": "1.10.0",
+    "pydantic": "2.14.2",
+    "httpx": "0.28.1"
+  },
+  "validated_source_manifest_sha256": "e24820f3253b4dd7e38e644c8b7af1b6e12d95452874317938bf2d98dc46b25b",
+  "tests": {
+    "before": 206,
+    "targeted": 80,
+    "new": 32,
+    "full": 238,
+    "failed": 0,
+    "errors": 0,
+    "warnings": 0,
+    "full_seconds": 531.47
+  },
+  "contracts_exact": true,
+  "historical_matrix": [
+    "legacy-sqlite",
+    "legacy-http",
+    "auth-sqlite",
+    "auth-http",
+    "m5-sync"
+  ],
+  "historical_matrix_workers": 17,
+  "intermediate_cases": {
+    "approval-reconcile": {
+      "initial_status": "ambiguous",
+      "initial_attempts": 1,
+      "final_attempts": 1,
+      "calls_on_resume": 1,
+      "calls_on_terminal_replay": 0,
+      "operation_count": 1,
+      "task_version": 1,
+      "full_config_identity_preserved": true
+    },
+    "approval-retry": {
+      "initial_status": "retrying",
+      "initial_attempts": 1,
+      "final_attempts": 2,
+      "calls_on_resume": 1,
+      "calls_on_terminal_replay": 0,
+      "operation_count": 1,
+      "task_version": 1,
+      "full_config_identity_preserved": true
+    },
+    "tool-reconcile": {
+      "initial_status": "ambiguous",
+      "initial_attempts": 1,
+      "final_attempts": 1,
+      "calls_on_resume": 1,
+      "calls_on_terminal_replay": 0,
+      "operation_count": 1,
+      "task_version": 1,
+      "full_config_identity_preserved": true
+    },
+    "tool-retry": {
+      "initial_status": "retrying",
+      "initial_attempts": 1,
+      "final_attempts": 2,
+      "calls_on_resume": 1,
+      "calls_on_terminal_replay": 0,
+      "operation_count": 1,
+      "task_version": 1,
+      "full_config_identity_preserved": true
+    }
+  },
+  "nested_reads": [
+    "assistant-legacy",
+    "assistant-auth",
+    "natural",
+    "tool"
+  ],
+  "real_http_delivery": {
+    "status": "PASS",
+    "evidence_kind": "local_process_real_http_not_docker"
+  },
+  "r1_compatibility": {
+    "status": "PASS",
+    "route_order_identical": true,
+    "calendar_json_and_sse_identical": true
+  },
+  "offline": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0
+  },
+  "scope_proof": {
+    "interfaces/http/routes/assistant.py": "unchanged source",
+    "interfaces/http/routes/drafts.py": "unchanged source",
+    "domain/agent_intent.py": "unchanged source",
+    "application/agent/llm/prompts.py": "unchanged source",
+    "workflows/chat_memory.py": "unchanged source",
+    "domain/tasks.py": "unchanged source",
+    "infrastructure/persistence/task_store.py": "all Adapter methods unchanged AST; only exception owner/imports moved",
+    "infrastructure/integrations/http_task_store.py": "all Adapter methods unchanged AST; only exception owner/imports moved"
+  },
+  "live_model_calls": 0,
+  "estimated_model_cost_cny": 0,
+  "actual_model_cost_cny": 0,
+  "not_executed": [
+    "Docker",
+    "paid/live model validation",
+    "hard power loss",
+    "arbitrary private historical databases",
+    "production multi-worker"
+  ]
+}

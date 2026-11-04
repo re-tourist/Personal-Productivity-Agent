@@ -2,6 +2,7 @@
 from fastapi import FastAPI, Request
 
 from productivity_agent.application.use_cases import tasks as task_reads
+from productivity_agent.application.use_cases.task_creation import create_task_once
 from productivity_agent.bootstrap import business_store
 from productivity_agent.interfaces.http.dependencies import identity_for
 from productivity_agent.interfaces.http.errors import install_business_errors, require_approval, run
@@ -42,7 +43,7 @@ def create_task_service(store=None):
     @app.post("/tasks")
     def create(body: CreateRequest, request: Request):
         require_approval(body)
-        return run(owned(request).create_task, body.operation_id, body.title, body.due_at.isoformat())
+        return run(create_task_once, owned(request), body.operation_id, body.title, body.due_at.isoformat())
 
     @app.patch("/tasks/{task_id}")
     def change(task_id: str, body: ChangeRequest, request: Request):

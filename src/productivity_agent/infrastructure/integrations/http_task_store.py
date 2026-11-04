@@ -7,16 +7,14 @@ from urllib.parse import quote, urlsplit
 
 import httpx
 
+from productivity_agent.application.ports.tasks import AmbiguousCommitError
 from productivity_agent.domain.tasks import (
     IdempotencyConflict,
     VersionConflict,
     validate_task_request,
 )
 from productivity_agent.infrastructure.observability.operation_trace import trace_context
-from productivity_agent.infrastructure.persistence.task_store import (
-    AmbiguousCommitError,
-    request_fingerprint,
-)
+from productivity_agent.infrastructure.persistence.task_store import request_fingerprint
 
 
 class BusinessUnavailable(RuntimeError):

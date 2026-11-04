@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from productivity_agent.application.agent.workflows.reliable_task import build_reliable_task_graph
 from productivity_agent.services.task_store import SQLiteTaskStore
-from productivity_agent.workflows.reliable_task import build_reliable_task_graph
 
 
 def main() -> None:
@@ -49,12 +49,12 @@ def main() -> None:
     from dotenv import load_dotenv
     from langchain_core.messages import HumanMessage, ToolMessage
 
+    from productivity_agent.application.agent.tools.reliable_task import build_safe_create_task_tool
     from productivity_agent.application.agent.workflows.tool_agent import build_tool_agent
     from productivity_agent.infrastructure.integrations.mock_productivity import (
         MockProductivityBackend,
     )
     from productivity_agent.infrastructure.models.qwen import build_qwen_model
-    from productivity_agent.tools.reliable_task import build_safe_create_task_tool
 
     load_dotenv()
     op_id = operation_id
