@@ -6,10 +6,12 @@ from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
 
+from productivity_agent.application.agent.llm.contracts import ScheduleIntent
+from productivity_agent.application.agent.workflows.natural_language import (
+    build_natural_language_graph,
+)
 from productivity_agent.demo_data import make_tomorrow_conflict_case
-from productivity_agent.domain.intent import ScheduleIntent
-from productivity_agent.providers.qwen import build_qwen_model
-from productivity_agent.workflows.natural_language import build_natural_language_graph
+from productivity_agent.infrastructure.models.qwen import build_qwen_model
 
 
 def main():

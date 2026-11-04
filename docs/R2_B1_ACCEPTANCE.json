@@ -1,0 +1,142 @@
+{
+  "git_base": "da613cee972d0f083b9ba2df50d2a5b9d6cfd656",
+  "fixed_contract_source": "40d837c19f42ffd373686c30f4797df2e2598e23",
+  "contracts_exact": true,
+  "implementation_changed": true,
+  "versions": {
+    "langgraph": "1.2.19",
+    "langgraph-checkpoint": "4.3.1",
+    "langgraph-checkpoint-sqlite": "3.1.3",
+    "langchain-core": "1.7.3",
+    "langgraph-prebuilt": "1.1.1",
+    "aiosqlite": "0.22.1",
+    "ormsgpack": "1.13.0",
+    "fastapi": "0.162.0",
+    "starlette": "1.10.0",
+    "pydantic": "2.14.2",
+    "httpx": "0.28.1"
+  },
+  "original_pytest": {
+    "passed": 187,
+    "failed": 0,
+    "errors": 0,
+    "warnings": 0,
+    "seconds": 426.16
+  },
+  "existing_targeted_pytest": {
+    "passed": 70,
+    "seconds": 44.84
+  },
+  "new_targeted_pytest": {
+    "passed": 19,
+    "seconds": 58.47
+  },
+  "full_pytest": {
+    "passed": 206,
+    "failed": 0,
+    "errors": 0,
+    "warnings": 0,
+    "seconds": 573.63
+  },
+  "baseline_matrix": {
+    "legacy-sqlite": {
+      "tasks": 12,
+      "creation_records": 12,
+      "change_records": 2,
+      "version_sum": 14,
+      "terminal_replay_unchanged": true
+    },
+    "legacy-http": {
+      "tasks": 12,
+      "creation_records": 12,
+      "change_records": 2,
+      "version_sum": 14,
+      "terminal_replay_unchanged": true
+    },
+    "auth-sqlite": {
+      "tasks": 12,
+      "creation_records": 12,
+      "change_records": 2,
+      "version_sum": 14,
+      "terminal_replay_unchanged": true
+    },
+    "auth-http": {
+      "tasks": 12,
+      "creation_records": 12,
+      "change_records": 2,
+      "version_sum": 14,
+      "terminal_replay_unchanged": true
+    },
+    "m5-sync": {
+      "tasks": 4,
+      "chat_messages": 5,
+      "terminal_write_calls": 0
+    }
+  },
+  "nested_read_matrix": {
+    "assistant-legacy": {
+      "workers": 3,
+      "same_exact_interrupted_node_namespace": true,
+      "old_namespaces_retained": true,
+      "saver": "AsyncSqliteSaver",
+      "terminal_check_calls": 0,
+      "business_writes": 0
+    },
+    "assistant-auth": {
+      "workers": 3,
+      "same_exact_interrupted_node_namespace": true,
+      "old_namespaces_retained": true,
+      "saver": "AsyncSqliteSaver",
+      "terminal_check_calls": 0,
+      "business_writes": 0
+    },
+    "natural": {
+      "workers": 3,
+      "same_exact_interrupted_node_namespace": true,
+      "old_namespaces_retained": true,
+      "saver": "SqliteSaver",
+      "terminal_check_calls": 0,
+      "business_writes": 0
+    },
+    "tool": {
+      "workers": 3,
+      "same_exact_interrupted_node_namespace": true,
+      "old_namespaces_retained": true,
+      "saver": "SqliteSaver",
+      "terminal_check_calls": 0,
+      "business_writes": 0
+    }
+  },
+  "offline_evaluation": "10/10",
+  "real_http_three_process_restart": "passed",
+  "r1_compatibility": "passed",
+  "cli_demo": "passed",
+  "dependency_compile_lint_diff_checks": "passed",
+  "unchanged_assistant_node_ast": [
+    "understand",
+    "validate",
+    "execute",
+    "finish"
+  ],
+  "unchanged_scope": [
+    "approval_session",
+    "reliable_task",
+    "chat_memory",
+    "reliable_write_tool",
+    "task_store",
+    "http_task_store",
+    "assistant_http_router",
+    "agent_intent"
+  ],
+  "live_model_calls": 0,
+  "model_cost_cny": 0,
+  "validated_source_manifest_sha256": "d3b50841f9591c082910dceb9393be48874b4fb534876101a1b6ff195b1d62e5",
+  "final_source_manifest_sha256": "a424991c32bd482780172ed4d61f7466322c015205a4cd9d71f9dbe61414da43",
+  "post_validation_whitespace_cleanup": {
+    "files": [
+      "src/productivity_agent/application/agent/llm/contracts.py",
+      "src/productivity_agent/infrastructure/integrations/mock_productivity.py"
+    ],
+    "same_module_ast": true
+  }
+}

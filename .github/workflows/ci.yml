@@ -51,3 +51,9 @@ jobs:
         with:
           name: r2-b0-compatibility
           path: reports/r2-b0/pytest-compatibility.json
+      - name: Upload R2-B1 nested read recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r2-b1-read-recovery
+          path: reports/r2-b1/nested-read-compatibility.json
